@@ -1,0 +1,14 @@
+# https://www.robotstxt.org/robotstxt.html
+User-agent: *
+Allow: /
+
+# Sitemaps
+Sitemap: https://souravsuvra.com/sitemap.xml
+
+# Crawl-delay
+Crawl-delay: 10
+
+# Disallow
+Disallow: /api/
+Disallow: /admin/
+Disallow: /private/
