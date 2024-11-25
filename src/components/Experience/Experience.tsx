@@ -1,6 +1,6 @@
 import React from 'react';
 import { motion, useScroll, useSpring } from 'framer-motion';
-import { experiences } from '../../data';
+import { experiences } from '../../data/experience';
 import {
   ExperienceSection,
   ExperienceContainer,
@@ -9,7 +9,7 @@ import {
   TimelineItem,
   TimelineContent,
   JobTitle,
-  Company,
+  CompanyLink,
   Duration,
   Location,
   Description,
@@ -79,16 +79,18 @@ const Experience: React.FC = () => {
               viewport={{ once: true, margin: "-100px" }}
             >
               <TimelineContent isEven={index % 2 === 0}>
-                <JobTitle>{experience.title}</JobTitle>
-                <Company>{experience.company}</Company>
+                <JobTitle>{experience.role}</JobTitle>
+                <CompanyLink href={experience.link} target="_blank" rel="noopener noreferrer">
+                  {experience.company}
+                </CompanyLink>
                 <Duration>{experience.duration}</Duration>
                 <Location>{experience.location}</Location>
                 <Description>{experience.description}</Description>
-                {experience.achievements && (
+                {experience.technologies && (
                   <AchievementsList>
-                    {experience.achievements.map((achievement, achievementIndex) => (
-                      <Achievement key={achievementIndex}>
-                        {achievement}
+                    {experience.technologies.map((tech, techIndex) => (
+                      <Achievement key={techIndex}>
+                        {tech}
                       </Achievement>
                     ))}
                   </AchievementsList>

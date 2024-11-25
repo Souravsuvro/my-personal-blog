@@ -213,25 +213,25 @@ export interface ExperienceData {
 export const experiences: ExperienceData[] = [
   {
     id: 'exp-1',
-    company: 'Tech Company',
-    position: 'Senior Software Engineer',
-    location: 'San Francisco, CA',
-    startDate: 'Jan 2022',
+    company: 'Sofilite LLC',
+    position: 'Web Designer',
+    location: '8700 Stonebrook Pkwy #34, Frisco, TX 75034, United States',
+    startDate: 'Jul 2023',
     endDate: 'Present',
-    description: 'Led development of scalable web applications using React and TypeScript.',
-    skills: ['React', 'TypeScript', 'Node.js', 'GraphQL'],
-    url: 'https://example.com'
+    description: 'Led development of scalable web applications frontend using Figma, React and TypeScript.',
+    skills: ['React', 'TypeScript', 'Figma', 'Canva'],
+    url: 'https://www.sofilite.com/'
   },
   {
     id: 'exp-2',
-    company: 'Startup Inc',
+    company: 'Worldwide Services',
     position: 'Full Stack Developer',
     location: 'Remote',
-    startDate: 'Jun 2020',
-    endDate: 'Dec 2021',
-    description: 'Developed and maintained full-stack applications using modern technologies.',
-    skills: ['Vue.js', 'Node.js', 'MongoDB', 'AWS'],
-    url: 'https://example.com'
+    startDate: 'Jan 2023',
+    endDate: 'Jul 2023',
+    description: 'Developed and maintained full-stack financial applications using modern technologies.',
+    skills: ['Vue.js', 'Laravel', 'MongoDB'],
+    url: 'www.worldwidesvc.com'
   }
 ];
 
