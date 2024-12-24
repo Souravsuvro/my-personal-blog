@@ -1,0 +1,63 @@
+<<<<<<< HEAD
+# Dependency directories
+node_modules/
+
+# Production build directory
+dist/
+
+# Environment files
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# Logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Editor directories and files
+.idea/
+.vscode/
+=======
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+node_modules
+dist
+dist-ssr
+*.local
+
+# Editor directories and files
+.vscode/*
+!.vscode/extensions.json
+.idea
+.DS_Store
+>>>>>>> 85532a31fed4bb8d4c435f433a7260801d014f42
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+<<<<<<< HEAD
+
+# OS generated files
+.DS_Store
+Thumbs.db
+
+# Vercel
+.vercel
+
+# Misc
+*.log
+.cache/
+stats.html
+=======
+>>>>>>> 85532a31fed4bb8d4c435f433a7260801d014f42
