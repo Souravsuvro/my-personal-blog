@@ -1,5 +1,4 @@
 /// <reference types="vite/client" />
-<<<<<<< HEAD
 
 interface ImportMetaEnv {
   readonly VITE_EMAILJS_SERVICE_ID: string;
@@ -11,5 +10,3 @@ interface ImportMetaEnv {
 interface ImportMeta {
   readonly env: ImportMetaEnv;
 }
-=======
->>>>>>> 85532a31fed4bb8d4c435f433a7260801d014f42

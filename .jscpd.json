@@ -1,0 +1,14 @@
+{
+  "threshold": 10,
+  "reporters": ["console", "html"],
+  "ignore": [
+    "**/node_modules/**",
+    "**/*.css",
+    "**/*.json",
+    "**/*.md",
+    "**/*.html"
+  ],
+  "absolute": true,
+  "gitignore": true,
+  "output": "./jscpd-report"
+}

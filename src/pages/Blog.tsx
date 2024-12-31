@@ -1,116 +1,388 @@
-import React, { useState } from 'react';
+import React, { useState, useMemo, useCallback } from 'react';
 import { motion } from 'framer-motion';
-import { blogPosts, BlogPost } from '../data/blogPosts';
+import { 
+  FaSearch, 
+  FaFilter,
+  FaTimes,
+  FaChevronDown,
+  FaFacebook, 
+  FaTwitter, 
+  FaLinkedin,
+  FaArrowLeft,
+  FaArrowRight
+} from 'react-icons/fa';
 import BlogCard from '../components/BlogCard';
-import { useTheme } from '@/context/ThemeContext';
+import { SEO } from '../components/SEO';
+import { useTheme } from '../context/ThemeContext';
+import { blogPosts, BlogPost } from '../data/blogPosts';
+
+const POSTS_PER_PAGE = 9;
 
 const Blog: React.FC = () => {
   const { theme } = useTheme();
   const [searchTerm, setSearchTerm] = useState('');
-  const [selectedCategory, setSelectedCategory] = useState('All');
+  const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
+  const [isFilterOpen, setIsFilterOpen] = useState(false);
+  const [currentPage, setCurrentPage] = useState(1);
 
-  // Get unique categories
-  const categories = ['All', ...new Set(blogPosts.flatMap(post => post.categories))];
+  // Extract unique categories
+  const allCategories = useMemo(() => {
+    const categories = new Set<string>();
+    blogPosts.forEach(post => {
+      post.tags?.forEach(category => categories.add(category));
+    });
+    return Array.from(categories);
+  }, []);
 
-  // Filter blogs based on search and category
-  const filteredBlogs = blogPosts.filter(post => {
-    const matchesSearch = 
-      post.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      post.tags.some(tag => tag.toLowerCase().includes(searchTerm.toLowerCase()));
+  // Filter and search blog posts
+  const filteredPosts = useMemo(() => {
+    return blogPosts.filter(post => {
+      const matchesSearch = 
+        post.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        post.excerpt.toLowerCase().includes(searchTerm.toLowerCase());
+      
+      const matchesCategory = !selectedCategory || 
+        post.tags?.some(category => 
+          category.toLowerCase() === selectedCategory.toLowerCase()
+        );
+      
+      return matchesSearch && matchesCategory;
+    });
+  }, [searchTerm, selectedCategory]);
+
+  // Pagination logic
+  const paginatedPosts = useMemo(() => {
+    const startIndex = (currentPage - 1) * POSTS_PER_PAGE;
+    const endIndex = startIndex + POSTS_PER_PAGE;
+    return filteredPosts.slice(startIndex, endIndex);
+  }, [filteredPosts, currentPage]);
+
+  // Total pages
+  const totalPages = Math.ceil(filteredPosts.length / POSTS_PER_PAGE);
+
+  // Reset filters
+  const resetFilters = () => {
+    setSearchTerm('');
+    setSelectedCategory(null);
+    setCurrentPage(1);
+    setIsFilterOpen(false);
+  };
+
+  // Social share function
+  const shareOnSocial = useCallback((platform: string, post: BlogPost) => {
+    const url = `${window.location.origin}/blog/${post.slug}`;
+    const text = `Check out this blog post: ${post.title}`;
     
-    const matchesCategory = selectedCategory === 'All' || post.categories.includes(selectedCategory);
+    let shareUrl = '';
+    switch(platform) {
+      case 'facebook':
+        shareUrl = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(url)}`;
+        break;
+      case 'twitter':
+        shareUrl = `https://twitter.com/intent/tweet?url=${encodeURIComponent(url)}&text=${encodeURIComponent(text)}`;
+        break;
+      case 'linkedin':
+        shareUrl = `https://www.linkedin.com/shareArticle?mini=true&url=${encodeURIComponent(url)}&title=${encodeURIComponent(post.title)}`;
+        break;
+    }
 
-    return matchesSearch && matchesCategory;
-  });
+    if (shareUrl) {
+      window.open(shareUrl, '_blank', 'width=600,height=400');
+    }
+  }, []);
+
+  // Pagination handlers
+  const handleNextPage = () => {
+    if (currentPage < totalPages) {
+      setCurrentPage(prev => prev + 1);
+    }
+  };
+
+  const handlePrevPage = () => {
+    if (currentPage > 1) {
+      setCurrentPage(prev => prev - 1);
+    }
+  };
 
   return (
-    <div className={`blog-page min-h-screen ${theme === 'light' ? 'bg-gray-50' : 'bg-[#111111]'} transition-colors duration-300`}>
-      {/* Hero Section */}
-      <div className={`py-20 ${theme === 'light' ? 'bg-white' : 'bg-[#1a1a1a]'} border-b ${theme === 'light' ? 'border-gray-200' : 'border-gray-800'}`}>
-        <div className="container mx-auto px-4">
-          <motion.h1 
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            className={`text-4xl md:text-5xl font-bold text-center mb-4 ${theme === 'light' ? 'text-gray-900' : 'text-white'}`}
-          >
-            Tech Insights & Thoughts
-          </motion.h1>
-          <motion.p 
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.1 }}
-            className={`text-center text-lg ${theme === 'light' ? 'text-gray-600' : 'text-gray-300'}`}
-          >
-            Exploring the latest in web development, design, and technology
-          </motion.p>
+    <motion.div 
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      transition={{ duration: 0.5 }}
+      className={`
+        min-h-screen 
+        pt-24 
+        px-4 
+        sm:px-6 
+        lg:px-8 
+        ${theme === 'light' ? 'bg-gray-50 text-gray-800' : 'bg-gray-900 text-gray-200'}
+      `}
+    >
+      <SEO title="Blog - Sourav Sarker" />
+      
+      <div className="max-w-7xl mx-auto">
+        {/* Header Section */}
+        <div className="text-center mb-12">
+          <h1 className={`
+            text-4xl 
+            font-bold 
+            mb-4 
+            ${theme === 'light' ? 'text-gray-900' : 'text-white'}
+          `}>
+            My Blog
+          </h1>
+          <p className={`
+            text-lg 
+            max-w-2xl 
+            mx-auto 
+            ${theme === 'light' ? 'text-gray-600' : 'text-gray-400'}
+          `}>
+            Exploring technology, sharing insights, and documenting my journey in software development.
+          </p>
         </div>
-      </div>
 
-      {/* Content Section */}
-      <div className="container mx-auto px-4 py-12">
-        {/* Search and Filter Section */}
-        <div className="max-w-4xl mx-auto mb-12">
-          <div className="flex flex-col md:flex-row gap-4">
-            <input 
-              type="text" 
-              placeholder="Search blogs..." 
-              value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
-              className={`flex-1 px-6 py-3 rounded-full ${theme === 'light' 
-                ? 'bg-white border border-gray-200 text-gray-900 focus:border-[#FFB800]' 
-                : 'bg-[#2a2a2a] border border-gray-700 text-white focus:border-[#FFB800]'} 
-                focus:outline-none focus:ring-2 focus:ring-[#FFB800] transition-all duration-300`}
-            />
-            <select 
-              value={selectedCategory}
-              onChange={(e) => setSelectedCategory(e.target.value)}
-              className={`md:w-48 px-6 py-3 rounded-full ${theme === 'light'
-                ? 'bg-white border border-gray-200 text-gray-900 focus:border-[#FFB800]'
-                : 'bg-[#2a2a2a] border border-gray-700 text-white focus:border-[#FFB800]'}
-                focus:outline-none focus:ring-2 focus:ring-[#FFB800] transition-all duration-300`}
+        {/* Advanced Search and Filter */}
+        <div className="mb-12">
+          <div className={`
+            relative 
+            flex 
+            items-center 
+            rounded-xl 
+            shadow-lg 
+            ${theme === 'light' 
+              ? 'bg-white border-gray-200' 
+              : 'bg-gray-800 border-gray-700'}
+          `}>
+            {/* Search Input */}
+            <div className="flex-grow flex items-center p-2">
+              <FaSearch className={`
+                mx-3 
+                ${theme === 'light' ? 'text-gray-400' : 'text-gray-500'}
+              `} />
+              <input 
+                type="text" 
+                placeholder="Search blogs..." 
+                value={searchTerm}
+                onChange={(e) => {
+                  setSearchTerm(e.target.value);
+                  setCurrentPage(1);
+                }}
+                className={`
+                  w-full 
+                  bg-transparent 
+                  focus:outline-none 
+                  ${theme === 'light' 
+                    ? 'text-gray-900 placeholder-gray-500' 
+                    : 'text-white placeholder-gray-400'}
+                `}
+              />
+            </div>
+
+            {/* Filter Toggle */}
+            <button 
+              onClick={() => setIsFilterOpen(!isFilterOpen)}
+              className={`
+                flex 
+                items-center 
+                px-4 
+                py-2 
+                border-l 
+                transition-colors 
+                duration-300
+                ${theme === 'light' 
+                  ? 'border-gray-200 text-gray-600 hover:bg-gray-100' 
+                  : 'border-gray-700 text-gray-300 hover:bg-gray-700'}
+              `}
             >
-              {categories.map(category => (
-                <option 
-                  key={category} 
-                  value={category} 
-                  className={theme === 'light' ? 'text-gray-900' : 'text-white'}
-                >
-                  {category}
-                </option>
-              ))}
-            </select>
+              <FaFilter className="mr-2" />
+              Filters
+              <FaChevronDown 
+                className={`
+                  ml-2 
+                  transform 
+                  transition-transform 
+                  duration-300 
+                  ${isFilterOpen ? 'rotate-180' : ''}
+                `} 
+              />
+            </button>
+
+            {/* Reset Button */}
+            {(searchTerm || selectedCategory) && (
+              <button 
+                onClick={resetFilters}
+                className={`
+                  flex 
+                  items-center 
+                  justify-center 
+                  w-10 
+                  h-10 
+                  rounded-full 
+                  mr-2 
+                  transition-colors 
+                  duration-300
+                  ${theme === 'light' 
+                    ? 'text-gray-600 hover:bg-gray-200' 
+                    : 'text-gray-300 hover:bg-gray-700'}
+                `}
+                aria-label="Reset Filters"
+              >
+                <FaTimes />
+              </button>
+            )}
           </div>
+
+          {/* Expandable Filters */}
+          {isFilterOpen && (
+            <motion.div 
+              initial={{ opacity: 0, height: 0 }}
+              animate={{ opacity: 1, height: 'auto' }}
+              transition={{ duration: 0.3 }}
+              className={`
+                mt-4 
+                p-4 
+                rounded-xl 
+                shadow-lg 
+                ${theme === 'light' 
+                  ? 'bg-white border-gray-200' 
+                  : 'bg-gray-800 border-gray-700'}
+              `}
+            >
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                {allCategories.map(category => (
+                  <button
+                    key={category}
+                    onClick={() => {
+                      setSelectedCategory(
+                        selectedCategory === category ? null : category
+                      );
+                      setCurrentPage(1);
+                    }}
+                    className={`
+                      px-4 
+                      py-2 
+                      rounded-full 
+                      text-sm 
+                      transition-all 
+                      duration-300
+                      ${selectedCategory === category 
+                        ? 'bg-blue-500 text-white' 
+                        : theme === 'light' 
+                          ? 'bg-gray-100 text-gray-700 hover:bg-gray-200' 
+                          : 'bg-gray-700 text-gray-300 hover:bg-gray-600'}
+                    `}
+                  >
+                    {category}
+                  </button>
+                ))}
+              </div>
+            </motion.div>
+          )}
+
+          {/* Filter Summary */}
+          {(searchTerm || selectedCategory) && (
+            <div className={`
+              mt-3 
+              text-sm 
+              flex 
+              items-center 
+              justify-between
+              ${theme === 'light' ? 'text-gray-600' : 'text-gray-400'}
+            `}>
+              <span>
+                {searchTerm && `Searching for "${searchTerm}"`}
+                {searchTerm && selectedCategory && ' | '}
+                {selectedCategory && `Category: ${selectedCategory}`}
+              </span>
+              <span>{filteredPosts.length} posts found</span>
+            </div>
+          )}
         </div>
 
-        {/* Blog Grid */}
-        {filteredBlogs.length > 0 ? (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {filteredBlogs.map((post: BlogPost, index: number) => (
-              <motion.div
-                key={post.id}
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: index * 0.1 }}
-              >
-                <BlogCard 
-                  post={post} 
-                  variant={index === 0 ? 'featured' : 'default'} 
-                />
-              </motion.div>
-            ))}
-          </div>
-        ) : (
-          <motion.div 
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            className={`text-center py-16 ${theme === 'light' ? 'text-gray-600' : 'text-gray-400'}`}
+        {/* Blog Posts Grid */}
+        <div className="grid grid-cols-1 tablet:grid-cols-2 desktop:grid-cols-3 gap-6 mb-12 px-4 sm:px-6 lg:px-8">
+          {paginatedPosts.map(post => (
+            <motion.div 
+              key={post.slug}
+              initial={{ opacity: 0, scale: 0.95 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 0.3 }}
+              className="w-full"
+            >
+              <BlogCard 
+                post={post} 
+                className="h-full w-full" 
+              />
+            </motion.div>
+          ))}
+        </div>
+
+        {/* Pagination */}
+        <div className="flex justify-center items-center space-x-4 mb-12">
+          <button 
+            onClick={handlePrevPage}
+            disabled={currentPage === 1}
+            className={`
+              flex 
+              items-center 
+              px-4 
+              py-2 
+              rounded-full 
+              transition-all 
+              duration-300
+              ${currentPage === 1 
+                ? 'cursor-not-allowed opacity-50' 
+                : 'hover:bg-blue-600 hover:text-white'}
+              ${theme === 'light' 
+                ? 'bg-white text-gray-800 border border-gray-300' 
+                : 'bg-gray-800 text-white border border-gray-700'}
+            `}
           >
-            <p className="text-2xl">No blogs found matching your search.</p>
-            <p className="mt-4">Try different keywords or categories.</p>
-          </motion.div>
+            <FaArrowLeft className="mr-2" /> Previous
+          </button>
+          
+          <span className={`
+            ${theme === 'light' ? 'text-gray-700' : 'text-gray-300'}
+          `}>
+            Page {currentPage} of {totalPages}
+          </span>
+          
+          <button 
+            onClick={handleNextPage}
+            disabled={currentPage === totalPages}
+            className={`
+              flex 
+              items-center 
+              px-4 
+              py-2 
+              rounded-full 
+              transition-all 
+              duration-300
+              ${currentPage === totalPages 
+                ? 'cursor-not-allowed opacity-50' 
+                : 'hover:bg-blue-600 hover:text-white'}
+              ${theme === 'light' 
+                ? 'bg-white text-gray-800 border border-gray-300' 
+                : 'bg-gray-800 text-white border border-gray-700'}
+            `}
+          >
+            Next <FaArrowRight className="ml-2" />
+          </button>
+        </div>
+
+        {/* No Posts Found */}
+        {filteredPosts.length === 0 && (
+          <div className="text-center py-12">
+            <p className={`
+              text-xl 
+              ${theme === 'light' ? 'text-gray-600' : 'text-gray-400'}
+            `}>
+              No blog posts found. Try different search terms or categories.
+            </p>
+          </div>
         )}
       </div>
-    </div>
+    </motion.div>
   );
 };
 

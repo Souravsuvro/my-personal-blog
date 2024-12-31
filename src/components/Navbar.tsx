@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { useTheme } from '@/context/ThemeContext';
+import { useTheme } from '../context/ThemeContext';
 import { FiMoon, FiSun, FiMenu, FiX, FiHome, FiUser, FiEdit3, FiCode, FiSend } from 'react-icons/fi';
 import { motion } from 'framer-motion';
 

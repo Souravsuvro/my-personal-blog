@@ -1,0 +1,910 @@
+{
+  "statistics": {
+    "detectionDate": "2024-12-24T20:51:15.069Z",
+    "formats": {
+      "typescript": {
+        "sources": {
+          "g:/CascadeProjects/my-portfolio/my-personal-blog/src/utils/unsplashService.ts": {
+            "lines": 103,
+            "tokens": 668,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "g:/CascadeProjects/my-portfolio/my-personal-blog/src/utils/responsiveUtils.ts": {
+            "lines": 42,
+            "tokens": 391,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "g:/CascadeProjects/my-portfolio/my-personal-blog/src/utils/formatDate.ts": {
+            "lines": 8,
+            "tokens": 88,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "g:/CascadeProjects/my-portfolio/my-personal-blog/src/data/blogPosts.ts": {
+            "lines": 142,
+            "tokens": 1210,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "g:/CascadeProjects/my-portfolio/my-personal-blog/src/data/blogContents.ts": {
+            "lines": 392,
+            "tokens": 108,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "g:/CascadeProjects/my-portfolio/my-personal-blog/src/vite-env.d.ts": {
+            "lines": 11,
+            "tokens": 57,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          }
+        },
+        "total": {
+          "lines": 698,
+          "tokens": 2522,
+          "sources": 6,
+          "clones": 0,
+          "duplicatedLines": 0,
+          "duplicatedTokens": 0,
+          "percentage": 0,
+          "percentageTokens": 0,
+          "newDuplicatedLines": 0,
+          "newClones": 0
+        }
+      },
+      "tsx": {
+        "sources": {
+          "g:/CascadeProjects/my-portfolio/my-personal-blog/src/router/ScrollToTop.tsx": {
+            "lines": 24,
+            "tokens": 200,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "g:/CascadeProjects/my-portfolio/my-personal-blog/src/router/AppRouter.tsx": {
+            "lines": 21,
+            "tokens": 211,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "g:/CascadeProjects/my-portfolio/my-personal-blog/src/pages/NotFound.tsx": {
+            "lines": 18,
+            "tokens": 139,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "g:/CascadeProjects/my-portfolio/my-personal-blog/src/pages/Home.tsx": {
+            "lines": 28,
+            "tokens": 211,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "g:/CascadeProjects/my-portfolio/my-personal-blog/src/pages/Contact.tsx": {
+            "lines": 11,
+            "tokens": 116,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "g:/CascadeProjects/my-portfolio/my-personal-blog/src/pages/BlogDetails.tsx": {
+            "lines": 165,
+            "tokens": 1104,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "g:/CascadeProjects/my-portfolio/my-personal-blog/src/pages/Blog.tsx": {
+            "lines": 116,
+            "tokens": 1104,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "g:/CascadeProjects/my-portfolio/my-personal-blog/src/pages/About.tsx": {
+            "lines": 52,
+            "tokens": 384,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "g:/CascadeProjects/my-portfolio/my-personal-blog/src/contexts/ThemeContext.tsx": {
+            "lines": 42,
+            "tokens": 384,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "g:/CascadeProjects/my-portfolio/my-personal-blog/src/contexts/ScrollContext.tsx": {
+            "lines": 42,
+            "tokens": 415,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "g:/CascadeProjects/my-portfolio/my-personal-blog/src/context/ThemeContext.tsx": {
+            "lines": 53,
+            "tokens": 513,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "g:/CascadeProjects/my-portfolio/my-personal-blog/src/components/StructuredData.tsx": {
+            "lines": 49,
+            "tokens": 329,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "g:/CascadeProjects/my-portfolio/my-personal-blog/src/components/SEO.tsx": {
+            "lines": 42,
+            "tokens": 424,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "g:/CascadeProjects/my-portfolio/my-personal-blog/src/components/Projects.tsx": {
+            "lines": 374,
+            "tokens": 2850,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "g:/CascadeProjects/my-portfolio/my-personal-blog/src/components/Navbar.tsx": {
+            "lines": 191,
+            "tokens": 1716,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "g:/CascadeProjects/my-portfolio/my-personal-blog/src/components/Layout.tsx": {
+            "lines": 32,
+            "tokens": 245,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "g:/CascadeProjects/my-portfolio/my-personal-blog/src/components/Hero.tsx": {
+            "lines": 240,
+            "tokens": 1791,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "g:/CascadeProjects/my-portfolio/my-personal-blog/src/components/Footer.tsx": {
+            "lines": 40,
+            "tokens": 250,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "g:/CascadeProjects/my-portfolio/my-personal-blog/src/components/FeaturedBlogsSlider.tsx": {
+            "lines": 253,
+            "tokens": 1890,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "g:/CascadeProjects/my-portfolio/my-personal-blog/src/components/Contact.tsx": {
+            "lines": 207,
+            "tokens": 1702,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "g:/CascadeProjects/my-portfolio/my-personal-blog/src/components/Certificates.tsx": {
+            "lines": 151,
+            "tokens": 1187,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "g:/CascadeProjects/my-portfolio/my-personal-blog/src/components/BlogCard.tsx": {
+            "lines": 120,
+            "tokens": 1114,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "g:/CascadeProjects/my-portfolio/my-personal-blog/src/components/About.tsx": {
+            "lines": 585,
+            "tokens": 4646,
+            "sources": 1,
+            "clones": 8,
+            "duplicatedLines": 270,
+            "duplicatedTokens": 2338,
+            "percentage": 46.15,
+            "percentageTokens": 50.32,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "g:/CascadeProjects/my-portfolio/my-personal-blog/src/main.tsx": {
+            "lines": 15,
+            "tokens": 108,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "g:/CascadeProjects/my-portfolio/my-personal-blog/src/App.tsx": {
+            "lines": 15,
+            "tokens": 107,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          }
+        },
+        "total": {
+          "lines": 2886,
+          "tokens": 23140,
+          "sources": 25,
+          "clones": 4,
+          "duplicatedLines": 135,
+          "duplicatedTokens": 1169,
+          "percentage": 4.68,
+          "percentageTokens": 5.05,
+          "newDuplicatedLines": 0,
+          "newClones": 0
+        }
+      },
+      "javascript": {
+        "sources": {
+          "g:/CascadeProjects/my-portfolio/my-personal-blog/src/router/AppRouter.tsx": {
+            "lines": 3,
+            "tokens": 69,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "g:/CascadeProjects/my-portfolio/my-personal-blog/src/pages/Home.tsx": {
+            "lines": 4,
+            "tokens": 31,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "g:/CascadeProjects/my-portfolio/my-personal-blog/src/pages/BlogDetails.tsx": {
+            "lines": 126,
+            "tokens": 767,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "g:/CascadeProjects/my-portfolio/my-personal-blog/src/pages/Blog.tsx": {
+            "lines": 79,
+            "tokens": 713,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "g:/CascadeProjects/my-portfolio/my-personal-blog/src/pages/About.tsx": {
+            "lines": 7,
+            "tokens": 38,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "g:/CascadeProjects/my-portfolio/my-personal-blog/src/contexts/ThemeContext.tsx": {
+            "lines": 0,
+            "tokens": 7,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "g:/CascadeProjects/my-portfolio/my-personal-blog/src/contexts/ScrollContext.tsx": {
+            "lines": 0,
+            "tokens": 3,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "g:/CascadeProjects/my-portfolio/my-personal-blog/src/context/ThemeContext.tsx": {
+            "lines": 0,
+            "tokens": 7,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "g:/CascadeProjects/my-portfolio/my-personal-blog/src/components/StructuredData.tsx": {
+            "lines": 2,
+            "tokens": 6,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "g:/CascadeProjects/my-portfolio/my-personal-blog/src/components/SEO.tsx": {
+            "lines": 17,
+            "tokens": 224,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "g:/CascadeProjects/my-portfolio/my-personal-blog/src/components/Projects.tsx": {
+            "lines": 245,
+            "tokens": 1935,
+            "sources": 1,
+            "clones": 1,
+            "duplicatedLines": 22,
+            "duplicatedTokens": 191,
+            "percentage": 8.98,
+            "percentageTokens": 9.87,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "g:/CascadeProjects/my-portfolio/my-personal-blog/src/components/Navbar.tsx": {
+            "lines": 131,
+            "tokens": 1058,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "g:/CascadeProjects/my-portfolio/my-personal-blog/src/components/Hero.tsx": {
+            "lines": 75,
+            "tokens": 539,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "g:/CascadeProjects/my-portfolio/my-personal-blog/src/components/FeaturedBlogsSlider.tsx": {
+            "lines": 175,
+            "tokens": 1227,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "g:/CascadeProjects/my-portfolio/my-personal-blog/src/components/Contact.tsx": {
+            "lines": 103,
+            "tokens": 788,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "g:/CascadeProjects/my-portfolio/my-personal-blog/src/components/Certificates.tsx": {
+            "lines": 96,
+            "tokens": 770,
+            "sources": 1,
+            "clones": 1,
+            "duplicatedLines": 22,
+            "duplicatedTokens": 191,
+            "percentage": 22.92,
+            "percentageTokens": 24.81,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "g:/CascadeProjects/my-portfolio/my-personal-blog/src/components/BlogCard.tsx": {
+            "lines": 73,
+            "tokens": 661,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "g:/CascadeProjects/my-portfolio/my-personal-blog/src/components/About.tsx": {
+            "lines": 542,
+            "tokens": 4407,
+            "sources": 1,
+            "clones": 4,
+            "duplicatedLines": 336,
+            "duplicatedTokens": 2794,
+            "percentage": 61.99,
+            "percentageTokens": 63.4,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          }
+        },
+        "total": {
+          "lines": 1678,
+          "tokens": 13250,
+          "sources": 18,
+          "clones": 3,
+          "duplicatedLines": 190,
+          "duplicatedTokens": 1588,
+          "percentage": 11.32,
+          "percentageTokens": 11.98,
+          "newDuplicatedLines": 0,
+          "newClones": 0
+        }
+      }
+    },
+    "total": {
+      "lines": 5262,
+      "tokens": 38912,
+      "sources": 49,
+      "clones": 7,
+      "duplicatedLines": 325,
+      "duplicatedTokens": 2757,
+      "percentage": 6.18,
+      "percentageTokens": 7.09,
+      "newDuplicatedLines": 0,
+      "newClones": 0
+    }
+  },
+  "duplicates": [
+    {
+      "format": "javascript",
+      "lines": 23,
+      "fragment": "} />\n              {skill}\n            </span>\n          ))}\n        </div>\n      </div>\n    </motion.div>\n  );\n};\n\nconst Certificates: React.FC = () => {\n  const { theme } = useTheme();\n  \n  return (\n    <section id=\"certificates\" className={`py-20 ${theme === 'light' ? 'bg-white' : 'bg-[#111111]'}`}>\n      <div className=\"container mx-auto px-4\">\n        <motion.div\n          initial={{ opacity: 0, y: 20 }}\n          whileInView={{ opacity: 1, y: 0 }}\n          transition={{ duration: 0.5 }}\n          className=\"text-center mb-16\"\n        >\n          <h2 className={`text-3xl md:text-4xl font-bold mb-4 ",
+      "tokens": 0,
+      "firstFile": {
+        "name": "g:/CascadeProjects/my-portfolio/my-personal-blog/src/components/Certificates.tsx",
+        "start": 108,
+        "end": 130,
+        "startLoc": {
+          "line": 108,
+          "column": 3,
+          "position": 836
+        },
+        "endLoc": {
+          "line": 130,
+          "column": 38,
+          "position": 1027
+        }
+      },
+      "secondFile": {
+        "name": "g:/CascadeProjects/my-portfolio/my-personal-blog/src/components/Projects.tsx",
+        "start": 334,
+        "end": 357,
+        "startLoc": {
+          "line": 334,
+          "column": 2,
+          "position": 2562
+        },
+        "endLoc": {
+          "line": 357,
+          "column": 26,
+          "position": 2738
+        }
+      }
+    },
+    {
+      "format": "javascript",
+      "lines": 71,
+      "fragment": "}>{achievement}</li>\n                ))}\n              </ul>\n            </div>\n          </div>\n        ))}\n      </div>\n    </ResponsiveCard>\n  );\n};\n\nconst AboutSection: FC = () => {\n  return (\n    <ResponsiveCard>\n      <motion.div \n        className=\"flex items-center mb-6\"\n        initial={{ x: -20 }}\n        animate={{ x: 0 }}\n      >\n        <div className=\"p-3 bg-indigo-500/10 rounded-xl mr-4\">\n          <FaLaptopCode className=\"text-2xl text-indigo-600\" />\n        </div>\n        <h3 className=\"text-2xl font-bold bg-gradient-to-r from-indigo-600 to-indigo-400 bg-clip-text text-transparent\">\n          Professional Vision\n        </h3>\n      </motion.div>\n      <motion.p \n        className=\"text-lg leading-relaxed text-gray-700 dark:text-gray-300 mb-8\"\n        initial={{ opacity: 0, y: 20 }}\n        animate={{ opacity: 1, y: 0 }}\n        transition={{ delay: 0.2 }}\n      >\n        Strategic technology leader specializing in transformative digital solutions. \n        With a proven track record of delivering high-impact, scalable architectures \n        that drive business innovation and technological excellence.\n      </motion.p>\n      <motion.div \n        className=\"grid grid-cols-3 gap-4\"\n        initial={{ opacity: 0, y: 20 }}\n        animate={{ opacity: 1, y: 0 }}\n        transition={{ delay: 0.4 }}\n      >\n        {[\n          { icon: <SiReact />, text: \"React\", color: \"text-cyan-500\" },\n          { icon: <SiTypescript />, text: \"TypeScript\", color: \"text-blue-600\" },\n          { icon: <FaAward />, text: \"Node.js\", color: \"text-green-600\" }\n        ].map((item, index) => (\n          <motion.div \n            key={item.text}\n            className=\"flex flex-col items-center p-4 rounded-xl bg-gray-50 dark:bg-gray-800/50\n              hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors duration-300\"\n            whileHover={{ scale: 1.05 }}\n            transition={{ type: \"spring\", stiffness: 300 }}\n          >\n            <span className={`text-2xl ${item.color} mb-2`}>{item.icon}</span>\n            <span className=\"text-sm font-medium text-gray-600 dark:text-gray-300\">\n              {item.text}\n            </span>\n          </motion.div>\n        ))}\n      </motion.div>\n    </ResponsiveCard>\n  );\n};\n\nconst SkillsSection: FC = () => {\n  return (\n    <ResponsiveCard>\n      <motion.div \n        className=\"flex items-center mb-6\"\n        initial={{",
+      "tokens": 0,
+      "firstFile": {
+        "name": "g:/CascadeProjects/my-portfolio/my-personal-blog/src/components/About.tsx",
+        "start": 388,
+        "end": 458,
+        "startLoc": {
+          "line": 388,
+          "column": 4,
+          "position": 3011
+        },
+        "endLoc": {
+          "line": 458,
+          "column": 2,
+          "position": 3623
+        }
+      },
+      "secondFile": {
+        "name": "g:/CascadeProjects/my-portfolio/my-personal-blog/src/components/About.tsx",
+        "start": 125,
+        "end": 316,
+        "startLoc": {
+          "line": 125,
+          "column": 2,
+          "position": 930
+        },
+        "endLoc": {
+          "line": 316,
+          "column": 6,
+          "position": 2421
+        }
+      }
+    },
+    {
+      "format": "javascript",
+      "lines": 99,
+      "fragment": "}>{item.icon}</span>\n            <span className=\"text-sm font-medium text-gray-600 dark:text-gray-300\">\n              {item.text}\n            </span>\n          </motion.div>\n        ))}\n      </motion.div>\n    </ResponsiveCard>\n  );\n};\n\nconst SkillsSection: FC = () => {\n  return (\n    <ResponsiveCard>\n      <motion.div \n        className=\"flex items-center mb-6\"\n        initial={{ x: -20 }}\n        animate={{ x: 0 }}\n      >\n        <div className=\"p-3 bg-blue-500/10 rounded-xl mr-4\">\n          <FaNetworkWired className=\"text-2xl text-blue-600\" />\n        </div>\n        <h3 className=\"text-2xl font-bold bg-gradient-to-r from-gray-800 to-gray-600 dark:from-gray-200 dark:to-gray-400 bg-clip-text text-transparent\">\n          Technical Proficiency\n        </h3>\n      </motion.div>\n      <div className=\"space-y-6\">\n        {[\n          { \n            name: 'React', \n            level: 90, \n            color: 'from-cyan-500 to-blue-500', \n            description: 'Enterprise-grade frontend development',\n            icon: <SiReact className=\"text-cyan-500\" />\n          },\n          { \n            name: 'Node.js', \n            level: 85, \n            color: 'from-green-500 to-emerald-600', \n            description: 'Scalable backend solutions',\n            icon: <FaAward className=\"text-green-500\" />\n          },\n          { \n            name: 'TypeScript', \n            level: 88, \n            color: 'from-blue-500 to-indigo-600', \n            description: 'Type-safe, robust architecture',\n            icon: <SiTypescript className=\"text-blue-500\" />\n          }\n        ].map((skill, index) => (\n          <motion.div \n            key={skill.name} \n            className=\"space-y-2\"\n            initial={{ opacity: 0, x: -20 }}\n            animate={{ opacity: 1, x: 0 }}\n            transition={{ delay: index * 0.1 }}\n          >\n            <div className=\"flex justify-between items-center mb-2\">\n              <div className=\"flex items-center gap-2\">\n                {skill.icon}\n                <span className=\"text-base font-semibold text-gray-700 dark:text-gray-300\">\n                  {skill.name}\n                </span>\n              </div>\n              <span className=\"text-sm font-medium text-gray-500 dark:text-gray-400\">\n                {skill.level}%\n              </span>\n            </div>\n            <div className=\"relative\">\n              <div className=\"h-2 bg-gray-200 dark:bg-gray-700 rounded-full overflow-hidden\">\n                <motion.div \n                  className={`h-full bg-gradient-to-r ${skill.color} rounded-full`}\n                  initial={{ width: 0 }}\n                  animate={{ width: `${skill.level}%` }}\n                  transition={{ duration: 1, delay: index * 0.2 }}\n                />\n              </div>\n              <motion.p \n                className=\"mt-1 text-sm text-gray-500 dark:text-gray-400\"\n                initial={{ opacity: 0 }}\n                animate={{ opacity: 1 }}\n                transition={{ delay: index * 0.3 }}\n              >\n                {skill.description}\n              </motion.p>\n            </div>\n          </motion.div>\n        ))}\n      </div>\n    </ResponsiveCard>\n  );\n};\n\nconst About: FC = () => {\n  const { theme } = useTheme();\n\n  return (\n    <>\n      <section id=\"about\" className={`py-20 ",
+      "tokens": 0,
+      "firstFile": {
+        "name": "g:/CascadeProjects/my-portfolio/my-personal-blog/src/components/About.tsx",
+        "start": 442,
+        "end": 540,
+        "startLoc": {
+          "line": 442,
+          "column": 7,
+          "position": 3522
+        },
+        "endLoc": {
+          "line": 540,
+          "column": 8,
+          "position": 4307
+        }
+      },
+      "secondFile": {
+        "name": "g:/CascadeProjects/my-portfolio/my-personal-blog/src/components/About.tsx",
+        "start": 46,
+        "end": 143,
+        "startLoc": {
+          "line": 46,
+          "column": 2,
+          "position": 280
+        },
+        "endLoc": {
+          "line": 143,
+          "column": 2,
+          "position": 1020
+        }
+      }
+    },
+    {
+      "format": "tsx",
+      "lines": 55,
+      "fragment": ": FC = () => {\n  return (\n    <ResponsiveCard>\n      <motion.div \n        className=\"flex items-center mb-6\"\n        initial={{ x: -20 }}\n        animate={{ x: 0 }}\n      >\n        <div className=\"p-3 bg-indigo-500/10 rounded-xl mr-4\">\n          <FaLaptopCode className=\"text-2xl text-indigo-600\" />\n        </div>\n        <h3 className=\"text-2xl font-bold bg-gradient-to-r from-indigo-600 to-indigo-400 bg-clip-text text-transparent\">\n          Professional Vision\n        </h3>\n      </motion.div>\n      <motion.p \n        className=\"text-lg leading-relaxed text-gray-700 dark:text-gray-300 mb-8\"\n        initial={{ opacity: 0, y: 20 }}\n        animate={{ opacity: 1, y: 0 }}\n        transition={{ delay: 0.2 }}\n      >\n        Strategic technology leader specializing in transformative digital solutions. \n        With a proven track record of delivering high-impact, scalable architectures \n        that drive business innovation and technological excellence.\n      </motion.p>\n      <motion.div \n        className=\"grid grid-cols-3 gap-4\"\n        initial={{ opacity: 0, y: 20 }}\n        animate={{ opacity: 1, y: 0 }}\n        transition={{ delay: 0.4 }}\n      >\n        {[\n          { icon: <SiReact />, text: \"React\", color: \"text-cyan-500\" },\n          { icon: <SiTypescript />, text: \"TypeScript\", color: \"text-blue-600\" },\n          { icon: <FaAward />, text: \"Node.js\", color: \"text-green-600\" }\n        ].map((item, index) => (\n          <motion.div \n            key={item.text}\n            className=\"flex flex-col items-center p-4 rounded-xl bg-gray-50 dark:bg-gray-800/50\n              hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors duration-300\"\n            whileHover={{ scale: 1.05 }}\n            transition={{ type: \"spring\", stiffness: 300 }}\n          >\n            <span className={`text-2xl ${item.color} mb-2`}>{item.icon}</span>\n            <span className=\"text-sm font-medium text-gray-600 dark:text-gray-300\">\n              {item.text}\n            </span>\n          </motion.div>\n        ))}\n      </motion.div>\n    </ResponsiveCard>\n  );\n};\n\nconst",
+      "tokens": 0,
+      "firstFile": {
+        "name": "g:/CascadeProjects/my-portfolio/my-personal-blog/src/components/About.tsx",
+        "start": 399,
+        "end": 453,
+        "startLoc": {
+          "line": 399,
+          "column": 13,
+          "position": 3066
+        },
+        "endLoc": {
+          "line": 453,
+          "column": 6,
+          "position": 3584
+        }
+      },
+      "secondFile": {
+        "name": "g:/CascadeProjects/my-portfolio/my-personal-blog/src/components/About.tsx",
+        "start": 138,
+        "end": 192,
+        "startLoc": {
+          "line": 138,
+          "column": 14,
+          "position": 984
+        },
+        "endLoc": {
+          "line": 192,
+          "column": 28,
+          "position": 1502
+        }
+      }
+    },
+    {
+      "format": "tsx",
+      "lines": 16,
+      "fragment": "return (\n    <ResponsiveCard>\n      <motion.div \n        className=\"flex items-center mb-6\"\n        initial={{ x: -20 }}\n        animate={{ x: 0 }}\n      >\n        <div className=\"p-3 bg-blue-500/10 rounded-xl mr-4\">\n          <FaNetworkWired className=\"text-2xl text-blue-600\" />\n        </div>\n        <h3 className=\"text-2xl font-bold bg-gradient-to-r from-gray-800 to-gray-600 dark:from-gray-200 dark:to-gray-400 bg-clip-text text-transparent\">\n          Technical Proficiency\n        </h3>\n      </motion.div>\n      <div className=\"space-y-6\">\n        {[",
+      "tokens": 0,
+      "firstFile": {
+        "name": "g:/CascadeProjects/my-portfolio/my-personal-blog/src/components/About.tsx",
+        "start": 454,
+        "end": 469,
+        "startLoc": {
+          "line": 454,
+          "column": 3,
+          "position": 3601
+        },
+        "endLoc": {
+          "line": 469,
+          "column": 2,
+          "position": 3714
+        }
+      },
+      "secondFile": {
+        "name": "g:/CascadeProjects/my-portfolio/my-personal-blog/src/components/About.tsx",
+        "start": 78,
+        "end": 93,
+        "startLoc": {
+          "line": 78,
+          "column": 3,
+          "position": 492
+        },
+        "endLoc": {
+          "line": 93,
+          "column": 19,
+          "position": 605
+        }
+      }
+    },
+    {
+      "format": "tsx",
+      "lines": 23,
+      "fragment": "[\n          { \n            name: 'React', \n            level: 90, \n            color: 'from-cyan-500 to-blue-500', \n            description: 'Enterprise-grade frontend development',\n            icon: <SiReact className=\"text-cyan-500\" />\n          },\n          { \n            name: 'Node.js', \n            level: 85, \n            color: 'from-green-500 to-emerald-600', \n            description: 'Scalable backend solutions',\n            icon: <FaAward className=\"text-green-500\" />\n          },\n          { \n            name: 'TypeScript', \n            level: 88, \n            color: 'from-blue-500 to-indigo-600', \n            description: 'Type-safe, robust architecture',\n            icon: <SiTypescript className=\"text-blue-500\" />\n          }\n        ].",
+      "tokens": 0,
+      "firstFile": {
+        "name": "g:/CascadeProjects/my-portfolio/my-personal-blog/src/components/About.tsx",
+        "start": 469,
+        "end": 491,
+        "startLoc": {
+          "line": 469,
+          "column": 2,
+          "position": 3714
+        },
+        "endLoc": {
+          "line": 491,
+          "column": 2,
+          "position": 3879
+        }
+      },
+      "secondFile": {
+        "name": "g:/CascadeProjects/my-portfolio/my-personal-blog/src/components/About.tsx",
+        "start": 54,
+        "end": 76,
+        "startLoc": {
+          "line": 54,
+          "column": 2,
+          "position": 323
+        },
+        "endLoc": {
+          "line": 76,
+          "column": 2,
+          "position": 488
+        }
+      }
+    },
+    {
+      "format": "tsx",
+      "lines": 45,
+      "fragment": ".map((skill, index) => (\n          <motion.div \n            key={skill.name} \n            className=\"space-y-2\"\n            initial={{ opacity: 0, x: -20 }}\n            animate={{ opacity: 1, x: 0 }}\n            transition={{ delay: index * 0.1 }}\n          >\n            <div className=\"flex justify-between items-center mb-2\">\n              <div className=\"flex items-center gap-2\">\n                {skill.icon}\n                <span className=\"text-base font-semibold text-gray-700 dark:text-gray-300\">\n                  {skill.name}\n                </span>\n              </div>\n              <span className=\"text-sm font-medium text-gray-500 dark:text-gray-400\">\n                {skill.level}%\n              </span>\n            </div>\n            <div className=\"relative\">\n              <div className=\"h-2 bg-gray-200 dark:bg-gray-700 rounded-full overflow-hidden\">\n                <motion.div \n                  className={`h-full bg-gradient-to-r ${skill.color} rounded-full`}\n                  initial={{ width: 0 }}\n                  animate={{ width: `${skill.level}%` }}\n                  transition={{ duration: 1, delay: index * 0.2 }}\n                />\n              </div>\n              <motion.p \n                className=\"mt-1 text-sm text-gray-500 dark:text-gray-400\"\n                initial={{ opacity: 0 }}\n                animate={{ opacity: 1 }}\n                transition={{ delay: index * 0.3 }}\n              >\n                {skill.description}\n              </motion.p>\n            </div>\n          </motion.div>\n        ))}\n      </div>\n    </ResponsiveCard>\n  );\n};\n\nconst",
+      "tokens": 0,
+      "firstFile": {
+        "name": "g:/CascadeProjects/my-portfolio/my-personal-blog/src/components/About.tsx",
+        "start": 491,
+        "end": 535,
+        "startLoc": {
+          "line": 491,
+          "column": 2,
+          "position": 3879
+        },
+        "endLoc": {
+          "line": 535,
+          "column": 6,
+          "position": 4252
+        }
+      },
+      "secondFile": {
+        "name": "g:/CascadeProjects/my-portfolio/my-personal-blog/src/components/About.tsx",
+        "start": 93,
+        "end": 137,
+        "startLoc": {
+          "line": 93,
+          "column": 19,
+          "position": 606
+        },
+        "endLoc": {
+          "line": 137,
+          "column": 50,
+          "position": 979
+        }
+      }
+    }
+  ],
+  "filename": "g:\\CascadeProjects\\my-portfolio\\my-personal-blog\\node_modules\\@jscpd\\html-reporter\\dist\\templates\\main.pug"
+}

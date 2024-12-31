@@ -1,4 +1,8 @@
 /** @type {import('tailwindcss').Config} */
+const plugin = require('tailwindcss/plugin');
+const typography = require('@tailwindcss/typography');
+const forms = require('@tailwindcss/forms');
+
 module.exports = {
   content: [
     "./index.html",
@@ -131,13 +135,16 @@ module.exports = {
       }),
     },
   },
+  plugins: [
+    typography,
+    forms,
+    plugin(function({ addBase, theme }) {
+      // Any additional custom plugins or base styles
+    })
+  ],
   variants: {
     extend: {
       typography: ['dark']
     }
-  },
-  plugins: [
-    require('@tailwindcss/forms'),
-    require('@tailwindcss/typography')
-  ],
+  }
 };

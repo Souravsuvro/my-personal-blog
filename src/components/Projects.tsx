@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { motion } from 'framer-motion';
-import { useTheme } from '@/context/ThemeContext';
+import { useTheme } from '../context/ThemeContext';
 import { FaBuilding, FaCalendar, FaMapMarkerAlt, FaCode, FaGithub, FaExternalLinkAlt, FaChevronLeft, FaChevronRight, FaPlay, FaPause } from 'react-icons/fa';
 
 interface Company {
@@ -78,36 +78,40 @@ const companies: Company[] = [
   }
 ];
 
+import thumbnail1 from '../assets/images/project1-thumbnail.jpg';
+import thumbnail2 from '../assets/images/project2-thumbnail.jpg';
+import thumbnail3 from '../assets/images/project3-thumbnail.jpg';
+
 const projects: Project[] = [
   {
     id: 1,
-    title: "AI-Powered Task Manager",
-    description: "An intelligent task management system with AI-driven prioritization and smart categorization.",
-    technologies: ["React", "Node.js", "OpenAI API", "MongoDB"],
-    videoUrl: "/videos/portfolio.webm",
-    githubUrl: "https://github.com/yourusername/project1",
-    liveUrl: "https://project1-demo.com",
-    thumbnail: "/images/project1-thumb.jpg"
+    title: 'AI-Powered Portfolio Website',
+    description: 'A modern, responsive portfolio website built with React and Tailwind CSS, featuring AI-enhanced interactivity.',
+    videoUrl: '/videos/portfolio.webm',
+    thumbnail: thumbnail1,
+    technologies: ['React', 'Tailwind CSS', 'TypeScript'],
+    githubUrl: 'https://github.com/yourusername/portfolio',
+    liveUrl: 'https://yourportfolio.com'
   },
   {
     id: 2,
-    title: "E-commerce Platform",
-    description: "A full-featured online shopping platform with real-time inventory and secure payments.",
-    technologies: ["Next.js", "TypeScript", "Stripe", "PostgreSQL"],
-    videoUrl: "/videos/ecommerce.webm",
-    githubUrl: "https://github.com/yourusername/project2",
-    liveUrl: "https://project2-demo.com",
-    thumbnail: "/images/project2-thumb.jpg"
+    title: 'E-commerce Platform',
+    description: 'A full-featured e-commerce platform with real-time inventory management and personalized shopping experiences.',
+    videoUrl: '/videos/ecommerce.webm',
+    thumbnail: thumbnail2,
+    technologies: ['React', 'Node.js', 'GraphQL'],
+    githubUrl: 'https://github.com/yourusername/ecommerce',
+    liveUrl: 'https://yourecommercesite.com'
   },
   {
     id: 3,
-    title: "Social Media Dashboard",
-    description: "A comprehensive analytics dashboard for social media management and monitoring.",
-    technologies: ["Vue.js", "Python", "Django", "Redis"],
-    videoUrl: "/videos/video.1.webm",
-    githubUrl: "https://github.com/yourusername/project3",
-    liveUrl: "https://project3-demo.com",
-    thumbnail: "/images/project3-thumb.jpg"
+    title: 'Business Analysis Dashboard',
+    description: 'A comprehensive analytics dashboard for business intelligence and data-driven decision making.',
+    videoUrl: '/videos/businessanalysis.webm',
+    thumbnail: thumbnail3,
+    technologies: ['Vue.js', 'D3.js', 'Python'],
+    githubUrl: 'https://github.com/yourusername/business-analytics',
+    liveUrl: 'https://yourbusinessanalytics.com'
   }
 ];
 
@@ -212,126 +216,178 @@ const CompanyCard: React.FC<{ company: Company; index: number }> = ({ company, i
 };
 
 const FeaturedProjectsSlider: React.FC = () => {
-  const { theme } = useTheme();
   const [currentIndex, setCurrentIndex] = useState(0);
-  const [isPlaying, setIsPlaying] = useState(false);
-  const [videoRef, setVideoRef] = useState<HTMLVideoElement | null>(null);
+  const [isHovered, setIsHovered] = useState(false);
+  const videoRef = useRef<HTMLVideoElement>(null);
 
-  const handlePrevious = () => {
-    setCurrentIndex((prev) => (prev === 0 ? projects.length - 1 : prev - 1));
-  };
+  const currentProject = projects[currentIndex];
+
+  // Reset video when project changes
+  useEffect(() => {
+    const video = videoRef.current;
+    if (video) {
+      video.pause();
+      video.currentTime = 0;
+    }
+  }, [currentIndex]);
+
+  // Handle video play/pause based on hover
+  useEffect(() => {
+    const video = videoRef.current;
+    if (video) {
+      if (isHovered) {
+        video.play().catch(error => {
+          console.error('Video play error:', error);
+        });
+      } else {
+        video.pause();
+        video.currentTime = 0;
+      }
+    }
+  }, [isHovered]);
 
   const handleNext = () => {
     setCurrentIndex((prev) => (prev === projects.length - 1 ? 0 : prev + 1));
+    setIsHovered(false);
   };
 
-  const togglePlayPause = () => {
-    if (videoRef) {
-      if (isPlaying) {
-        videoRef.pause();
+  const handlePrevious = () => {
+    setCurrentIndex((prev) => (prev === 0 ? projects.length - 1 : prev - 1));
+    setIsHovered(false);
+  };
+
+  const toggleVideoPlay = () => {
+    const video = videoRef.current;
+    if (video) {
+      if (video.paused) {
+        video.play().catch(error => {
+          console.error('Video play error:', error);
+        });
+        setIsHovered(true);
       } else {
-        const playPromise = videoRef.play();
-        
-        if (playPromise !== undefined) {
-          playPromise
-            .then(() => {
-              // Video started playing
-              setIsPlaying(true);
-            })
-            .catch((error) => {
-              console.error('Error playing video:', error);
-              // Handle autoplay restrictions or other errors
-              setIsPlaying(false);
-            });
-        }
+        video.pause();
+        setIsHovered(false);
       }
     }
   };
 
-  useEffect(() => {
-    if (videoRef) {
-      videoRef.pause();
-      setIsPlaying(false);
-    }
-  }, [currentIndex]);
-
   return (
-    <div className="relative">
-      <div className="relative aspect-video rounded-2xl overflow-hidden bg-gray-900">
+    <div 
+      className="relative group w-full max-w-4xl mx-auto"
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
+    >
+      <div className="relative aspect-video rounded-2xl overflow-hidden shadow-2xl">
+        {/* Video */}
         <video
-          ref={setVideoRef}
-          key={projects[currentIndex].videoUrl}  
-          src={projects[currentIndex].videoUrl}
-          poster={projects[currentIndex].thumbnail}
+          ref={videoRef}
+          src={currentProject.videoUrl}
+          poster={currentProject.thumbnail}
           className="w-full h-full object-cover"
-          onEnded={() => setIsPlaying(false)}
+          muted
           playsInline
-          muted  
-          preload="metadata"
+        />
+
+        {/* Play Overlay */}
+        <div 
+          className="absolute inset-0 bg-black/30 flex items-center justify-center transition-opacity duration-300"
+          style={{ 
+            opacity: !isHovered ? 1 : 0,
+            pointerEvents: isHovered ? 'none' : 'auto'
+          }}
         >
-          <source 
-            src={projects[currentIndex].videoUrl} 
-            type="video/webm" 
-          />
-          Your browser does not support the video tag.
-        </video>
-        
-        <div className="absolute inset-0 bg-black bg-opacity-40 transition-opacity duration-300 flex items-center justify-center">
           <button
-            onClick={togglePlayPause}
-            className="p-4 rounded-full bg-[#FFB800] text-white hover:bg-[#FFA500] transition-colors duration-300"
+            onClick={toggleVideoPlay}
+            className="p-6 bg-[#FFB800]/80 rounded-full text-white hover:bg-[#FFB800] transition-all duration-300 transform hover:scale-110"
+            aria-label="Play Video"
           >
-            {isPlaying ? <FaPause size={24} /> : <FaPlay size={24} />}
+            <FaPlay size={48} />
           </button>
         </div>
 
-        <div className="absolute bottom-0 left-0 right-0 p-6 bg-gradient-to-t from-black to-transparent">
-          <h3 className="text-2xl font-bold text-white mb-2">
-            {projects[currentIndex].title}
-          </h3>
-          <p className="text-gray-200 mb-4">
-            {projects[currentIndex].description}
-          </p>
+        {/* Navigation Overlay */}
+        <div className="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+          <div className="absolute top-1/2 left-0 transform -translate-y-1/2 flex items-center">
+            <button 
+              onClick={handlePrevious}
+              className="p-3 bg-white/30 text-white rounded-r-full hover:bg-white/50 transition"
+              aria-label="Previous Project"
+            >
+              <FaChevronLeft size={24} />
+            </button>
+          </div>
+          <div className="absolute top-1/2 right-0 transform -translate-y-1/2 flex items-center">
+            <button 
+              onClick={handleNext}
+              className="p-3 bg-white/30 text-white rounded-l-full hover:bg-white/50 transition"
+              aria-label="Next Project"
+            >
+              <FaChevronRight size={24} />
+            </button>
+          </div>
+        </div>
+
+        {/* Project Details */}
+        <div className="absolute bottom-0 left-0 right-0 p-6 bg-gradient-to-t from-black/80 to-transparent text-white">
+          <h3 className="text-2xl font-bold mb-2">{currentProject.title}</h3>
+          <p className="mb-4 line-clamp-2">{currentProject.description}</p>
           
-          <div className="flex flex-wrap gap-2 mb-6">
-            {projects[currentIndex].technologies.map((tech, index) => (
-              <span
-                key={index}
-                className={`text-sm px-4 py-1.5 rounded-full
-                  ${theme === 'light'
-                    ? 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-                    : 'bg-gray-800 text-gray-300 hover:bg-gray-700'}
-                  transition-colors duration-300`}
+          {/* Technologies */}
+          <div className="flex flex-wrap gap-2">
+            {currentProject.technologies.map((tech, index) => (
+              <span 
+                key={index} 
+                className="px-2 py-1 bg-white/20 rounded-full text-sm"
               >
                 {tech}
               </span>
             ))}
           </div>
+
+          {/* Project Links */}
+          <div className="mt-4 flex space-x-4">
+            {currentProject.githubUrl && (
+              <a 
+                href={currentProject.githubUrl} 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="hover:text-gray-300 transition"
+                aria-label="GitHub Repository"
+              >
+                <FaGithub size={24} />
+              </a>
+            )}
+            {currentProject.liveUrl && (
+              <a 
+                href={currentProject.liveUrl} 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="hover:text-gray-300 transition"
+                aria-label="Live Project"
+              >
+                <FaExternalLinkAlt size={24} />
+              </a>
+            )}
+          </div>
         </div>
       </div>
 
-      <button
-        onClick={handlePrevious}
-        className="absolute left-4 top-1/2 -translate-y-1/2 p-3 rounded-full bg-black/50 text-white hover:bg-[#FFB800] transition-colors duration-300"
-      >
-        <FaChevronLeft size={24} />
-      </button>
-
-      <button
-        onClick={handleNext}
-        className="absolute right-4 top-1/2 -translate-y-1/2 p-3 rounded-full bg-black/50 text-white hover:bg-[#FFB800] transition-colors duration-300"
-      >
-        <FaChevronRight size={24} />
-      </button>
-
-      <div className="flex justify-center mt-8 space-x-2">
+      {/* Project Indicators */}
+      <div className="flex justify-center mt-4 space-x-2">
         {projects.map((_, index) => (
           <button
             key={index}
-            onClick={() => setCurrentIndex(index)}
-            className={`w-3 h-3 rounded-full transition-colors duration-300 ${
-              index === currentIndex ? 'bg-[#FFB800]' : 'bg-gray-400'
-            }`}
+            onClick={() => {
+              setCurrentIndex(index);
+              setIsHovered(false);
+            }}
+            className={`
+              w-3 h-3 rounded-full transition-all duration-300
+              ${index === currentIndex 
+                ? 'bg-[#FFB800] w-6' 
+                : 'bg-gray-400 hover:bg-gray-500'}
+            `}
+            aria-label={`Go to project ${index + 1}`}
           />
         ))}
       </div>

@@ -1,16 +1,8 @@
-import React from 'react';
+import React, { useRef, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { FaDownload } from 'react-icons/fa';
-import {
-  SiReact,
-  SiNextdotjs,
-  SiTailwindcss,
-  SiJavascript,
-  SiGraphql,
-  SiFigma,
-  SiTypescript
-} from 'react-icons/si';
-import { useTheme } from '@/context/ThemeContext';
+import { FaLinkedin, FaGithub } from 'react-icons/fa';
+import { SiGmail, SiTypescript, SiReact, SiNextdotjs, SiTailwindcss, SiJavascript, SiGraphql, SiFigma } from 'react-icons/si';
+import { useTheme } from '../context/ThemeContext';
 
 interface TechBadgeProps {
   icon: React.ReactNode;
@@ -19,6 +11,139 @@ interface TechBadgeProps {
   proficiency?: number;
   className?: string;
 }
+
+const TechBackground: React.FC = () => {
+  const canvasRef = useRef<HTMLCanvasElement>(null);
+  const { theme } = useTheme();
+
+  useEffect(() => {
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+
+    const ctx = canvas.getContext('2d');
+    if (!ctx) return;
+
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+
+    // Circuit-like background configuration
+    const particleCount = 100;
+    const particles: {
+      x: number;
+      y: number;
+      radius: number;
+      vx: number;
+      vy: number;
+      color: string;
+    }[] = [];
+
+    const colors = {
+      light: {
+        particle: 'rgba(55, 65, 81, 0.5)',
+        line: 'rgba(55, 65, 81, 0.2)',
+        background: 'rgba(229, 231, 235, 0.5)'
+      },
+      dark: {
+        particle: 'rgba(147, 197, 253, 0.5)',
+        line: 'rgba(147, 197, 253, 0.2)',
+        background: 'rgba(17, 24, 39, 0.5)'
+      }
+    };
+
+    const currentColors = theme === 'light' ? colors.light : colors.dark;
+
+    // Initialize particles
+    for (let i = 0; i < particleCount; i++) {
+      particles.push({
+        x: Math.random() * canvas.width,
+        y: Math.random() * canvas.height,
+        radius: Math.random() * 2 + 1,
+        vx: (Math.random() - 0.5) * 2,
+        vy: (Math.random() - 0.5) * 2,
+        color: currentColors.particle
+      });
+    }
+
+    // Animation loop
+    function animate() {
+      if (!canvas || !ctx) return;
+
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      
+      // Draw background
+      ctx.fillStyle = currentColors.background;
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+      // Update and draw particles
+      for (let i = 0; i < particles.length; i++) {
+        const p = particles[i];
+        
+        // Move particles
+        p.x += p.vx;
+        p.y += p.vy;
+
+        // Bounce off edges
+        if (p.x < 0 || p.x > canvas.width) p.vx *= -1;
+        if (p.y < 0 || p.y > canvas.height) p.vy *= -1;
+
+        // Draw particle
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
+        ctx.fillStyle = p.color;
+        ctx.fill();
+
+        // Connect nearby particles with lines
+        for (let j = i + 1; j < particles.length; j++) {
+          const p2 = particles[j];
+          const dx = p2.x - p.x;
+          const dy = p2.y - p.y;
+          const distance = Math.sqrt(dx * dx + dy * dy);
+
+          if (distance < 100) {
+            ctx.beginPath();
+            ctx.moveTo(p.x, p.y);
+            ctx.lineTo(p2.x, p2.y);
+            ctx.strokeStyle = currentColors.line;
+            ctx.lineWidth = 1;
+            ctx.stroke();
+          }
+        }
+      }
+
+      requestAnimationFrame(animate);
+    }
+
+    // Handle window resize
+    const handleResize = () => {
+      if (canvas) {
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+      }
+    };
+
+    window.addEventListener('resize', handleResize);
+    animate();
+
+    // Cleanup
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    };
+  }, [theme]);
+
+  return (
+    <canvas 
+      ref={canvasRef} 
+      className="fixed inset-0 z-0 pointer-events-none" 
+      style={{ 
+        width: '100%', 
+        height: '100%', 
+        position: 'absolute', 
+        top: 0, 
+        left: 0 
+      }}
+    />
+  );
+};
 
 const TechBadge: React.FC<TechBadgeProps> = ({ 
   icon, 
@@ -31,35 +156,48 @@ const TechBadge: React.FC<TechBadgeProps> = ({
   
   return (
     <motion.div
-      className={`
-        relative flex items-center gap-2 
-        bg-gradient-to-br ${color} 
-        ${theme === 'light' 
-          ? 'text-gray-800 shadow-md' 
-          : 'text-white bg-opacity-20 backdrop-blur-sm'}
-        px-4 py-2 rounded-full 
-        transition-all duration-300 
-        ease-in-out cursor-pointer
-        ${className}
-      `}
+      className={`relative flex items-center gap-2 bg-gradient-to-br ${color} ${theme === 'light' ? 'text-gray-800 shadow-md' : 'text-white bg-opacity-20 backdrop-blur-sm'} px-4 py-2 rounded-full transition-all duration-300 ease-in-out cursor-pointer ${className}`}
+      initial={{ 
+        opacity: 0, 
+        scale: 0.8,
+        y: 20 
+      }}
+      animate={{ 
+        opacity: 1, 
+        scale: 1,
+        y: 0,
+        transition: {
+          type: "spring",
+          stiffness: 200,
+          damping: 10
+        }
+      }}
       whileHover={{ 
-        scale: 1.05,
-        rotate: 2,
-        transition: { type: "spring", stiffness: 300 }
+        scale: 1.05, 
+        rotate: 2, 
+        transition: { 
+          type: "spring", 
+          stiffness: 300 
+        } 
       }}
       whileTap={{ scale: 0.95 }}
       aria-label={`Skill in ${text}`}
     >
       <motion.span 
         className="text-2xl mr-2"
-        initial={{ rotate: 0 }}
         animate={{ 
-          rotate: [0, -10, 10, -2, 0],
+          rotate: [0, -10, 10, -5, 5, 0],
           transition: { 
-            duration: 1.5, 
-            repeat: Infinity, 
-            repeatDelay: 2 
+            duration: 2,
+            repeat: Infinity,
+            repeatDelay: 3,
+            ease: "easeInOut"
           }
+        }}
+        whileHover={{
+          scale: 1.2,
+          rotate: 0,
+          transition: { duration: 0.2 }
         }}
       >
         {icon}
@@ -68,35 +206,49 @@ const TechBadge: React.FC<TechBadgeProps> = ({
       
       {proficiency > 0 && (
         <motion.div 
-          className="absolute bottom-[-4px] left-0 right-0 h-1 bg-white/30 rounded-full overflow-hidden"
-        >
-          <motion.div 
-            className="h-full bg-white"
-            initial={{ width: 0 }}
-            animate={{ width: `${proficiency}%` }}
-            transition={{ duration: 1, delay: 0.5 }}
-          />
-        </motion.div>
+          className="absolute bottom-[-4px] left-0 right-0 h-1 bg-primary-500 rounded-full"
+          initial={{ width: 0 }}
+          animate={{ 
+            width: `${proficiency}%`,
+            transition: {
+              duration: 1,
+              delay: 0.5,
+              type: "tween"
+            }
+          }}
+        />
       )}
     </motion.div>
   );
 };
 
-const Hero: React.FC = () => {
+const Hero = () => {
   const { theme } = useTheme();
-  
-  const handleDownloadResume = () => {
-    const link = document.createElement('a');
-    link.href = '/resume.pdf';
-    link.download = 'Your_Name_Resume.pdf';
-    link.click();
-  };
 
-  const handleHireMe = () => {
-    window.location.href = 'mailto:your.email@example.com';
-  };
+  const socialLinks = [
+    {
+      icon: FaLinkedin,
+      href: 'https://www.linkedin.com/in/sourav007/',
+      ariaLabel: 'LinkedIn Profile'
+    },
+    {
+      icon: FaGithub,
+      href: 'https://github.com/Souravsuvro',
+      ariaLabel: 'GitHub Profile'
+    },
+    {
+      icon: SiGmail,
+      href: 'mailto:suravsuvra007@gmail.com',
+      ariaLabel: 'Email'
+    }
+  ];
 
   const techStack = [
+    { 
+      icon: <SiTypescript />, 
+      text: 'TypeScript',
+      color: 'from-blue-500 to-blue-700' 
+    },
     { 
       icon: <SiReact />, 
       text: "ReactJS", 
@@ -137,256 +289,153 @@ const Hero: React.FC = () => {
     }
   ];
 
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        delayChildren: 0.3,
+        staggerChildren: 0.2
+      }
+    }
+  };
+
+  const itemVariants = {
+    hidden: { y: 20, opacity: 0 },
+    visible: {
+      y: 0,
+      opacity: 1
+    }
+  };
+
   return (
-    <section className={`min-h-screen flex items-center justify-center py-20 ${theme === 'light' ? 'bg-white' : 'bg-[#111111]'}`}>
-      {/* Professional Geometric Background Animation */}
+    <motion.section
+      id="hero"
+      data-component="hero-section"
+      className="relative flex flex-col justify-center items-center h-screen max-h-screen min-h-screen px-4 md:px-8 lg:px-16 bg-transparent overflow-hidden"
+      initial="hidden"
+      animate="visible"
+      variants={containerVariants}
+    >
+      <TechBackground />
+      
       <motion.div 
-        className="absolute inset-0 overflow-hidden"
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ duration: 1 }}
+        data-component="hero-content-container"
+        className="max-w-4xl text-center flex flex-col items-center relative z-10 w-full"
+        variants={itemVariants}
       >
-        {/* Grid Lines */}
+        <motion.div
+          data-component="hero-profile-image"
+          className="w-40 h-40 md:w-48 md:h-48 mb-4 md:mb-6 rounded-full overflow-hidden border-4 border-primary-600 dark:border-primary-400 shadow-lg"
+          initial={{ scale: 0 }}
+          animate={{ scale: 1 }}
+          transition={{ type: "spring", stiffness: 260, damping: 20 }}
+        >
+          <img 
+            src="/images/sourav.png" 
+            alt="Sourav Suvra" 
+            data-component="hero-profile-image-src"
+            className="w-full h-full object-cover"
+          />
+        </motion.div>
+
+        <motion.h1 
+          data-component="hero-title"
+          className="text-3xl md:text-4xl lg:text-5xl font-bold mb-3 md:mb-4 text-primary-800 dark:text-primary-200"
+          variants={itemVariants}
+        >
+          Hi, I'm Sourav Suvra
+        </motion.h1>
+        <motion.p 
+          data-component="hero-subtitle"
+          className="text-base md:text-lg mb-6 md:mb-8 text-gray-600 dark:text-gray-300 max-w-xl px-4"
+          variants={itemVariants}
+        >
+          Full Stack Developer | React Enthusiast | Open Source Contributor
+        </motion.p>
+        
         <motion.div 
-          className="absolute inset-0 pointer-events-none"
-          style={{
-            background: `
-              linear-gradient(90deg, 
-                ${theme === 'light' 
-                  ? 'rgba(255, 184, 0, 0.1)' 
-                  : 'rgba(255, 184, 0, 0.1)'} 1px, transparent 1px),
-              linear-gradient(
-                ${theme === 'light' 
-                  ? 'rgba(255, 184, 0, 0.1)' 
-                  : 'rgba(255, 184, 0, 0.1)'} 1px, transparent 1px)
-            `,
-            backgroundSize: '30px 30px'
-          }}
+          data-component="hero-social-links"
+          className="flex justify-center space-x-4 mb-6 md:mb-8"
+          variants={containerVariants}
+        >
+          {socialLinks.map(({ icon: Icon, href, ariaLabel }, index) => (
+            <motion.a
+              key={index}
+              href={href}
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label={ariaLabel}
+              data-component={`hero-social-link-${ariaLabel.toLowerCase().replace(/\s+/g, '-')}`}
+              className="text-2xl md:text-3xl text-primary-600 hover:text-primary-800 dark:text-primary-300 dark:hover:text-primary-100 transition-colors"
+              variants={itemVariants}
+              whileHover={{ scale: 1.1 }}
+              whileTap={{ scale: 0.9 }}
+            >
+              <Icon />
+            </motion.a>
+          ))}
+        </motion.div>
+      </motion.div>
+      
+      {/* Tech Stack Badges Slider */}
+      <motion.div 
+        data-component="hero-tech-stack-container"
+        className="w-full mt-4 md:mt-8 overflow-hidden"
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5, delay: 1 }}
+      >
+        <motion.div
+          data-component="hero-tech-stack-slider"
+          className="flex"
           animate={{
-            backgroundPosition: ['0 0', '30px 30px'],
+            x: [0, `-${(techStack.length * 180)}px`],
             transition: {
-              duration: 10,
+              duration: 15,
               repeat: Infinity,
+              repeatType: 'loop',
               ease: 'linear'
             }
           }}
-        />
-
-        {/* Geometric Shapes */}
-        {[...Array(8)].map((_, index) => (
-          <motion.div
-            key={index}
-            className="absolute rounded-lg opacity-20"
-            style={{
-              width: `${Math.random() * 100 + 50}px`,
-              height: `${Math.random() * 100 + 50}px`,
-              left: `${Math.random() * 100}%`,
-              top: `${Math.random() * 100}%`,
-              backgroundColor: theme === 'light' 
-                ? `rgba(255, 184, 0, ${Math.random() * 0.2 + 0.1})` 
-                : `rgba(255, 184, 0, ${Math.random() * 0.1 + 0.05})`,
-              borderRadius: `${Math.random() * 50}%`
-            }}
-            animate={{
-              x: [
-                `${Math.random() * 50 - 25}px`, 
-                `${Math.random() * 50 - 25}px`
-              ],
-              y: [
-                `${Math.random() * 50 - 25}px`, 
-                `${Math.random() * 50 - 25}px`
-              ],
-              rotate: [0, 360],
-              scale: [0.8, 1.1, 0.8]
-            }}
-            transition={{
-              duration: Math.random() * 15 + 10,
-              repeat: Infinity,
-              repeatType: 'reverse',
-              ease: 'easeInOut'
-            }}
-          />
-        ))}
-
-        {/* Gradient Overlay */}
-        <motion.div
-          className="absolute inset-0"
-          style={{
-            background: theme === 'light'
-              ? 'linear-gradient(135deg, rgba(255, 184, 0, 0.1) 0%, rgba(255, 255, 255, 0.05) 100%)'
-              : 'linear-gradient(135deg, rgba(255, 184, 0, 0.1) 0%, rgba(17, 17, 17, 0.01) 100%)'
-          }}
-          animate={{
-            opacity: [0.5, 0.7, 0.5],
-            transition: {
-              duration: 5,
-              repeat: Infinity,
-              repeatType: 'reverse'
-            }
-          }}
-        />
+          whileTap={{ scale: 0.95 }}
+        >
+          {[...techStack, ...techStack, ...techStack].map((tech, index) => (
+            <TechBadge 
+              key={index}
+              icon={tech.icon} 
+              text={tech.text} 
+              color={tech.color}
+              proficiency={tech.proficiency}
+              className="mx-[15px] md:mx-[30px] flex-shrink-0 scale-75 md:scale-100" 
+              data-component={`hero-tech-badge-${tech.text.toLowerCase().replace(/\s+/g, '-')}`}
+            />
+          ))}
+        </motion.div>
       </motion.div>
 
-      {/* Content */}
-      <div className="container mx-auto px-4 flex flex-col justify-center items-center">
-        <div className="text-center w-full max-w-4xl mx-auto">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5 }}
-            className="inline-block mb-4 w-full"
-          >
-            <div className="flex justify-center items-center">
-              <motion.span 
-                className="text-4xl md:text-5xl inline-block mr-2"
-                animate={{ 
-                  rotate: [0, -10, 10, -10, 0],
-                  scale: [1, 1.1, 1, 1.1, 1]
-                }}
-                transition={{ 
-                  duration: 2,
-                  repeat: Infinity,
-                  repeatDelay: 3
-                }}
-              >
-                👋
-              </motion.span>
-              <motion.span 
-                className="text-yellow-400 inline-block text-2xl md:text-3xl"
-                animate={{ 
-                  scale: [1, 1.2, 1],
-                  opacity: [1, 0.8, 1]
-                }}
-                transition={{ 
-                  duration: 1,
-                  repeat: Infinity,
-                  repeatDelay: 1
-                }}
-              >
-                ⚡
-              </motion.span>
-            </div>
-          </motion.div>
-          
-          <motion.h1
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.2 }}
-            className={`text-4xl md:text-7xl font-bold mb-4 tracking-tight
-              ${theme === 'light' ? 'text-gray-900' : 'text-white'}`}
-          >
-            Hello! I'm <span className="text-[#FFB800] inline-block">Sourav Suvra</span>
-          </motion.h1>
-          
-          <motion.h2
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.3 }}
-            className={`text-lg md:text-3xl mb-4 font-light
-              ${theme === 'light' ? 'text-gray-600' : 'text-gray-300'}`}
-          >
-            A Full Stack Developer | Digital Marketing Enthusiast
-          </motion.h2>
-
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.4 }}
-            className={`flex items-center justify-center gap-2 mb-8
-              ${theme === 'light' ? 'text-gray-600' : 'text-gray-300'}`}
-          >
-            <span className="text-base md:text-lg">with</span>
-            <motion.span 
-              className={`px-4 py-1.5 rounded-full text-[#FFB800] font-semibold
-                ${theme === 'light' ? 'bg-[#FFB800]/10' : 'bg-[#FFB800]/20'}`}
-              whileHover={{ scale: 1.05 }}
-              transition={{ type: "spring", stiffness: 400, damping: 10 }}
-            >
-              3.9+ Years
-            </motion.span>
-            <span className="text-base md:text-lg">Experience</span>
-          </motion.div>
-        </div>
-
-        {/* Profile Image Section */}
+      {/* Scroll Down Indicator */}
+      <motion.div
+        data-component="scroll-indicator"
+        className="absolute bottom-8 left-1/2 transform -translate-x-1/2"
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ 
+          opacity: 1, 
+          y: 0,
+          transition: {
+            delay: 1.5,
+            duration: 0.5
+          }
+        }}
+      >
         <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 1 }}
-          className="relative w-full max-w-4xl px-4 pt-16"
+          className="animate-bounce cursor-pointer text-primary-600 dark:text-primary-300"
+          onClick={() => window.scrollTo({ top: window.innerHeight, behavior: 'smooth' })}
         >
-          <div className="relative flex justify-center items-center">
-            {/* Background Gradient Circle */}
-            <motion.div 
-              className="absolute w-48 h-48 md:w-80 md:h-80 rounded-full 
-                bg-gradient-to-br from-[#FFB800] to-[#FFA500]"
-              initial={{ scale: 0.8 }}
-              animate={{ scale: 1 }}
-              transition={{ 
-                type: "spring",
-                stiffness: 100,
-                delay: 0.5
-              }}
-            />
-
-            {/* Profile Image */}
-            <motion.div 
-              className="relative w-48 h-48 md:w-80 md:h-80 rounded-full overflow-hidden 
-                shadow-2xl z-10"
-              initial={{ scale: 0.8 }}
-              animate={{ scale: 1 }}
-              transition={{ 
-                type: "spring",
-                stiffness: 100,
-                delay: 0.5
-              }}
-            >
-              <img
-                src="/images/sourav.png"
-                alt="Sourav Suvra"
-                className="w-full h-full object-cover"
-              />
-            </motion.div>
-          </div>
+          ↓
         </motion.div>
-
-        {/* Tech Stack Badges Slider */}
-        <motion.div 
-          className="absolute inset-x-0 bottom-20 overflow-hidden"
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, delay: 1 }}
-        >
-          <motion.div
-            className="flex"
-            animate={{
-              x: [0, `-${(techStack.length * 180)}px`],
-              transition: {
-                duration: 10,
-                repeat: Infinity,
-                repeatType: 'loop',
-                ease: 'linear'
-              }
-            }}
-            whileTap={{ 
-              scale: 0.95, 
-              transition: { duration: 0.2 } 
-            }}
-          >
-            {[...techStack, ...techStack, ...techStack].map((tech, index) => (
-              <TechBadge 
-                key={index}
-                icon={tech.icon} 
-                text={tech.text} 
-                color={tech.color}
-                proficiency={tech.proficiency}
-                className="mx-[30px] flex-shrink-0" 
-              />
-            ))}
-          </motion.div>
-        </motion.div>
-      </div>
-    </section>
+      </motion.div>
+    </motion.section>
   );
 };
 

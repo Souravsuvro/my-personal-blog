@@ -5,7 +5,7 @@ import { MdEmail } from 'react-icons/md';
 import emailjs from '@emailjs/browser';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { useTheme } from '@/context/ThemeContext'; 
+import { useTheme } from '../context/ThemeContext'; 
 
 const Contact: React.FC = () => {
   const { theme } = useTheme();
