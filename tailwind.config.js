@@ -1,9 +1,9 @@
 /** @type {import('tailwindcss').Config} */
-const plugin = require('tailwindcss/plugin');
-const typography = require('@tailwindcss/typography');
-const forms = require('@tailwindcss/forms');
+import plugin from 'tailwindcss/plugin';
+import typography from '@tailwindcss/typography';
+import forms from '@tailwindcss/forms';
 
-module.exports = {
+export default {
   content: [
     "./index.html",
     "./src/**/*.{js,ts,jsx,tsx}",
