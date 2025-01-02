@@ -224,6 +224,6 @@ export function getBlogBySlug(slug: string): BlogPost | undefined {
   return getPostBySlug(slug);
 }
 
-export const getBlogPosts = (): BlogPost[] => Object.values(blogContents);
+export const getBlogPosts = (): BlogPost[] => blogPosts;
 
 export default blogContents;
