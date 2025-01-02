@@ -365,13 +365,13 @@ const BlogDetails: React.FC = () => {
           )}
 
           {/* Navigation Buttons */}
-          <div className="flex justify-between items-center mt-8 space-x-4">
-            {/* Previous and Next Post Navigation */}
-            <div className="flex space-x-4">
+          <div className="flex justify-between items-center mt-12 border-t border-gray-200 dark:border-gray-700 pt-8">
+            {/* Previous Post Button - Bottom Left */}
+            <div className="flex-1">
               {previousPost && (
                 <Link
                   to={`/blog/${previousPost.slug}`}
-                  className="flex items-center text-primary-600 dark:text-primary-400 hover:underline"
+                  className="inline-flex items-center text-primary-600 dark:text-primary-400 hover:text-primary-800 dark:hover:text-primary-300 transition-colors duration-300 ease-in-out"
                 >
                   <svg 
                     xmlns="http://www.w3.org/2000/svg" 
@@ -385,16 +385,19 @@ const BlogDetails: React.FC = () => {
                       clipRule="evenodd" 
                     />
                   </svg>
-                  Read Previous Post
+                  <span className="font-medium">Read Previous Post</span>
                 </Link>
               )}
+            </div>
 
+            {/* Next Post Button - Bottom Right */}
+            <div className="flex-1 text-right">
               {nextPost && (
                 <Link
                   to={`/blog/${nextPost.slug}`}
-                  className="flex items-center text-primary-600 dark:text-primary-400 hover:underline"
+                  className="inline-flex items-center text-primary-600 dark:text-primary-400 hover:text-primary-800 dark:hover:text-primary-300 transition-colors duration-300 ease-in-out"
                 >
-                  Read Next Post
+                  <span className="font-medium">Read Next Post</span>
                   <svg 
                     xmlns="http://www.w3.org/2000/svg" 
                     className="h-5 w-5 ml-2" 
