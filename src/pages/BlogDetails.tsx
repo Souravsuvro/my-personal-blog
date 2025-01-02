@@ -4,7 +4,7 @@ import { motion } from 'framer-motion';
 import ReactMarkdown from 'react-markdown';
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { oneDark } from 'react-syntax-highlighter/dist/esm/styles/prism';
-import { getBlogContent, getBlogBySlug } from '../data/blogContents';
+import { getBlogContent, getBlogBySlug, getBlogPosts } from '../data/blogContents';
 import { useTheme } from '../context/ThemeContext';
 import { BlogPost } from '../data/blogPosts';
 import SocialShareButtons from '../components/SocialShareButtons';
@@ -28,6 +28,7 @@ const BlogDetails: React.FC = () => {
   const [coverImage, setCoverImage] = useState<string | null>(null);
   const navigate = useNavigate();
   const { slug } = useParams<{ slug: string }>();
+  const blogPosts = getBlogPosts();
 
   // Custom components for markdown rendering
   const components = {
@@ -225,6 +226,21 @@ const BlogDetails: React.FC = () => {
     fetchBlogDetails();
   }, [slug, navigate]);
 
+  // Function to get previous and next blog posts
+  const getPreviousAndNextPosts = () => {
+    if (!blogPost) return { previousPost: null, nextPost: null };
+    
+    const currentIndex = blogPosts.findIndex(post => post.id === blogPost.id);
+    
+    return {
+      previousPost: currentIndex > 0 ? blogPosts[currentIndex - 1] : null,
+      nextPost: currentIndex < blogPosts.length - 1 ? blogPosts[currentIndex + 1] : null
+    };
+  };
+
+  // Destructure previous and next posts
+  const { previousPost, nextPost } = getPreviousAndNextPosts();
+
   if (!blogPost || !blogContent) {
     return (
       <motion.div 
@@ -327,31 +343,71 @@ const BlogDetails: React.FC = () => {
           />
         )}
 
-        {/* Navigation or Related Content */}
-        <div className="mt-12 pt-8 border-t border-gray-200 dark:border-gray-700">
-          <div className="flex justify-between items-center">
-            <Link 
-              to="/blog"
-              className={`flex items-center space-x-2 text-base font-medium transition-colors duration-300 ${
-                theme === 'dark'
-                  ? 'text-[#FFB800] hover:text-white'
-                  : 'text-gray-700 hover:text-gray-900'
-              }`}
+        {/* Navigation Buttons */}
+        <div className="flex justify-between items-center mt-8 space-x-4">
+          {/* Back to Blogs Button */}
+          <Link 
+            to="/blog" 
+            className="flex items-center text-primary-600 dark:text-primary-400 hover:underline"
+          >
+            <svg 
+              xmlns="http://www.w3.org/2000/svg" 
+              className="h-5 w-5 mr-2" 
+              viewBox="0 0 20 20" 
+              fill="currentColor"
             >
-              <svg 
-                xmlns="http://www.w3.org/2000/svg" 
-                className="h-5 w-5" 
-                viewBox="0 0 20 20" 
-                fill="currentColor"
+              <path 
+                fillRule="evenodd" 
+                d="M9.707 16.707a1 1 0 01-1.414 0l-6-6a1 1 0 010-1.414l6-6a1 1 0 011.414 1.414L5.414 9H17a1 1 0 110 2H5.414l4.293 4.293a1 1 0 010 1.414z" 
+                clipRule="evenodd" 
+              />
+            </svg>
+            Back to Blogs
+          </Link>
+
+          {/* Previous and Next Post Navigation */}
+          <div className="flex space-x-4">
+            {previousPost && (
+              <Link
+                to={`/blog/${previousPost.slug}`}
+                className="flex items-center text-primary-600 dark:text-primary-400 hover:underline"
               >
-                <path 
-                  fillRule="evenodd" 
-                  d="M9.707 16.707a1 1 0 01-1.414 0l-6-6a1 1 0 010-1.414l6-6a1 1 0 011.414 1.414L5.414 9H17a1 1 0 110 2H5.414l4.293 4.293a1 1 0 010 1.414z" 
-                  clipRule="evenodd" 
-                />
-              </svg>
-              <span>Back to Blogs</span>
-            </Link>
+                <svg 
+                  xmlns="http://www.w3.org/2000/svg" 
+                  className="h-5 w-5 mr-2" 
+                  viewBox="0 0 20 20" 
+                  fill="currentColor"
+                >
+                  <path 
+                    fillRule="evenodd" 
+                    d="M9.707 16.707a1 1 0 01-1.414 0l-6-6a1 1 0 010-1.414l6-6a1 1 0 011.414 1.414L5.414 9H17a1 1 0 110 2H5.414l4.293 4.293a1 1 0 010 1.414z" 
+                    clipRule="evenodd" 
+                  />
+                </svg>
+                Read Previous Post
+              </Link>
+            )}
+
+            {nextPost && (
+              <Link
+                to={`/blog/${nextPost.slug}`}
+                className="flex items-center text-primary-600 dark:text-primary-400 hover:underline"
+              >
+                Read Next Post
+                <svg 
+                  xmlns="http://www.w3.org/2000/svg" 
+                  className="h-5 w-5 ml-2" 
+                  viewBox="0 0 20 20" 
+                  fill="currentColor"
+                >
+                  <path 
+                    fillRule="evenodd" 
+                    d="M10.293 15.707a1 1 0 010-1.414L14.586 10H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 111.414-1.414l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414 0z" 
+                    clipRule="evenodd" 
+                  />
+                </svg>
+              </Link>
+            )}
           </div>
         </div>
       </div>
