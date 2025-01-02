@@ -209,6 +209,8 @@ The digital transformation has reshaped the entrepreneurial landscape, creating 
    - Agile business models`
 };
 
+import { blogPosts, BlogPost } from './blogPosts';
+
 export function getBlogContent(slug: string): string {
   const content = blogContents[slug];
   if (!content) {
@@ -218,10 +220,8 @@ export function getBlogContent(slug: string): string {
   return content;
 }
 
-import { BlogPost, getBlogBySlug as getPostBySlug } from './blogPosts';
-
 export function getBlogBySlug(slug: string): BlogPost | undefined {
-  return getPostBySlug(slug);
+  return blogPosts.find(post => post.slug === slug);
 }
 
 export const getBlogPosts = (): BlogPost[] => blogPosts;
