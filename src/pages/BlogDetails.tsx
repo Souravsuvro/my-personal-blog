@@ -7,6 +7,7 @@ import { oneDark } from 'react-syntax-highlighter/dist/esm/styles/prism';
 import { getBlogContent, getBlogBySlug } from '../data/blogContents';
 import { useTheme } from '../context/ThemeContext';
 import { BlogPost } from '../data/blogPosts';
+import SocialShareButtons from '../components/SocialShareButtons';
 
 // Custom type for code block props
 interface CodeBlockProps {
@@ -317,6 +318,14 @@ const BlogDetails: React.FC = () => {
             {blogContent}
           </ReactMarkdown>
         </article>
+
+        {/* Social Share Buttons */}
+        {blogPost && (
+          <SocialShareButtons 
+            title={blogPost.title} 
+            url={window.location.href} 
+          />
+        )}
 
         {/* Navigation or Related Content */}
         <div className="mt-12 pt-8 border-t border-gray-200 dark:border-gray-700">
