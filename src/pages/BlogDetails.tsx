@@ -272,83 +272,12 @@ const BlogDetails: React.FC = () => {
       transition={{ duration: 0.5 }}
       className="min-h-screen pt-24 px-4 md:px-8 lg:px-16 xl:px-24"
     >
-      <div className="container mx-auto max-w-4xl">
-        {/* Blog Post Header */}
-        <div className="mb-8">
-          {coverImage && (
-            <div className="mb-6 w-full overflow-hidden rounded-lg shadow-lg">
-              <img 
-                src={coverImage} 
-                alt={blogPost.title} 
-                className={`w-full h-48 md:h-64 lg:h-96 object-cover ${
-                  theme === 'dark'
-                    ? 'border-2 border-[#FFB800]/20'
-                    : 'border border-gray-300'
-                }`}
-              />
-            </div>
-          )}
-          
-          <h1 
-            className={`text-2xl md:text-3xl lg:text-4xl font-bold mb-4 ${
-              theme === 'dark' 
-                ? 'text-[#FFB800]' 
-                : 'text-gray-900'
-            }`}
-          >
-            {blogPost.title}
-          </h1>
-          
-          <div 
-            className={`flex flex-wrap items-center space-x-2 md:space-x-4 mb-6 text-sm md:text-base ${
-              theme === 'dark' 
-                ? 'text-white/80' 
-                : 'text-gray-700'
-            }`}
-          >
-            <span>{blogPost.author}</span>
-            <span className="hidden md:inline">•</span>
-            <span>{blogPost.publishedDate}</span>
-            <span className="hidden md:inline">•</span>
-            <span>{blogPost.readTime} min read</span>
-          </div>
-        </div>
-
-        {/* Blog Content */}
-        <article 
-          className={`prose max-w-full ${
-            theme === 'dark' 
-              ? 'prose-invert prose-dark' 
-              : 'prose-light'
-          } prose-sm md:prose-base lg:prose-lg 
-            prose-headings:font-bold 
-            prose-a:text-blue-600 
-            prose-a:no-underline 
-            hover:prose-a:underline 
-            prose-img:rounded-lg 
-            prose-img:shadow-lg`}
-        >
-          <ReactMarkdown 
-            components={components}
-          >
-            {blogContent}
-          </ReactMarkdown>
-        </article>
-
-        {/* Social Share Buttons */}
-        {blogPost && (
-          <SocialShareButtons 
-            title={blogPost.title} 
-            url={window.location.href} 
-          />
-        )}
-
-        {/* Navigation Buttons */}
-        <div className="flex justify-between items-center mt-8 space-x-4">
+      <div className="container mx-auto max-w-4xl relative">
+        <div className="container mx-auto max-w-4xl">
           {/* Back to Blogs Button */}
           <Link 
             to="/blog" 
-            className="flex items-center text-primary-600 dark:text-primary-400 hover:underline"
+            className="inline-flex items-center text-primary-600 dark:text-primary-400 hover:text-primary-800 dark:hover:text-primary-300 transition-colors duration-300 ease-in-out mb-4"
           >
             <svg 
               xmlns="http://www.w3.org/2000/svg" 
@@ -362,52 +291,125 @@ const BlogDetails: React.FC = () => {
                 clipRule="evenodd" 
               />
             </svg>
-            Back to Blogs
+            <span className="font-medium">Back to Blogs</span>
           </Link>
 
-          {/* Previous and Next Post Navigation */}
-          <div className="flex space-x-4">
-            {previousPost && (
-              <Link
-                to={`/blog/${previousPost.slug}`}
-                className="flex items-center text-primary-600 dark:text-primary-400 hover:underline"
-              >
-                <svg 
-                  xmlns="http://www.w3.org/2000/svg" 
-                  className="h-5 w-5 mr-2" 
-                  viewBox="0 0 20 20" 
-                  fill="currentColor"
-                >
-                  <path 
-                    fillRule="evenodd" 
-                    d="M9.707 16.707a1 1 0 01-1.414 0l-6-6a1 1 0 010-1.414l6-6a1 1 0 011.414 1.414L5.414 9H17a1 1 0 110 2H5.414l4.293 4.293a1 1 0 010 1.414z" 
-                    clipRule="evenodd" 
-                  />
-                </svg>
-                Read Previous Post
-              </Link>
+          {/* Blog Post Header */}
+          <div className="mb-8">
+            {coverImage && (
+              <div className="mb-6 w-full overflow-hidden rounded-lg shadow-lg">
+                <img 
+                  src={coverImage} 
+                  alt={blogPost.title} 
+                  className={`w-full h-48 md:h-64 lg:h-96 object-cover ${
+                    theme === 'dark'
+                      ? 'border-2 border-[#FFB800]/20'
+                      : 'border border-gray-300'
+                  }`}
+                />
+              </div>
             )}
+            
+            <h1 
+              className={`text-2xl md:text-3xl lg:text-4xl font-bold mb-4 ${
+                theme === 'dark' 
+                  ? 'text-[#FFB800]' 
+                  : 'text-gray-900'
+              }`}
+            >
+              {blogPost.title}
+            </h1>
+            
+            <div 
+              className={`flex flex-wrap items-center space-x-2 md:space-x-4 mb-6 text-sm md:text-base ${
+                theme === 'dark' 
+                  ? 'text-white/80' 
+                  : 'text-gray-700'
+              }`}
+            >
+              <span>{blogPost.author}</span>
+              <span className="hidden md:inline">•</span>
+              <span>{blogPost.publishedDate}</span>
+              <span className="hidden md:inline">•</span>
+              <span>{blogPost.readTime} min read</span>
+            </div>
+          </div>
 
-            {nextPost && (
-              <Link
-                to={`/blog/${nextPost.slug}`}
-                className="flex items-center text-primary-600 dark:text-primary-400 hover:underline"
-              >
-                Read Next Post
-                <svg 
-                  xmlns="http://www.w3.org/2000/svg" 
-                  className="h-5 w-5 ml-2" 
-                  viewBox="0 0 20 20" 
-                  fill="currentColor"
+          {/* Blog Content */}
+          <article 
+            className={`prose max-w-full ${
+              theme === 'dark' 
+                ? 'prose-invert prose-dark' 
+                : 'prose-light'
+            } prose-sm md:prose-base lg:prose-lg 
+              prose-headings:font-bold 
+              prose-a:text-blue-600 
+              prose-a:no-underline 
+              hover:prose-a:underline 
+              prose-img:rounded-lg 
+              prose-img:shadow-lg mt-12`}
+          >
+            <ReactMarkdown 
+              components={components}
+            >
+              {blogContent}
+            </ReactMarkdown>
+          </article>
+
+          {/* Social Share Buttons */}
+          {blogPost && (
+            <SocialShareButtons 
+              title={blogPost.title} 
+              url={window.location.href} 
+            />
+          )}
+
+          {/* Navigation Buttons */}
+          <div className="flex justify-between items-center mt-8 space-x-4">
+            {/* Previous and Next Post Navigation */}
+            <div className="flex space-x-4">
+              {previousPost && (
+                <Link
+                  to={`/blog/${previousPost.slug}`}
+                  className="flex items-center text-primary-600 dark:text-primary-400 hover:underline"
                 >
-                  <path 
-                    fillRule="evenodd" 
-                    d="M10.293 15.707a1 1 0 010-1.414L14.586 10H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 111.414-1.414l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414 0z" 
-                    clipRule="evenodd" 
-                  />
-                </svg>
-              </Link>
-            )}
+                  <svg 
+                    xmlns="http://www.w3.org/2000/svg" 
+                    className="h-5 w-5 mr-2" 
+                    viewBox="0 0 20 20" 
+                    fill="currentColor"
+                  >
+                    <path 
+                      fillRule="evenodd" 
+                      d="M9.707 16.707a1 1 0 01-1.414 0l-6-6a1 1 0 010-1.414l6-6a1 1 0 011.414 1.414L5.414 9H17a1 1 0 110 2H5.414l4.293 4.293a1 1 0 010 1.414z" 
+                      clipRule="evenodd" 
+                    />
+                  </svg>
+                  Read Previous Post
+                </Link>
+              )}
+
+              {nextPost && (
+                <Link
+                  to={`/blog/${nextPost.slug}`}
+                  className="flex items-center text-primary-600 dark:text-primary-400 hover:underline"
+                >
+                  Read Next Post
+                  <svg 
+                    xmlns="http://www.w3.org/2000/svg" 
+                    className="h-5 w-5 ml-2" 
+                    viewBox="0 0 20 20" 
+                    fill="currentColor"
+                  >
+                    <path 
+                      fillRule="evenodd" 
+                      d="M10.293 15.707a1 1 0 010-1.414L14.586 10H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 111.414-1.414l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414 0z" 
+                      clipRule="evenodd" 
+                    />
+                  </svg>
+                </Link>
+              )}
+            </div>
           </div>
         </div>
       </div>
