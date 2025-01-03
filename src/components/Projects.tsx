@@ -215,7 +215,9 @@ const CompanyCard: React.FC<{ company: Company; index: number }> = ({ company, i
   );
 };
 
-const FeaturedProjectsSlider: React.FC = () => {
+const FeaturedProjectsSlider: React.FC<{ 
+  onIndexChange?: (index: number) => void 
+}> = ({ onIndexChange }) => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isHovered, setIsHovered] = useState(false);
   const videoRef = useRef<HTMLVideoElement>(null);
@@ -229,7 +231,9 @@ const FeaturedProjectsSlider: React.FC = () => {
       video.pause();
       video.currentTime = 0;
     }
-  }, [currentIndex]);
+    // Notify parent component about index change
+    onIndexChange?.(currentIndex);
+  }, [currentIndex, onIndexChange]);
 
   // Handle video play/pause based on hover
   useEffect(() => {
@@ -420,7 +424,9 @@ const Projects: React.FC = () => {
           Featured Projects
         </h2>
         
-        <FeaturedProjectsSlider />
+        <FeaturedProjectsSlider 
+          onIndexChange={(index) => setCurrentIndex(index)} 
+        />
         
         <ProjectDetails project={projects[currentIndex]} />
       </div>
