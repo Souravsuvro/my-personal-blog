@@ -220,6 +220,7 @@ const FeaturedProjectsSlider: React.FC<{
 }> = ({ onIndexChange }) => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isHovered, setIsHovered] = useState(false);
+  const [isVideoReady, setIsVideoReady] = useState(false);
   const videoRef = useRef<HTMLVideoElement>(null);
 
   const currentProject = projects[currentIndex];
@@ -230,6 +231,8 @@ const FeaturedProjectsSlider: React.FC<{
     if (video) {
       video.pause();
       video.currentTime = 0;
+      setIsVideoReady(false);
+      setIsHovered(false);
     }
     // Notify parent component about index change
     onIndexChange?.(currentIndex);
@@ -238,7 +241,7 @@ const FeaturedProjectsSlider: React.FC<{
   // Handle video play/pause based on hover
   useEffect(() => {
     const video = videoRef.current;
-    if (video) {
+    if (video && isVideoReady) {
       if (isHovered) {
         video.play().catch(error => {
           console.error('Video play error:', error);
@@ -248,7 +251,7 @@ const FeaturedProjectsSlider: React.FC<{
         video.currentTime = 0;
       }
     }
-  }, [isHovered]);
+  }, [isHovered, isVideoReady]);
 
   const handleNext = () => {
     setCurrentIndex((prev) => (prev === projects.length - 1 ? 0 : prev + 1));
@@ -262,7 +265,7 @@ const FeaturedProjectsSlider: React.FC<{
 
   const toggleVideoPlay = () => {
     const video = videoRef.current;
-    if (video) {
+    if (video && isVideoReady) {
       if (video.paused) {
         video.play().catch(error => {
           console.error('Video play error:', error);
@@ -273,6 +276,10 @@ const FeaturedProjectsSlider: React.FC<{
         setIsHovered(false);
       }
     }
+  };
+
+  const handleVideoLoadedMetadata = () => {
+    setIsVideoReady(true);
   };
 
   return (
@@ -290,23 +297,30 @@ const FeaturedProjectsSlider: React.FC<{
           className="w-full h-full object-cover"
           muted
           playsInline
+          onLoadedMetadata={handleVideoLoadedMetadata}
         />
 
         {/* Play Overlay */}
         <div 
           className="absolute inset-0 bg-black/30 flex items-center justify-center transition-opacity duration-300"
           style={{ 
-            opacity: !isHovered ? 1 : 0,
-            pointerEvents: isHovered ? 'none' : 'auto'
+            opacity: !isHovered && !isVideoReady ? 1 : 0,
+            pointerEvents: isHovered || !isVideoReady ? 'none' : 'auto'
           }}
         >
-          <button
-            onClick={toggleVideoPlay}
-            className="p-6 bg-[#FFB800]/80 rounded-full text-white hover:bg-[#FFB800] transition-all duration-300 transform hover:scale-110"
-            aria-label="Play Video"
-          >
-            <FaPlay size={48} />
-          </button>
+          <div className="flex flex-col items-center">
+            {!isVideoReady ? (
+              <div className="animate-spin w-12 h-12 border-4 border-white/50 border-t-white rounded-full" />
+            ) : (
+              <button
+                onClick={toggleVideoPlay}
+                className="p-6 bg-[#FFB800]/80 rounded-full text-white hover:bg-[#FFB800] transition-all duration-300 transform hover:scale-110"
+                aria-label="Play Video"
+              >
+                <FaPlay size={48} />
+              </button>
+            )}
+          </div>
         </div>
 
         {/* Navigation Overlay */}
