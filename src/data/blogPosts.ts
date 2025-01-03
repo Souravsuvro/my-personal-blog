@@ -24,7 +24,7 @@ export const blogPosts: BlogPost[] = [
     readTime: 7,
     publishedDate: "2024-01-15",
     author: "John Doe",
-    categories: ["Technology", "AI"],
+    categories: ["AI & Automation"],
     tags: ["Artificial Intelligence", "Machine Learning", "Future Tech"],
     isFeatured: true
   },
@@ -37,7 +37,7 @@ export const blogPosts: BlogPost[] = [
     readTime: 6,
     publishedDate: "2024-02-20",
     author: "Jane Smith",
-    categories: ["Software Development", "Engineering"],
+    categories: ["Tech Tutorials"],
     tags: ["DevOps", "Agile", "Best Practices"],
     isFeatured: true
   },
@@ -50,7 +50,7 @@ export const blogPosts: BlogPost[] = [
     readTime: 5,
     publishedDate: "2024-03-10",
     author: "Mike Johnson",
-    categories: ["Career", "Professional Development"],
+    categories: ["Personal Insights"],
     tags: ["Career Growth", "Tech Industry", "Networking"],
     isFeatured: false
   },
@@ -63,7 +63,7 @@ export const blogPosts: BlogPost[] = [
     readTime: 8,
     publishedDate: "2024-04-05",
     author: "Emily Chen",
-    categories: ["Cybersecurity", "Technology"],
+    categories: ["Industry News"],
     tags: ["Security", "Digital Protection", "Privacy"],
     isFeatured: false
   },
@@ -76,7 +76,7 @@ export const blogPosts: BlogPost[] = [
     readTime: 6,
     publishedDate: "2024-05-12",
     author: "David Wang",
-    categories: ["Cloud", "Technology"],
+    categories: ["Learning Resources"],
     tags: ["Cloud Services", "Infrastructure", "Scalability"],
     isFeatured: false
   },
@@ -89,7 +89,7 @@ export const blogPosts: BlogPost[] = [
     readTime: 7,
     publishedDate: "2024-06-18",
     author: "Sarah Rodriguez",
-    categories: ["Blockchain", "Technology"],
+    categories: ["Portfolio Projects"],
     tags: ["Decentralization", "Innovation", "Tech Trends"],
     isFeatured: true
   },
@@ -102,7 +102,7 @@ export const blogPosts: BlogPost[] = [
     readTime: 6,
     publishedDate: "2024-07-05",
     author: "Alex Turner",
-    categories: ["Travelling", "Tutorial"],
+    categories: ["Tips & Tricks"],
     tags: ["Remote Work", "Digital Nomad", "Travel Tips"],
     isFeatured: false
   },
@@ -115,7 +115,7 @@ export const blogPosts: BlogPost[] = [
     readTime: 9,
     publishedDate: "2024-08-15",
     author: "Emma Rodriguez",
-    categories: ["Tutorial", "Software Development"],
+    categories: ["Tech Tutorials"],
     tags: ["React", "Web Development", "JavaScript"],
     isFeatured: true
   },
@@ -128,7 +128,7 @@ export const blogPosts: BlogPost[] = [
     readTime: 7,
     publishedDate: "2024-09-20",
     author: "Michael Chen",
-    categories: ["Business Development", "Professional Development"],
+    categories: ["Industry News"],
     tags: ["Entrepreneurship", "Digital Strategy", "Growth"],
     isFeatured: false
   }

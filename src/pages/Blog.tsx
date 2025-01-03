@@ -28,10 +28,19 @@ const Blog: React.FC = () => {
   // Extract unique categories
   const allCategories = useMemo(() => {
     const categories = new Set<string>();
-    blogPosts.forEach(post => {
-      post.tags?.forEach(category => categories.add(category));
-    });
-    return Array.from(categories);
+    blogPosts.forEach(post => 
+      post.categories?.forEach(category => categories.add(category))
+    );
+    return [
+      "All",
+      "Portfolio Projects", 
+      "Tech Tutorials", 
+      "Tips & Tricks", 
+      "Industry News", 
+      "Personal Insights", 
+      "AI & Automation", 
+      "Learning Resources"
+    ];
   }, []);
 
   // Filter and search blog posts
@@ -42,7 +51,7 @@ const Blog: React.FC = () => {
         post.excerpt.toLowerCase().includes(searchTerm.toLowerCase());
       
       const matchesCategory = !selectedCategory || 
-        post.tags?.some(category => 
+        post.categories?.some(category => 
           category.toLowerCase() === selectedCategory.toLowerCase()
         );
       
