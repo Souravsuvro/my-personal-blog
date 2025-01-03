@@ -326,50 +326,6 @@ const FeaturedProjectsSlider: React.FC = () => {
             </button>
           </div>
         </div>
-
-        {/* Project Details */}
-        <div className="absolute bottom-0 left-0 right-0 p-6 bg-gradient-to-t from-black/80 to-transparent text-white">
-          <h3 className="text-2xl font-bold mb-2">{currentProject.title}</h3>
-          <p className="mb-4 line-clamp-2">{currentProject.description}</p>
-          
-          {/* Technologies */}
-          <div className="flex flex-wrap gap-2">
-            {currentProject.technologies.map((tech, index) => (
-              <span 
-                key={index} 
-                className="px-2 py-1 bg-white/20 rounded-full text-sm"
-              >
-                {tech}
-              </span>
-            ))}
-          </div>
-
-          {/* Project Links */}
-          <div className="mt-4 flex space-x-4">
-            {currentProject.githubUrl && (
-              <a 
-                href={currentProject.githubUrl} 
-                target="_blank" 
-                rel="noopener noreferrer"
-                className="hover:text-gray-300 transition"
-                aria-label="GitHub Repository"
-              >
-                <FaGithub size={24} />
-              </a>
-            )}
-            {currentProject.liveUrl && (
-              <a 
-                href={currentProject.liveUrl} 
-                target="_blank" 
-                rel="noopener noreferrer"
-                className="hover:text-gray-300 transition"
-                aria-label="Live Project"
-              >
-                <FaExternalLinkAlt size={24} />
-              </a>
-            )}
-          </div>
-        </div>
       </div>
 
       {/* Project Indicators */}
@@ -395,34 +351,78 @@ const FeaturedProjectsSlider: React.FC = () => {
   );
 };
 
+const ProjectDetails: React.FC<{ project: Project }> = ({ project }) => {
+  return (
+    <div className="mt-6 max-w-4xl mx-auto px-4">
+      <h3 className="text-2xl md:text-3xl font-bold mb-4 text-gray-900 dark:text-white">
+        {project.title}
+      </h3>
+      <p className="text-base md:text-lg text-gray-700 dark:text-gray-300 mb-6">
+        {project.description}
+      </p>
+      
+      {/* Technologies */}
+      <div className="flex flex-wrap gap-2 mb-6">
+        {project.technologies.map((tech, index) => (
+          <span 
+            key={index} 
+            className="px-3 py-1 bg-gray-200 dark:bg-gray-700 rounded-full text-sm text-gray-800 dark:text-gray-200"
+          >
+            {tech}
+          </span>
+        ))}
+      </div>
+
+      {/* Project Links */}
+      <div className="flex space-x-4">
+        {project.githubUrl && (
+          <a 
+            href={project.githubUrl} 
+            target="_blank" 
+            rel="noopener noreferrer"
+            className="text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white transition"
+            aria-label="GitHub Repository"
+          >
+            <FaGithub size={28} />
+          </a>
+        )}
+        {project.liveUrl && (
+          <a 
+            href={project.liveUrl} 
+            target="_blank" 
+            rel="noopener noreferrer"
+            className="text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white transition"
+            aria-label="Live Project"
+          >
+            <FaExternalLinkAlt size={28} />
+          </a>
+        )}
+      </div>
+    </div>
+  );
+};
+
 const Projects: React.FC = () => {
   const { theme } = useTheme();
+  const [currentIndex, setCurrentIndex] = useState(0);
 
   return (
     <section 
       id="projects" 
-      className={`py-20 ${theme === 'light' ? 'bg-white' : 'bg-[#111111]'}`}
+      className={`py-16 ${
+        theme === 'dark' 
+          ? 'bg-gray-900 text-white' 
+          : 'bg-gray-100 text-gray-900'
+      }`}
     >
       <div className="container mx-auto px-4">
-        <motion.div 
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5 }}
-          className="text-center mb-16"
-        >
-          <h2 className={`text-4xl font-bold mb-4 ${
-            theme === 'light' ? 'text-gray-900' : 'text-white'
-          }`}>
-            Featured Projects
-          </h2>
-          <p className={`text-xl ${
-            theme === 'light' ? 'text-gray-600' : 'text-gray-400'
-          }`}>
-            Showcasing innovative solutions and creative problem-solving
-          </p>
-        </motion.div>
-
+        <h2 className="text-3xl md:text-4xl font-bold text-center mb-12">
+          Featured Projects
+        </h2>
+        
         <FeaturedProjectsSlider />
+        
+        <ProjectDetails project={projects[currentIndex]} />
       </div>
     </section>
   );
