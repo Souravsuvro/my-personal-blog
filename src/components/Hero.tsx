@@ -326,7 +326,7 @@ const Hero = () => {
       >
         <motion.div
           data-component="hero-profile-image"
-          className="w-40 h-40 md:w-48 md:h-48 mb-4 md:mb-6 rounded-full overflow-hidden border-4 border-primary-600 dark:border-primary-400 shadow-lg"
+          className="md:w-48 md:h-48 lg:w-56 lg:h-56 xl:w-64 xl:h-64 mb-4 md:mb-6 rounded-full overflow-hidden border-4 border-primary-600 dark:border-primary-400 shadow-lg"
           initial={{ scale: 0 }}
           animate={{ scale: 1 }}
           transition={{ type: "spring", stiffness: 260, damping: 20 }}

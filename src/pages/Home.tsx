@@ -1,15 +1,16 @@
 import React, { useCallback, useMemo } from 'react';
 import { motion } from 'framer-motion';
-import Projects from '../components/Projects';
 import About from '../components/About';
+import LatestWorks from '../components/LatestWorks';
 import Contact from '../components/Contact';
 import { SEO } from '../components/SEO';
-import { useScroll } from '../contexts/ScrollContext';
+import { useScroll } from '../context/ScrollContext';
 import Hero from '../components/Hero';
-import FeaturedBlogsSlider from '../components/FeaturedBlogsSlider';
+import LatestBlogsSlider from '../components/LatestBlogsSlider';
+import ShareLanding from '../components/ShareLanding';
 
 const Home: React.FC = () => {
-  const { projectsRef, contactRef } = useScroll();
+  const { contactRef } = useScroll();
 
   const renderWithRef = useCallback((
     ref: React.RefObject<HTMLDivElement | null>, 
@@ -36,12 +37,16 @@ const Home: React.FC = () => {
       transition={{ duration: 0.5 }}
       className=""
     >
-      <SEO title="Sourav Sarker - Portfolio" />
+      <SEO 
+        title="Sourav Sarker - Portfolio" 
+        description="Full Stack Developer & Tech Enthusiast showcasing projects, insights, and professional journey."
+      />
       <Hero />
       <About />
-      {renderWithRef(projectsRef, Projects)}
-      <FeaturedBlogsSlider />
+      <LatestWorks />
+      <LatestBlogsSlider />
       {renderWithRef(contactRef, Contact)}
+      <ShareLanding />
     </motion.div>
   );
 };

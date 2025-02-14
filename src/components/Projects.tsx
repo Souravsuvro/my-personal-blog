@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { motion } from 'framer-motion';
 import { useTheme } from '../context/ThemeContext';
 import { FaBuilding, FaCalendar, FaMapMarkerAlt, FaCode, FaGithub, FaExternalLinkAlt, FaChevronLeft, FaChevronRight, FaPlay, FaPause } from 'react-icons/fa';
+import LatestWorks from './LatestWorks';
 
 interface Company {
   id: number;
@@ -421,30 +422,22 @@ const ProjectDetails: React.FC<{ project: Project }> = ({ project }) => {
 };
 
 const Projects: React.FC = () => {
-  const { theme } = useTheme();
-  const [currentIndex, setCurrentIndex] = useState(0);
+  const [currentCompanyIndex, setCurrentCompanyIndex] = useState(0);
 
   return (
-    <section 
-      id="projects" 
-      className={`py-16 ${
-        theme === 'dark' 
-          ? 'bg-gray-900 text-white' 
-          : 'bg-gray-100 text-gray-900'
-      }`}
-    >
+    <div className="py-16">
       <div className="container mx-auto px-4">
-        <h2 className="text-3xl md:text-4xl font-bold text-center mb-12">
-          Featured Projects
-        </h2>
-        
-        <FeaturedProjectsSlider 
-          onIndexChange={(index) => setCurrentIndex(index)} 
-        />
-        
-        <ProjectDetails project={projects[currentIndex]} />
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5 }}
+        >
+          <h2 className="text-3xl font-bold mb-12 text-center">Featured Projects</h2>
+          <FeaturedProjectsSlider onIndexChange={setCurrentCompanyIndex} />
+        </motion.div>
       </div>
-    </section>
+      <LatestWorks />
+    </div>
   );
 };
 

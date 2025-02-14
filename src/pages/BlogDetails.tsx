@@ -327,7 +327,7 @@ const BlogDetails: React.FC = () => {
                   : 'text-gray-700'
               }`}
             >
-              <span>{blogPost.author}</span>
+              <span>{blogPost.author.name}</span>
               <span className="hidden md:inline">•</span>
               <span>{blogPost.publishedDate}</span>
               <span className="hidden md:inline">•</span>

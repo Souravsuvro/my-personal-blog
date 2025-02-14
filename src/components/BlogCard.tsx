@@ -51,16 +51,16 @@ const BlogCard: React.FC<BlogCardProps> = ({ post, variant = "default", classNam
   const renderImage = () => {
     if (isLoading) {
       return (
-        <div className={`w-full h-full flex items-center justify-center ${theme === 'light' ? 'bg-gray-100' : 'bg-gray-800'}`}>
-          <FaSpinner className={`${theme === 'light' ? 'text-gray-400' : 'text-gray-600'} text-4xl animate-spin`} />
+        <div className={`w-full h-full flex items-center justify-center ${theme === 'light' ? 'bg-gray-100' : 'bg-[#1a1a1a] dark:bg-[#1a1a1a]'}`}>
+          <FaSpinner className={`${theme === 'light' ? 'text-gray-400' : 'text-gray-600 dark:text-gray-400'} text-4xl animate-spin`} />
         </div>
       );
     }
 
     if (!imageUrl) {
       return (
-        <div className={`w-full h-full flex items-center justify-center ${theme === 'light' ? 'bg-gray-100' : 'bg-gray-800'}`}>
-          <FaImage className={`${theme === 'light' ? 'text-gray-400' : 'text-gray-600'} text-4xl`} />
+        <div className={`w-full h-full flex items-center justify-center ${theme === 'light' ? 'bg-gray-100' : 'bg-[#1a1a1a] dark:bg-[#1a1a1a]'}`}>
+          <FaImage className={`${theme === 'light' ? 'text-gray-400' : 'text-gray-600 dark:text-gray-400'} text-4xl`} />
         </div>
       );
     }
@@ -74,133 +74,73 @@ const BlogCard: React.FC<BlogCardProps> = ({ post, variant = "default", classNam
     );
   };
 
-  const cardClasses = {
-    default: `group overflow-hidden relative ${theme === 'light' 
-      ? 'bg-white border border-gray-200 hover:border-[#FFB800]' 
-      : 'bg-[#1a1a1a] border border-gray-800 hover:border-[#FFB800]'} 
-      rounded-xl shadow-sm hover:shadow-lg transition-all duration-300`,
-    featured: `group overflow-hidden relative ${theme === 'light'
-      ? 'bg-white border-2 border-[#FFB800]'
-      : 'bg-[#1a1a1a] border-2 border-[#FFB800]'}
-      rounded-xl shadow-lg hover:shadow-xl transition-all duration-300`
-  };
-
   return (
-    <div 
-      className={`${className} relative`}
-      onMouseEnter={() => setIsHovered(true)}
-      onMouseLeave={() => setIsHovered(false)}
-    >
-      <Link 
-        to={`/blog/${post.slug}`} 
-        className={`block w-full h-full rounded-lg shadow-lg overflow-hidden ${
-          theme === 'light' 
-            ? 'bg-white hover:shadow-xl' 
-            : 'bg-[#1a1a1a] hover:shadow-2xl'
-        } transition-all duration-300`}
-      >
-        <div className={variant === 'featured' ? cardClasses.featured : cardClasses.default}>
-          <div className="relative w-full h-48 overflow-hidden rounded-t-lg">
-            {renderImage()}
+    <div className="flex flex-col sm:grid sm:grid-cols-2 gap-0 items-stretch glassmorphism dark:dark-card rounded-xl overflow-hidden shadow-lg dark:shadow-dark-glow">
+      {/* Blog Image with Navigation Overlay */}
+      <div className="relative h-[250px] sm:h-[500px] overflow-hidden group">
+        {renderImage()}
+        
+        {/* Navigation Overlay */}
+        <div className="absolute inset-0 flex items-center justify-between px-4 bg-black/20 sm:bg-transparent sm:group-hover:bg-black/20 transition-colors duration-300">
+          {/* No navigation buttons */}
+        </div>
+        
+        {/* Image Counter */}
+        <div className="absolute bottom-4 right-4 px-3 py-1 rounded-full bg-black/50 backdrop-blur-sm text-white text-xs sm:text-sm">
+          {/* No image counter */}
+        </div>
+      </div>
+
+      {/* Blog Content */}
+      <div className="p-4 sm:p-8 flex flex-col justify-between">
+        <div>
+          <div className="flex flex-wrap gap-2 mb-4">
+            {post.categories.map((category, index) => (
+              <span
+                key={index}
+                className="text-xs px-3 py-1 rounded-full bg-primary-100/50 dark:bg-dark-50 text-primary-700 dark:text-primary-300 whitespace-nowrap"
+              >
+                {category}
+              </span>
+            ))}
           </div>
-          <div className={`p-4 flex flex-col justify-between h-full`}>
-            <div>
-              <h3 
-                className={`font-bold mb-2 ${
-                  theme === 'light' 
-                    ? 'text-gray-800 hover:text-primary-600' 
-                    : 'text-white hover:text-primary-400'
-                } transition-colors duration-300 text-xl`}
-              >
-                {post.title}
-              </h3>
-              <p 
-                className={`text-sm mb-2 ${
-                  theme === 'light' 
-                    ? 'text-gray-600' 
-                    : 'text-gray-300'
-                } line-clamp-3`}
-              >
-                {post.excerpt}
-              </p>
+
+          <h3 className="text-xl sm:text-2xl font-bold mb-3 sm:mb-4 text-gray-900 dark:text-gray-100">
+            {post.title}
+          </h3>
+
+          <p className="text-gray-600 dark:text-gray-400 text-sm sm:text-base mb-4 sm:mb-6 line-clamp-3">
+            {post.excerpt}
+          </p>
+        </div>
+
+        <div className="mt-auto pt-4 border-t border-gray-200 dark:border-dark-200">
+          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+            <div className="flex items-center gap-3">
+              {/* No author info */}
             </div>
-            <div className="flex justify-between items-center mt-2">
-              <div className="flex items-center space-x-2 text-xs">
-                <FaClock className={theme === 'light' ? 'text-gray-500' : 'text-gray-400'} />
-                <span>{post.readTime} min read</span>
-              </div>
-              <div className="flex items-center space-x-2 text-xs">
-                <FaTag className={theme === 'light' ? 'text-gray-500' : 'text-gray-400'} />
-                <span>{post.categories[0]}</span>
-              </div>
-            </div>
+
+            <Link
+              to={`/blog/${post.slug}`}
+              className="inline-flex items-center gap-2 text-sm sm:text-base font-medium text-primary-600 dark:text-primary-400 hover:text-primary-700 dark:hover:text-primary-300 transition-colors duration-300"
+            >
+              Read More
+              <svg
+                className="w-4 h-4 sm:w-5 sm:h-5 transform group-hover:translate-x-1 transition-transform duration-300"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M17 8l4 4m0 0l-4 4m4-4H3"
+                />
+              </svg>
+            </Link>
           </div>
         </div>
-      </Link>
-
-      {/* Social Share Overlay */}
-      <div className={`
-        absolute 
-        top-4 
-        right-4 
-        flex 
-        space-x-2 
-        transition-all 
-        duration-300 
-        ${isHovered ? 'opacity-100' : 'opacity-0'}
-        ${theme === 'light' ? 'text-gray-700' : 'text-gray-300'}
-      `}>
-        <button 
-          onClick={(e) => {
-            e.preventDefault();
-            shareOnSocial('facebook');
-          }}
-          className={`
-            p-2 
-            rounded-full 
-            hover:bg-blue-100 
-            dark:hover:bg-blue-900 
-            transition-colors 
-            duration-300
-          `}
-          aria-label="Share on Facebook"
-        >
-          <FaFacebook />
-        </button>
-        <button 
-          onClick={(e) => {
-            e.preventDefault();
-            shareOnSocial('twitter');
-          }}
-          className={`
-            p-2 
-            rounded-full 
-            hover:bg-sky-100 
-            dark:hover:bg-sky-900 
-            transition-colors 
-            duration-300
-          `}
-          aria-label="Share on Twitter"
-        >
-          <FaTwitter />
-        </button>
-        <button 
-          onClick={(e) => {
-            e.preventDefault();
-            shareOnSocial('linkedin');
-          }}
-          className={`
-            p-2 
-            rounded-full 
-            hover:bg-blue-100 
-            dark:hover:bg-blue-900 
-            transition-colors 
-            duration-300
-          `}
-          aria-label="Share on LinkedIn"
-        >
-          <FaLinkedin />
-        </button>
       </div>
     </div>
   );

@@ -1,5 +1,10 @@
 import { fetchUnsplashImage, getUnsplashQueryForTopic } from '../utils/unsplashService';
 
+export interface Author {
+  name: string;
+  avatar: string;
+}
+
 export interface BlogPost {
   id: number;
   title: string;
@@ -8,11 +13,16 @@ export interface BlogPost {
   coverImage: string | (() => Promise<string>);
   readTime: number;
   publishedDate: string;
-  author: string;
+  author: Author;
   categories: string[];
   tags: string[];
   isFeatured?: boolean;
 }
+
+const author = {
+  name: 'Sourav Suvra',
+  avatar: '/images/sourav.png'
+};
 
 export const blogPosts: BlogPost[] = [
   {
@@ -20,10 +30,10 @@ export const blogPosts: BlogPost[] = [
     title: "The Future of AI: Transforming Industries",
     slug: "ai-future",
     excerpt: "Exploring how artificial intelligence is revolutionizing various sectors and reshaping our understanding of technology.",
-    coverImage: () => fetchUnsplashImage(getUnsplashQueryForTopic('AI')),
+    coverImage: () => fetchUnsplashImage('artificial intelligence robot technology'),
     readTime: 7,
     publishedDate: "2024-01-15",
-    author: "John Doe",
+    author,
     categories: ["AI & Automation"],
     tags: ["Artificial Intelligence", "Machine Learning", "Future Tech"],
     isFeatured: true
@@ -33,10 +43,10 @@ export const blogPosts: BlogPost[] = [
     title: "Modern Software Engineering Practices",
     slug: "software-engineering-best-practices",
     excerpt: "A deep dive into contemporary software development methodologies, tools, and strategies for building scalable applications.",
-    coverImage: () => fetchUnsplashImage(getUnsplashQueryForTopic('Software Development')),
+    coverImage: () => fetchUnsplashImage('software development coding computer'),
     readTime: 6,
     publishedDate: "2024-02-20",
-    author: "Jane Smith",
+    author,
     categories: ["Tech Tutorials"],
     tags: ["DevOps", "Agile", "Best Practices"],
     isFeatured: true
@@ -46,10 +56,10 @@ export const blogPosts: BlogPost[] = [
     title: "Career Development in Tech",
     slug: "tech-career-growth",
     excerpt: "Strategies for navigating and accelerating your career in the rapidly evolving technology landscape.",
-    coverImage: () => fetchUnsplashImage(getUnsplashQueryForTopic('Career')),
+    coverImage: () => fetchUnsplashImage('professional career growth success'),
     readTime: 5,
     publishedDate: "2024-03-10",
-    author: "Mike Johnson",
+    author,
     categories: ["Personal Insights"],
     tags: ["Career Growth", "Tech Industry", "Networking"],
     isFeatured: false
@@ -62,7 +72,7 @@ export const blogPosts: BlogPost[] = [
     coverImage: () => fetchUnsplashImage(getUnsplashQueryForTopic('Cybersecurity')),
     readTime: 8,
     publishedDate: "2024-04-05",
-    author: "Emily Chen",
+    author,
     categories: ["Industry News"],
     tags: ["Security", "Digital Protection", "Privacy"],
     isFeatured: false
@@ -75,7 +85,7 @@ export const blogPosts: BlogPost[] = [
     coverImage: () => fetchUnsplashImage(getUnsplashQueryForTopic('Cloud Computing')),
     readTime: 6,
     publishedDate: "2024-05-12",
-    author: "David Wang",
+    author,
     categories: ["Learning Resources"],
     tags: ["Cloud Services", "Infrastructure", "Scalability"],
     isFeatured: false
@@ -88,7 +98,7 @@ export const blogPosts: BlogPost[] = [
     coverImage: () => fetchUnsplashImage(getUnsplashQueryForTopic('Blockchain')),
     readTime: 7,
     publishedDate: "2024-06-18",
-    author: "Sarah Rodriguez",
+    author,
     categories: ["Portfolio Projects"],
     tags: ["Decentralization", "Innovation", "Tech Trends"],
     isFeatured: true
@@ -101,7 +111,7 @@ export const blogPosts: BlogPost[] = [
     coverImage: () => fetchUnsplashImage(getUnsplashQueryForTopic('Travel')),
     readTime: 6,
     publishedDate: "2024-07-05",
-    author: "Alex Turner",
+    author,
     categories: ["Tips & Tricks"],
     tags: ["Remote Work", "Digital Nomad", "Travel Tips"],
     isFeatured: false
@@ -114,7 +124,7 @@ export const blogPosts: BlogPost[] = [
     coverImage: () => fetchUnsplashImage(getUnsplashQueryForTopic('Web Development')),
     readTime: 9,
     publishedDate: "2024-08-15",
-    author: "Emma Rodriguez",
+    author,
     categories: ["Tech Tutorials"],
     tags: ["React", "Web Development", "JavaScript"],
     isFeatured: true
@@ -127,7 +137,7 @@ export const blogPosts: BlogPost[] = [
     coverImage: () => fetchUnsplashImage(getUnsplashQueryForTopic('Business')),
     readTime: 7,
     publishedDate: "2024-09-20",
-    author: "Michael Chen",
+    author,
     categories: ["Industry News"],
     tags: ["Entrepreneurship", "Digital Strategy", "Growth"],
     isFeatured: false

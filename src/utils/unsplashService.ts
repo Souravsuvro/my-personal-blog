@@ -15,9 +15,12 @@ const FALLBACK_IMAGES: Record<string, string> = {
 const imageCache: Record<string, string> = {};
 
 // Initialize Unsplash API client
-const unsplash = import.meta.env.VITE_UNSPLASH_ACCESS_KEY 
+const accessKey = import.meta.env.VITE_UNSPLASH_ACCESS_KEY;
+console.log(`${LOG_PREFIX} Access Key available:`, !!accessKey);
+
+const unsplash = accessKey 
   ? createApi({
-      accessKey: import.meta.env.VITE_UNSPLASH_ACCESS_KEY
+      accessKey: accessKey
     })
   : null;
 
@@ -33,19 +36,23 @@ export const fetchUnsplashImage = async (
   width = 1200, 
   height = 800
 ): Promise<string> => {
+  console.log(`${LOG_PREFIX} Fetching image for query:`, query);
   const cacheKey = `${query}-${width}-${height}`;
   
   // Return cached image if available
   if (imageCache[cacheKey]) {
+    console.log(`${LOG_PREFIX} Returning cached image for:`, query);
     return imageCache[cacheKey];
   }
 
   try {
     // Fallback to default image if no API key
     if (!unsplash) {
+      console.warn(`${LOG_PREFIX} No Unsplash client available, using fallback image`);
       return getFallbackImage(query);
     }
 
+    console.log(`${LOG_PREFIX} Searching Unsplash for:`, query);
     // Fetch image from Unsplash
     const result = await unsplash.search.getPhotos({
       query,
@@ -54,18 +61,28 @@ export const fetchUnsplashImage = async (
       perPage: 1,
     });
 
-    // Extract or fallback image URL
-    const imageUrl = result.response?.results[0]?.urls.raw 
-      ? `${result.response.results[0].urls.raw}&w=${width}&h=${height}&fit=crop`
-      : getFallbackImage(query);
+    console.log(`${LOG_PREFIX} Unsplash response:`, result);
 
-    // Cache the image URL
-    if (imageUrl) {
-      imageCache[cacheKey] = imageUrl;
+    if (!result.response) {
+      console.warn(`${LOG_PREFIX} No response from Unsplash API`);
+      return getFallbackImage(query);
     }
 
+    const photos = result.response.results;
+    if (!photos || photos.length === 0) {
+      console.warn(`${LOG_PREFIX} No photos found for query:`, query);
+      return getFallbackImage(query);
+    }
+
+    const imageUrl = `${photos[0].urls.raw}&w=${width}&h=${height}&fit=crop`;
+    console.log(`${LOG_PREFIX} Using Unsplash image:`, imageUrl);
+
+    // Cache the image URL
+    imageCache[cacheKey] = imageUrl;
     return imageUrl;
+
   } catch (error) {
+    console.error(`${LOG_PREFIX} Error fetching image:`, error);
     return getFallbackImage(query);
   }
 };

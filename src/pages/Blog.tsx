@@ -15,6 +15,7 @@ import BlogCard from '../components/BlogCard';
 import { SEO } from '../components/SEO';
 import { useTheme } from '../context/ThemeContext';
 import { blogPosts, BlogPost } from '../data/blogPosts';
+import { Link } from 'react-router-dom';
 
 const POSTS_PER_PAGE = 9;
 
@@ -130,6 +131,29 @@ const Blog: React.FC = () => {
       <SEO title="Blog - Sourav Sarker" />
       
       <div className="max-w-7xl mx-auto">
+        {/* Back to Home Button */}
+        <motion.div
+          initial={{ opacity: 0, x: -20 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ duration: 0.3 }}
+          className="fixed top-6 left-6 z-50"
+        >
+          <motion.div
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+          >
+            <Link
+              to="/"
+              className="flex items-center gap-2 px-4 py-2 rounded-lg bg-white dark:bg-gray-800 shadow-lg hover:shadow-xl dark:shadow-gray-800/20 transition-all duration-300 group"
+            >
+              <FaArrowLeft className="text-gray-600 dark:text-gray-300 group-hover:text-blue-500 dark:group-hover:text-purple-400 transition-colors duration-300" />
+              <span className="text-sm font-medium text-gray-600 dark:text-gray-300 group-hover:text-blue-500 dark:group-hover:text-purple-400 transition-colors duration-300">
+                Back to Home
+              </span>
+            </Link>
+          </motion.div>
+        </motion.div>
+
         {/* Header Section */}
         <div className="text-center mb-12">
           <h1 className={`

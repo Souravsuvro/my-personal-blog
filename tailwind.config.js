@@ -18,34 +18,75 @@ export default {
     },
     extend: {
       colors: {
+        dark: {
+          DEFAULT: '#0A0F1C', // Deep navy blue
+          50: '#141B2D',     // Lighter navy
+          100: '#1F2937',    // Slate gray
+          200: '#374151',
+          300: '#4B5563',
+          400: '#6B7280',
+          500: '#9CA3AF',
+          600: '#D1D5DB',
+          700: '#E5E7EB',
+          800: '#F3F4F6',
+          900: '#F9FAFB',
+        },
         primary: {
-          // Light Mode Colors (Professional & Techy)
-          50: '#f0f4f8',    // Very light blue-gray background
-          100: '#d9e2ec',   // Light blue-gray
-          200: '#bcccdc',   // Soft blue-gray
-          300: '#9fb3c8',   // Muted blue
-          400: '#7b97b0',   // Steel blue
-          500: '#627d98',   // Slate blue
-          600: '#486581',   // Dark slate blue
-          700: '#334e68',   // Deep slate
-          800: '#243b53',   // Very dark slate
-          900: '#102a43',   // Almost black slate
-        },
-        // Additional light mode colors for a professional look
-        background: {
-          light: '#ffffff',     // Clean white
-          subtle: '#f8fafc',    // Very light blue-gray
-        },
-        text: {
-          primary: '#1a202c',   // Dark charcoal for readability
-          secondary: '#4a5568', // Slightly lighter charcoal
-          muted: '#718096',     // Gray for less important text
+          DEFAULT: '#3B82F6',
+          50: '#EFF6FF',
+          100: '#DBEAFE',
+          200: '#BFDBFE',
+          300: '#93C5FD',
+          400: '#60A5FA',
+          500: '#3B82F6',
+          600: '#2563EB',
+          700: '#1D4ED8',
+          800: '#1E40AF',
+          900: '#1E3A8A',
         },
         accent: {
-          blue: '#3182ce',      // Professional blue
-          green: '#38a169',     // Soft green for positive actions
-          gray: '#4a5568',      // Professional gray
+          DEFAULT: '#8B5CF6',
+          50: '#F5F3FF',
+          100: '#EDE9FE',
+          200: '#DDD6FE',
+          300: '#C4B5FD',
+          400: '#A78BFA',
+          500: '#8B5CF6',
+          600: '#7C3AED',
+          700: '#6D28D9',
+          800: '#5B21B6',
+          900: '#4C1D95',
+        },
+        success: {
+          DEFAULT: '#10B981',
+          dark: '#059669',
+        },
+        warning: {
+          DEFAULT: '#F59E0B',
+          dark: '#D97706',
+        },
+        error: {
+          DEFAULT: '#EF4444',
+          dark: '#DC2626',
+        },
+      },
+      backgroundColor: {
+        dark: {
+          card: '#0F172A',    // Dark blue card background
+          hover: '#1E293B',   // Slightly lighter for hover states
+          active: '#0F172A',  // Same as card for active states
+          input: '#1E293B',   // Input field background
         }
+      },
+      gradientColorStops: theme => ({
+        ...theme('colors'),
+        'dark-start': '#0A0F1C',
+        'dark-mid': '#131B2E',
+        'dark-end': '#1C2744',
+      }),
+      boxShadow: {
+        'dark-glow': '0 0 15px rgba(59, 130, 246, 0.1)',
+        'dark-glow-lg': '0 0 30px rgba(59, 130, 246, 0.15)',
       },
       fontSize: {
         'mobile-sm': '0.75rem',
@@ -138,9 +179,24 @@ export default {
   plugins: [
     typography,
     forms,
-    plugin(function({ addBase, theme }) {
-      // Any additional custom plugins or base styles
-    })
+    plugin(({ addUtilities }) => {
+      addUtilities({
+        '.glassmorphism': {
+          'background': 'rgba(255, 255, 255, 0.1)',
+          'backdrop-filter': 'blur(10px)',
+          'border': '1px solid rgba(255, 255, 255, 0.1)',
+          '.dark &': {
+            'background': 'rgba(15, 23, 42, 0.8)',
+            'border-color': 'rgba(59, 130, 246, 0.1)',
+          }
+        },
+        '.dark-card': {
+          'background': '#0F172A',
+          'border': '1px solid rgba(59, 130, 246, 0.1)',
+          'box-shadow': '0 0 15px rgba(59, 130, 246, 0.1)',
+        },
+      })
+    }),
   ],
   variants: {
     extend: {

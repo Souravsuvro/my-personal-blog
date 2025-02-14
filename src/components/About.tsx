@@ -370,25 +370,27 @@ const About: FC = () => {
   const { theme } = useTheme();
 
   return (
-    <div className={`container mx-auto px-4 py-16 ${theme === 'light' ? 'bg-white' : 'bg-[#111111]'}`}>
-      <motion.h2 
-        className={`text-4xl font-bold text-center mb-12 
-        bg-gradient-to-r from-gray-800 to-gray-600 
-        dark:from-gray-200 dark:to-gray-400 
-        bg-clip-text text-transparent ${theme === 'light' ? 'text-gray-800' : 'text-gray-200'}`}
-        initial={{ opacity: 0, y: -50 }}
-        animate={{ opacity: 1, y: 0 }}
-      >
-        About My Journey
-      </motion.h2>
-      
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-        <ProfessionalSkillsWidget />
-        <ProfessionalVisionWidget />
-        <HobbyExplorationWidget />
-        <ContinuousLearningWidget />
+    <section id="about" className="py-20 bg-gradient-to-b from-transparent to-gray-50 dark:to-gray-900/50">
+      <div className="container mx-auto px-4">
+        <motion.h2 
+          className={`text-4xl font-bold text-center mb-12 
+          bg-gradient-to-r from-gray-800 to-gray-600 
+          dark:from-gray-200 dark:to-gray-400 
+          bg-clip-text text-transparent ${theme === 'light' ? 'text-gray-800' : 'text-gray-200'}`}
+          initial={{ opacity: 0, y: -50 }}
+          animate={{ opacity: 1, y: 0 }}
+        >
+          About My Journey
+        </motion.h2>
+        
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+          <ProfessionalSkillsWidget />
+          <ProfessionalVisionWidget />
+          <HobbyExplorationWidget />
+          <ContinuousLearningWidget />
+        </div>
       </div>
-    </div>
+    </section>
   );
 };
 

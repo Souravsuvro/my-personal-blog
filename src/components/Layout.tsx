@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { ScrollProvider } from '../contexts/ScrollContext';
+import { ScrollProvider } from '../context/ScrollContext';
 import Navbar from './Navbar';
 import Footer from './Footer';
 
