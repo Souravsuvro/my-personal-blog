@@ -20,7 +20,7 @@ const latestWorks: Work[] = [
     title: "Finance App Dashboard",
     description: "A modern finance dashboard with real-time analytics, transaction monitoring, and expense tracking capabilities.",
     imageUrl: "/images/latestwork/finance-app-dashboard.png",
-    link: "#",
+    link: "https://creatie.ai/goto/HeRfToH5?page_id=M&layer_id=121:5436&file=148101520185223",
     githubLink: "#",
     category: "Dashboard",
     tags: ["React", "TypeScript", "Tailwind CSS"]
