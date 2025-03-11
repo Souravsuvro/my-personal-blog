@@ -11,6 +11,28 @@
     }
   ],
   "routes": [
-    { "src": "/(.*)", "dest": "/index.html" }
+    {
+      "src": "^/assets/(.*)\\.js$",
+      "headers": { "content-type": "application/javascript" },
+      "dest": "/assets/$1.js"
+    },
+    {
+      "src": "^/manifest\\.webmanifest$",
+      "headers": { "content-type": "application/manifest+json" },
+      "dest": "/manifest.webmanifest"
+    },
+    {
+      "src": "^/site\\.webmanifest$",
+      "headers": { "content-type": "application/manifest+json" },
+      "dest": "/site.webmanifest"
+    },
+    {
+      "src": "^/(.*)\\.(.+)$",
+      "dest": "/$1.$2"
+    },
+    {
+      "src": "/(.*)",
+      "dest": "/index.html"
+    }
   ]
 }
