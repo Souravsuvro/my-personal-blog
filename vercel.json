@@ -12,11 +12,5 @@
   ],
   "routes": [
     { "src": "/(.*)", "dest": "/index.html" }
-  ],
-  "env": {
-    "VITE_UNSPLASH_ACCESS_KEY": "@unsplash_access_key",
-    "VITE_EMAILJS_SERVICE_ID": "@emailjs_service_id",
-    "VITE_EMAILJS_TEMPLATE_ID": "@emailjs_template_id",
-    "VITE_EMAILJS_PUBLIC_KEY": "@emailjs_public_key"
-  }
+  ]
 }
