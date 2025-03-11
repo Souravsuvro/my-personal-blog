@@ -7,9 +7,7 @@ export default defineConfig({
     rollupOptions: {
       output: {
         manualChunks(id) {
-          // Split large libraries into separate chunks
           if (id.includes('node_modules')) {
-            // Split large libraries
             if (
               id.includes('recharts') || 
               id.includes('react-syntax-highlighter') || 
@@ -25,10 +23,16 @@ export default defineConfig({
             }
             return 'vendor';
           }
-        }
+        },
+        entryFileNames: 'assets/[name]-[hash].js',
+        chunkFileNames: 'assets/[name]-[hash].js',
+        assetFileNames: 'assets/[name]-[hash].[ext]'
       }
     },
-    chunkSizeWarningLimit: 1000, // Increase chunk size warning limit
-    cssCodeSplit: true, // Enable CSS code splitting
+    chunkSizeWarningLimit: 1000,
+    cssCodeSplit: true,
+    manifest: true,
+    outDir: 'dist',
+    assetsDir: 'assets'
   }
 });
