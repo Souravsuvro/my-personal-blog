@@ -16,13 +16,18 @@ const imageCache: Record<string, string> = {};
 
 // Initialize Unsplash API client
 const accessKey = import.meta.env.VITE_UNSPLASH_ACCESS_KEY;
-console.log(`${LOG_PREFIX} Access Key available:`, !!accessKey);
 
-const unsplash = accessKey 
-  ? createApi({
-      accessKey: accessKey
-    })
-  : null;
+let unsplash = null;
+try {
+  if (accessKey) {
+    unsplash = createApi({ accessKey });
+    console.log(`${LOG_PREFIX} Unsplash client initialized successfully`);
+  } else {
+    console.warn(`${LOG_PREFIX} No Unsplash access key found, using fallback images`);
+  }
+} catch (error) {
+  console.error(`${LOG_PREFIX} Error initializing Unsplash client:`, error);
+}
 
 /**
  * Fetch a relevant image from Unsplash based on a search query
@@ -36,24 +41,24 @@ export const fetchUnsplashImage = async (
   width = 1200, 
   height = 800
 ): Promise<string> => {
-  console.log(`${LOG_PREFIX} Fetching image for query:`, query);
+  if (!query) {
+    console.warn(`${LOG_PREFIX} Empty query provided, using default fallback`);
+    return FALLBACK_IMAGES['default'];
+  }
+
   const cacheKey = `${query}-${width}-${height}`;
   
   // Return cached image if available
   if (imageCache[cacheKey]) {
-    console.log(`${LOG_PREFIX} Returning cached image for:`, query);
     return imageCache[cacheKey];
   }
 
-  try {
-    // Fallback to default image if no API key
-    if (!unsplash) {
-      console.warn(`${LOG_PREFIX} No Unsplash client available, using fallback image`);
-      return getFallbackImage(query);
-    }
+  // If no Unsplash client or access key, return fallback immediately
+  if (!unsplash || !accessKey) {
+    return getFallbackImage(query);
+  }
 
-    console.log(`${LOG_PREFIX} Searching Unsplash for:`, query);
-    // Fetch image from Unsplash
+  try {
     const result = await unsplash.search.getPhotos({
       query,
       orientation: 'landscape',
@@ -61,26 +66,13 @@ export const fetchUnsplashImage = async (
       perPage: 1,
     });
 
-    console.log(`${LOG_PREFIX} Unsplash response:`, result);
-
-    if (!result.response) {
-      console.warn(`${LOG_PREFIX} No response from Unsplash API`);
-      return getFallbackImage(query);
+    if (result?.response?.results?.[0]?.urls?.raw) {
+      const imageUrl = `${result.response.results[0].urls.raw}&w=${width}&h=${height}&fit=crop`;
+      imageCache[cacheKey] = imageUrl;
+      return imageUrl;
     }
-
-    const photos = result.response.results;
-    if (!photos || photos.length === 0) {
-      console.warn(`${LOG_PREFIX} No photos found for query:`, query);
-      return getFallbackImage(query);
-    }
-
-    const imageUrl = `${photos[0].urls.raw}&w=${width}&h=${height}&fit=crop`;
-    console.log(`${LOG_PREFIX} Using Unsplash image:`, imageUrl);
-
-    // Cache the image URL
-    imageCache[cacheKey] = imageUrl;
-    return imageUrl;
-
+    
+    return getFallbackImage(query);
   } catch (error) {
     console.error(`${LOG_PREFIX} Error fetching image:`, error);
     return getFallbackImage(query);
@@ -93,6 +85,8 @@ export const fetchUnsplashImage = async (
  * @returns Fallback image URL matching the query or default
  */
 const getFallbackImage = (query: string): string => {
+  if (!query) return FALLBACK_IMAGES['default'];
+  
   // Find best matching fallback image
   for (const [key, image] of Object.entries(FALLBACK_IMAGES)) {
     if (query.toLowerCase().includes(key.toLowerCase())) {
@@ -116,6 +110,5 @@ export const getUnsplashQueryForTopic = (topic: string): string => {
     'Technology': 'modern technology innovation digital'
   };
 
-  // Find the best matching query, default to a generic tech query
   return topicMap[topic] || 'technology innovation digital';
 };
