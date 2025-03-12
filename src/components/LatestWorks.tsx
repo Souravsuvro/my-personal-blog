@@ -20,7 +20,7 @@ const latestWorks: Work[] = [
     title: "Finance App Dashboard",
     description: "A modern finance dashboard with real-time analytics, transaction monitoring, and expense tracking capabilities.",
     imageUrl: "/images/latestwork/finance-app-dashboard.png",
-    link: "https://creatie.ai/goto/HeRfToH5?page_id=M&layer_id=121:5436&file=148101520185223",
+    link: "https://personal-finance-app-navy.vercel.app/",
     githubLink: "#",
     category: "Dashboard",
     tags: ["React", "TypeScript", "Tailwind CSS"]
@@ -60,28 +60,28 @@ const latestWorks: Work[] = [
     title: "Money Transfer Platform",
     description: "Secure and user-friendly money transfer platform with international payment capabilities and real-time exchange rates.",
     imageUrl: "/images/latestwork/money-ransfer-web-design.png",
-    link: "#",
+    link: "https://www.hamadaninternational.co.uk/",
     githubLink: "#",
     category: "FinTech",
-    tags: ["React", "Redux", "Node.js"]
+    tags: ["Laravel", "Bootstrap", "PHP"]
   },
   {
     id: 6,
     title: "Quantum Leaps",
     description: "Educational platform interface designed to make complex quantum computing concepts accessible and engaging.",
     imageUrl: "/images/latestwork/quantam-leaps.png",
-    link: "#",
+    link: "https://quantum-leap-site.vercel.app/",
     githubLink: "#",
     category: "Education",
-    tags: ["Vue.js", "Tailwind CSS", "Python"]
+    tags: ["React JS", "Tailwind CSS", "Node JS"]
   },
   {
     id: 7,
     title: "MarketFlick AI Landing Page",
     description: "A modern, responsive landing page for MarketFlick AI platform, featuring a clean design with interactive elements and smooth animations.",
     imageUrl: "/images/latestwork/marketflickai-landing-page-design.png",
-    link: "https://marketflick.ai",
-    githubLink: "https://github.com/yourusername/marketflick-landing",
+    link: "https://market-flick-landing.vercel.app/",
+    githubLink: "#",
     category: "Web Design",
     tags: ["React", "TailwindCSS", "TypeScript", "Framer Motion"]
   }
