@@ -6,7 +6,7 @@ interface BlogContent {
 
 const blogContents: BlogContent[] = [
   {
-    slug: "ai-future", // ✅ Matches blogPosts.ts
+    slug: "ai-future",
     content: `
       <h1>The Future of AI: Transforming Industries</h1>
       <p><em>Published: January 15, 2024 | Reading Time: 7 minutes</em></p>
@@ -47,7 +47,7 @@ const blogContents: BlogContent[] = [
     `
   },
   {
-    slug: "software-engineering-best-practices", // ✅ Matches blogPosts.ts
+    slug: "software-engineering-best-practices",
     content: `
       <h1>Modern Software Engineering Practices</h1>
       <p><em>Published: February 20, 2024 | Reading Time: 6 minutes</em></p>
@@ -77,7 +77,7 @@ const blogContents: BlogContent[] = [
     `
   },
   {
-    slug: "tech-career-growth", // ✅ Fixed slug to match blogPosts.ts
+    slug: "tech-career-growth",
     content: `
       <h1>Career Development in Tech: Strategies for Accelerated Growth</h1>
       <p><em>Published: March 10, 2024 | Reading Time: 5 minutes</em></p>
@@ -117,7 +117,7 @@ const blogContents: BlogContent[] = [
     `
   },
   {
-    slug: "cybersecurity-digital-age", // ✅ Matches blogPosts.ts
+    slug: "cybersecurity-digital-age",
     content: `
       <h1>Cybersecurity in the Digital Age: Protecting Our Connected World</h1>
       <p><em>Published: April 5, 2024 | Reading Time: 8 minutes</em></p>
@@ -152,7 +152,7 @@ const blogContents: BlogContent[] = [
     `
   },
   {
-    slug: "cloud-computing-trends", // ✅ Fixed slug to match blogPosts.ts
+    slug: "cloud-computing-trends",
     content: `
       <h1>Cloud Computing Revolution: Transforming Business Infrastructure</h1>
       <p><em>Published: May 12, 2024 | Reading Time: 6 minutes</em></p>
@@ -184,7 +184,7 @@ const blogContents: BlogContent[] = [
     `
   },
   {
-    slug: "blockchain-applications", // ✅ Matches blogPosts.ts
+    slug: "blockchain-applications",
     content: `
       <h1>Blockchain Beyond Cryptocurrency: Revolutionary Applications Across Industries</h1>
       <p><em>Published: June 18, 2024 | Reading Time: 7 minutes</em></p>
@@ -217,7 +217,7 @@ const blogContents: BlogContent[] = [
     `
   },
   {
-    slug: "digital-nomad-travelling", // ✅ Matches blogPosts.ts
+    slug: "digital-nomad-travelling",
     content: `
       <h1>Exploring the World: A Digital Nomad's Guide</h1>
       <p><em>Published: July 5, 2024 | Reading Time: 6 minutes</em></p>
@@ -259,7 +259,7 @@ const blogContents: BlogContent[] = [
     `
   },
   {
-    slug: "react-web-app-tutorial", // ✅ Matches blogPosts.ts
+    slug: "react-web-app-tutorial",
     content: `
       <h1>Step-by-Step React Tutorial: Building a Modern Web App</h1>
       <p><em>Published: August 15, 2024 | Reading Time: 9 minutes</em></p>
@@ -276,6 +276,7 @@ const blogContents: BlogContent[] = [
       </ul>
 
       <h3>Creating Your First React App</h3>
+      <p>Start by creating a new React application:</p>
       <pre><code>npx create-react-app my-app
 cd my-app
 npm start</code></pre>
@@ -283,22 +284,15 @@ npm start</code></pre>
       <h2>Understanding React Components</h2>
 
       <h3>Functional Components</h3>
-      <p>Modern React development primarily uses functional components with hooks:</p>
-      <pre><code>function Welcome({ name }) {
-  return &lt;h1&gt;Hello, {name}!&lt;/h1&gt;;
-}</code></pre>
+      <p>Modern React development primarily uses functional components with hooks.</p>
 
       <h2>State Management with Hooks</h2>
 
       <h3>useState Hook</h3>
-      <p>The useState hook allows you to add state to functional components:</p>
-      <pre><code>const [count, setCount] = useState(0);</code></pre>
+      <p>The useState hook allows you to add state to functional components.</p>
 
       <h3>useEffect Hook</h3>
-      <p>Handle side effects and lifecycle events:</p>
-      <pre><code>useEffect(() => {
-  document.title = `Count: ${count}`;
-}, [count]);</code></pre>
+      <p>Handle side effects and lifecycle events with the useEffect hook.</p>
 
       <h2>Building Your App Structure</h2>
 
@@ -315,7 +309,7 @@ npm start</code></pre>
     `
   },
   {
-    slug: "business-growth-strategies", // ✅ Matches blogPosts.ts
+    slug: "business-growth-strategies",
     content: `
       <h1>Scaling Your Business in the Digital Economy</h1>
       <p><em>Published: September 20, 2024 | Reading Time: 7 minutes</em></p>
