@@ -1,422 +1,250 @@
-import React, { useState, useEffect } from 'react';
-import { useParams, useNavigate, Link } from 'react-router-dom';
-import { motion } from 'framer-motion';
-import ReactMarkdown from 'react-markdown';
-import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
-import { oneDark } from 'react-syntax-highlighter/dist/esm/styles/prism';
-import { getBlogContent, getBlogBySlug, getBlogPosts } from '../data/blogContents';
+// src/pages/BlogDetails.tsx
+import React, { useEffect, useState } from 'react';
+import { useParams, Link, Navigate } from 'react-router-dom';
+import { Helmet } from 'react-helmet-async';
+import { FaClock, FaCalendar, FaTag, FaArrowLeft, FaShare } from 'react-icons/fa';
 import { useTheme } from '../context/ThemeContext';
-import { BlogPost } from '../data/blogPosts';
+import { getBlogBySlug } from '../data/blogPosts';
+import { getBlogContent } from '../data/blogContent';
 import SocialShareButtons from '../components/SocialShareButtons';
-
-// Custom type for code block props
-interface CodeBlockProps {
-  inline?: boolean;
-  className?: string;
-  children?: React.ReactNode;
-}
-
-// Custom type for blog content
-interface BlogContent {
-  content: string;
-}
+import StructuredData from '../components/StructuredData';
 
 const BlogDetails: React.FC = () => {
-  const { theme } = useTheme();
-  const [blogContent, setBlogContent] = useState<string | null>(null);
-  const [blogPost, setBlogPost] = useState<BlogPost | null>(null);
-  const [coverImage, setCoverImage] = useState<string | null>(null);
-  const navigate = useNavigate();
   const { slug } = useParams<{ slug: string }>();
-  const blogPosts = getBlogPosts();
+  const { theme } = useTheme();
+  const [imageUrl, setImageUrl] = useState('');
+  const [isImageLoading, setIsImageLoading] = useState(true);
 
-  // Custom components for markdown rendering
-  const components = {
-    code({ inline, className, children, ...props }: CodeBlockProps) {
-      const match = /language-(\w+)/.exec(className || '');
-      return !inline && match ? (
-        <SyntaxHighlighter
-          style={theme === 'dark' ? oneDark : {
-            ...oneDark,
-            'code[class*="language-"]': {
-              color: '#333',
-              background: '#f4f4f4',
-            },
-            'pre[class*="language-"]': {
-              background: '#f4f4f4',
-              color: '#333',
-            },
-          }}
-          language={match[1]}
-          PreTag="div"
-          className={`rounded-lg shadow-lg my-4 ${
-            theme === 'dark' 
-              ? 'bg-gray-800 text-white' 
-              : 'bg-gray-100 text-gray-800'
-          }`}
-          {...props}
-        >
-          {String(children).replace(/\n$/, '')}
-        </SyntaxHighlighter>
-      ) : (
-        <code 
-          className={`${className} ${
-            theme === 'dark'
-              ? 'bg-gray-800 text-[#FFB800]'
-              : 'bg-gray-200 text-gray-800'
-          } px-2 py-1 rounded-md text-sm font-mono`} 
-          {...props}
-        >
-          {children}
-        </code>
-      );
-    },
-    h1: ({...props}) => (
-      <h1 
-        className={`text-3xl font-bold mt-8 mb-4 
-        border-b-2 pb-2 leading-tight ${
-          theme === 'dark' 
-            ? 'text-[#FFB800] border-[#FFB800]/20' 
-            : 'text-gray-900 border-gray-300'
-        }`} 
-        {...props} 
-      />
-    ),
-    h2: ({...props}) => (
-      <h2 
-        className={`text-2xl font-semibold mt-6 mb-3 
-        border-b pb-1 leading-tight ${
-          theme === 'dark'
-            ? 'text-[#FFB800] border-[#FFB800]/10'
-            : 'text-gray-900 border-gray-300'
-        }`} 
-        {...props} 
-      />
-    ),
-    h3: ({...props}) => (
-      <h3 
-        className={`text-xl font-semibold mt-4 mb-2 leading-tight ${
-          theme === 'dark' 
-            ? 'text-[#FFB800]' 
-            : 'text-gray-900'
-        }`} 
-        {...props} 
-      />
-    ),
-    p: ({...props}) => (
-      <p 
-        className={`text-base leading-relaxed mb-4 ${
-          theme === 'dark' 
-            ? 'text-white' 
-            : 'text-gray-800'
-        }`} 
-        {...props} 
-      />
-    ),
-    ul: ({...props}) => (
-      <ul 
-        className={`list-disc list-outside space-y-2 pl-6 mb-4 ${
-          theme === 'dark' 
-            ? 'text-white' 
-            : 'text-gray-800'
-        }`} 
-        {...props} 
-      />
-    ),
-    ol: ({...props}) => (
-      <ol 
-        className={`list-decimal list-outside space-y-2 pl-6 mb-4 ${
-          theme === 'dark' 
-            ? 'text-white' 
-            : 'text-gray-800'
-        }`} 
-        {...props} 
-      />
-    ),
-    li: ({...props}) => (
-      <li 
-        className={`text-base leading-relaxed ${
-          theme === 'dark' 
-            ? 'text-white' 
-            : 'text-gray-800'
-        }`} 
-        {...props} 
-      />
-    ),
-    blockquote: ({...props}) => (
-      <blockquote 
-        className={`border-l-4 pl-4 py-2 my-4 
-        italic relative ${
-          theme === 'dark'
-            ? 'border-[#FFB800] bg-gray-800/50 text-white/80'
-            : 'border-gray-500 bg-gray-100/50 text-gray-700'
-        }`}
-        {...props}
-      >
-        {props.children}
-      </blockquote>
-    ),
-    a: ({...props}) => (
-      <a 
-        className={`underline ${
-          theme === 'dark'
-            ? 'text-[#FFB800] hover:text-[#FFD700]'
-            : 'text-blue-700 hover:text-blue-900'
-        }`} 
-        target="_blank" 
-        rel="noopener noreferrer"
-        {...props} 
-      />
-    ),
-    strong: ({...props}) => (
-      <strong 
-        className={`${
-          theme === 'dark' 
-            ? 'text-[#FFB800]' 
-            : 'text-gray-900 font-semibold'
-        }`} 
-        {...props} 
-      />
-    ),
-    em: ({...props}) => (
-      <em 
-        className={`${
-          theme === 'dark' 
-            ? 'text-white/80' 
-            : 'text-gray-700 italic'
-        }`} 
-        {...props} 
-      />
-    ),
-  };
+  if (!slug) {
+    return <Navigate to="/blog" replace />;
+  }
 
+  const blogPost = getBlogBySlug(slug);
+  const blogContent = getBlogContent(slug);
+
+  if (!blogPost) {
+    return <Navigate to="/404" replace />;
+  }
+
+  // Load cover image
   useEffect(() => {
-    const fetchBlogDetails = async () => {
-      if (slug) {
-        const post = getBlogBySlug(slug);
-        if (post) {
-          setBlogPost(post);
-          
-          // Fetch cover image
-          try {
-            let imageUrl: string | null = null;
-            if (typeof post.coverImage === 'function') {
-              imageUrl = await post.coverImage();
-            } else if (typeof post.coverImage === 'string') {
-              imageUrl = post.coverImage;
-            }
-            
-            if (imageUrl) {
-              setCoverImage(imageUrl);
-            }
-          } catch (error) {
-            console.error('Error fetching cover image:', error);
-          }
-
-          // Get blog content
-          const content = getBlogContent(slug);
-          setBlogContent(content);
-        } else {
-          // Redirect to 404 if blog post not found
-          navigate('/not-found');
-        }
+    const loadImage = async () => {
+      try {
+        const image = typeof blogPost.coverImage === 'function' 
+          ? await blogPost.coverImage() 
+          : blogPost.coverImage;
+        setImageUrl(image);
+        setIsImageLoading(false);
+      } catch (error) {
+        console.error('Error loading blog post image:', error);
+        setIsImageLoading(false);
       }
     };
 
-    fetchBlogDetails();
-  }, [slug, navigate]);
+    loadImage();
+  }, [blogPost.coverImage]);
 
-  // Function to get previous and next blog posts
-  const getPreviousAndNextPosts = () => {
-    if (!blogPost) return { previousPost: null, nextPost: null };
-    
-    const currentIndex = blogPosts.findIndex(post => post.id === blogPost.id);
-    
-    return {
-      previousPost: currentIndex > 0 ? blogPosts[currentIndex - 1] : null,
-      nextPost: currentIndex < blogPosts.length - 1 ? blogPosts[currentIndex + 1] : null
-    };
+  // Generate SEO data
+  const canonicalUrl = `https://www.souravsuvra.com/blog/${slug}`;
+  const ogImageUrl = imageUrl || 'https://www.souravsuvra.com/og-image.png';
+  
+  // Generate article schema
+  const articleSchema = {
+    "@context": "https://schema.org",
+    "@type": "BlogPosting",
+    "headline": blogPost.title,
+    "description": blogPost.excerpt,
+    "image": ogImageUrl,
+    "author": {
+      "@type": "Person",
+      "name": blogPost.author.name,
+      "url": "https://www.souravsuvra.com"
+    },
+    "publisher": {
+      "@type": "Organization",
+      "name": "Sourav Suvra",
+      "logo": {
+        "@type": "ImageObject",
+        "url": "https://www.souravsuvra.com/favicon.svg"
+      }
+    },
+    "datePublished": blogPost.publishedDate,
+    "dateModified": blogPost.publishedDate,
+    "mainEntityOfPage": {
+      "@type": "WebPage",
+      "@id": canonicalUrl
+    },
+    "keywords": blogPost.tags.join(", "),
+    "articleSection": blogPost.categories[0],
+    "wordCount": blogContent?.content ? blogContent.content.split(' ').length : 1000,
+    "timeRequired": `PT${blogPost.readTime}M`
   };
 
-  // Destructure previous and next posts
-  const { previousPost, nextPost } = getPreviousAndNextPosts();
-
-  if (!blogPost || !blogContent) {
-    return (
-      <motion.div 
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ duration: 0.5 }}
-        className="min-h-screen flex items-center justify-center"
-      >
-        <div className="text-center">
-          <div 
-            className={`animate-spin rounded-full h-16 w-16 border-t-4 border-b-4 ${
-              theme === 'dark' 
-                ? 'border-[#FFB800]' 
-                : 'border-gray-800'
-            }`}
-          />
-          <p className={`mt-4 ${theme === 'dark' ? 'text-white' : 'text-gray-800'}`}>
-            Loading blog post...
-          </p>
-        </div>
-      </motion.div>
-    );
-  }
-
   return (
-    <motion.div 
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      transition={{ duration: 0.5 }}
-      className="min-h-screen pt-24 px-4 md:px-8 lg:px-16 xl:px-24"
-    >
-      <div className="container mx-auto max-w-4xl relative">
-        <div className="container mx-auto max-w-4xl">
-          {/* Back to Blogs Button */}
+    <>
+      {/* SEO Meta Tags */}
+      <Helmet>
+        <title>{blogPost.title} | Sourav Suvra - Full Stack Developer</title>
+        <meta name="description" content={blogPost.excerpt} />
+        <meta name="keywords" content={blogPost.tags.join(', ')} />
+        <meta name="author" content={blogPost.author.name} />
+        <link rel="canonical" href={canonicalUrl} />
+        
+        {/* Open Graph Meta Tags */}
+        <meta property="og:title" content={blogPost.title} />
+        <meta property="og:description" content={blogPost.excerpt} />
+        <meta property="og:image" content={ogImageUrl} />
+        <meta property="og:url" content={canonicalUrl} />
+        <meta property="og:type" content="article" />
+        <meta property="og:site_name" content="Sourav Suvra" />
+        <meta property="article:published_time" content={blogPost.publishedDate} />
+        <meta property="article:author" content={blogPost.author.name} />
+        <meta property="article:section" content={blogPost.categories[0]} />
+        {blogPost.tags.map(tag => (
+          <meta key={tag} property="article:tag" content={tag} />
+        ))}
+
+        {/* Twitter Card Meta Tags */}
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content={blogPost.title} />
+        <meta name="twitter:description" content={blogPost.excerpt} />
+        <meta name="twitter:image" content={ogImageUrl} />
+        <meta name="twitter:creator" content="@souravsuvra" />
+
+        {/* Additional SEO Meta Tags */}
+        <meta name="robots" content="index, follow" />
+        <meta name="googlebot" content="index, follow" />
+        <meta name="bingbot" content="index, follow" />
+        
+        {/* JSON-LD Structured Data */}
+        <script type="application/ld+json">
+          {JSON.stringify(articleSchema)}
+        </script>
+      </Helmet>
+
+      <article className={`min-h-screen ${theme === 'dark' ? 'bg-gray-900 text-white' : 'bg-white text-gray-900'}`}>
+        {/* Navigation */}
+        <nav className="container mx-auto px-4 py-6">
           <Link 
             to="/blog" 
-            className="inline-flex items-center text-primary-600 dark:text-primary-400 hover:text-primary-800 dark:hover:text-primary-300 transition-colors duration-300 ease-in-out mb-4"
+            className={`inline-flex items-center space-x-2 ${theme === 'dark' ? 'text-blue-400 hover:text-blue-300' : 'text-blue-600 hover:text-blue-700'} transition-colors`}
           >
-            <svg 
-              xmlns="http://www.w3.org/2000/svg" 
-              className="h-5 w-5 mr-2" 
-              viewBox="0 0 20 20" 
-              fill="currentColor"
-            >
-              <path 
-                fillRule="evenodd" 
-                d="M9.707 16.707a1 1 0 01-1.414 0l-6-6a1 1 0 010-1.414l6-6a1 1 0 011.414 1.414L5.414 9H17a1 1 0 110 2H5.414l4.293 4.293a1 1 0 010 1.414z" 
-                clipRule="evenodd" 
-              />
-            </svg>
-            <span className="font-medium">Back to Blogs</span>
+            <FaArrowLeft />
+            <span>Back to Blogs</span>
           </Link>
+        </nav>
 
-          {/* Blog Post Header */}
-          <div className="mb-8">
-            {coverImage && (
-              <div className="mb-6 w-full overflow-hidden rounded-lg shadow-lg">
-                <img 
-                  src={coverImage} 
-                  alt={blogPost.title} 
-                  className={`w-full h-48 md:h-64 lg:h-96 object-cover ${
-                    theme === 'dark'
-                      ? 'border-2 border-[#FFB800]/20'
-                      : 'border border-gray-300'
-                  }`}
-                />
-              </div>
-            )}
-            
-            <h1 
-              className={`text-2xl md:text-3xl lg:text-4xl font-bold mb-4 ${
-                theme === 'dark' 
-                  ? 'text-[#FFB800]' 
-                  : 'text-gray-900'
-              }`}
-            >
-              {blogPost.title}
-            </h1>
-            
-            <div 
-              className={`flex flex-wrap items-center space-x-2 md:space-x-4 mb-6 text-sm md:text-base ${
-                theme === 'dark' 
-                  ? 'text-white/80' 
-                  : 'text-gray-700'
-              }`}
-            >
+        {/* Article Header */}
+        <header className="container mx-auto px-4 mb-8">
+          {/* Featured Image */}
+          {!isImageLoading && imageUrl && (
+            <div className="mb-8 rounded-2xl overflow-hidden shadow-2xl">
+              <img
+                src={imageUrl}
+                alt={blogPost.title}
+                className="w-full h-64 md:h-96 object-cover"
+                loading="eager"
+              />
+            </div>
+          )}
+
+          {/* Categories */}
+          <div className="flex flex-wrap gap-2 mb-4">
+            {blogPost.categories.map(category => (
+              <span
+                key={category}
+                className={`px-3 py-1 text-sm rounded-full ${theme === 'dark' ? 'bg-blue-900 text-blue-200' : 'bg-blue-100 text-blue-800'}`}
+              >
+                {category}
+              </span>
+            ))}
+          </div>
+
+          {/* Title */}
+          <h1 className="text-3xl md:text-5xl font-bold mb-6 leading-tight">
+            {blogPost.title}
+          </h1>
+
+          {/* Article Meta */}
+          <div className={`flex flex-wrap items-center gap-6 text-sm ${theme === 'dark' ? 'text-gray-400' : 'text-gray-600'} mb-6`}>
+            <div className="flex items-center space-x-2">
+              <img
+                src={blogPost.author.avatar}
+                alt={blogPost.author.name}
+                className="w-8 h-8 rounded-full"
+              />
               <span>{blogPost.author.name}</span>
-              <span className="hidden md:inline">•</span>
-              <span>{blogPost.publishedDate}</span>
-              <span className="hidden md:inline">•</span>
+            </div>
+            <div className="flex items-center space-x-1">
+              <FaCalendar />
+              <time dateTime={blogPost.publishedDate}>
+                {new Date(blogPost.publishedDate).toLocaleDateString('en-US', {
+                  year: 'numeric',
+                  month: 'long',
+                  day: 'numeric'
+                })}
+              </time>
+            </div>
+            <div className="flex items-center space-x-1">
+              <FaClock />
               <span>{blogPost.readTime} min read</span>
             </div>
           </div>
 
-          {/* Blog Content */}
-          <article 
-            className={`prose max-w-full ${
-              theme === 'dark' 
-                ? 'prose-invert prose-dark' 
-                : 'prose-light'
-            } prose-sm md:prose-base lg:prose-lg 
-              prose-headings:font-bold 
-              prose-a:text-blue-600 
-              prose-a:no-underline 
-              hover:prose-a:underline 
-              prose-img:rounded-lg 
-              prose-img:shadow-lg mt-12`}
-          >
-            <ReactMarkdown 
-              components={components}
-            >
-              {blogContent}
-            </ReactMarkdown>
-          </article>
-
-          {/* Social Share Buttons */}
-          {blogPost && (
+          {/* Social Share */}
+          <div className="flex items-center justify-between">
+            <div className="flex flex-wrap gap-2">
+              {blogPost.tags.map(tag => (
+                <span
+                  key={tag}
+                  className={`px-2 py-1 text-xs rounded ${theme === 'dark' ? 'bg-gray-800 text-gray-300' : 'bg-gray-200 text-gray-700'}`}
+                >
+                  <FaTag className="inline mr-1" />
+                  {tag}
+                </span>
+              ))}
+            </div>
             <SocialShareButtons 
-              title={blogPost.title} 
-              url={window.location.href} 
+              url={canonicalUrl}
+              title={blogPost.title}
+              description={blogPost.excerpt}
             />
-          )}
-
-          {/* Navigation Buttons */}
-          <div className="flex justify-between items-center mt-12 border-t border-gray-200 dark:border-gray-700 pt-8">
-            {/* Previous Post Button - Bottom Left */}
-            <div className="flex-1">
-              {previousPost && (
-                <Link
-                  to={`/blog/${previousPost.slug}`}
-                  className="inline-flex items-center text-primary-600 dark:text-primary-400 hover:text-primary-800 dark:hover:text-primary-300 transition-colors duration-300 ease-in-out"
-                >
-                  <svg 
-                    xmlns="http://www.w3.org/2000/svg" 
-                    className="h-5 w-5 mr-2" 
-                    viewBox="0 0 20 20" 
-                    fill="currentColor"
-                  >
-                    <path 
-                      fillRule="evenodd" 
-                      d="M9.707 16.707a1 1 0 01-1.414 0l-6-6a1 1 0 010-1.414l6-6a1 1 0 011.414 1.414L5.414 9H17a1 1 0 110 2H5.414l4.293 4.293a1 1 0 010 1.414z" 
-                      clipRule="evenodd" 
-                    />
-                  </svg>
-                  <span className="font-medium">Read Previous Post</span>
-                </Link>
-              )}
-            </div>
-
-            {/* Next Post Button - Bottom Right */}
-            <div className="flex-1 text-right">
-              {nextPost && (
-                <Link
-                  to={`/blog/${nextPost.slug}`}
-                  className="inline-flex items-center text-primary-600 dark:text-primary-400 hover:text-primary-800 dark:hover:text-primary-300 transition-colors duration-300 ease-in-out"
-                >
-                  <span className="font-medium">Read Next Post</span>
-                  <svg 
-                    xmlns="http://www.w3.org/2000/svg" 
-                    className="h-5 w-5 ml-2" 
-                    viewBox="0 0 20 20" 
-                    fill="currentColor"
-                  >
-                    <path 
-                      fillRule="evenodd" 
-                      d="M10.293 15.707a1 1 0 010-1.414L14.586 10H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 111.414-1.414l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414 0z" 
-                      clipRule="evenodd" 
-                    />
-                  </svg>
-                </Link>
-              )}
-            </div>
           </div>
-        </div>
-      </div>
-    </motion.div>
+        </header>
+
+        {/* Article Content */}
+        <main className="container mx-auto px-4">
+          <div className={`prose prose-lg max-w-4xl mx-auto ${theme === 'dark' ? 'prose-invert' : ''}`}>
+            {blogContent ? (
+              <div dangerouslySetInnerHTML={{ __html: blogContent.content }} />
+            ) : (
+              <div className="text-center py-16">
+                <h2 className="text-2xl font-bold mb-4">Blog Post Not Found</h2>
+                <p className="text-gray-600 mb-8">Sorry, the content for this blog post could not be found.</p>
+              </div>
+            )}
+          </div>
+
+          {/* Navigation */}
+          <nav className="max-w-4xl mx-auto mt-16 pt-8 border-t border-gray-200 dark:border-gray-700">
+            <div className="flex justify-between">
+              <Link 
+                to="/blog"
+                className={`px-6 py-3 rounded-lg ${theme === 'dark' ? 'bg-gray-800 hover:bg-gray-700 text-gray-200' : 'bg-gray-100 hover:bg-gray-200 text-gray-800'} transition-colors`}
+              >
+                ← Read Previous Post
+              </Link>
+              <Link 
+                to="/blog"
+                className={`px-6 py-3 rounded-lg ${theme === 'dark' ? 'bg-gray-800 hover:bg-gray-700 text-gray-200' : 'bg-gray-100 hover:bg-gray-200 text-gray-800'} transition-colors`}
+              >
+                Read Next Post →
+              </Link>
+            </div>
+          </nav>
+        </main>
+      </article>
+    </>
   );
 };
 
