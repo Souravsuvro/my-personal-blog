@@ -3,7 +3,7 @@ import { motion } from 'framer-motion';
 import About from '../components/About';
 import LatestWorks from '../components/LatestWorks';
 import Contact from '../components/Contact';
-import { SEO } from '../components/SEO';
+import SEO from '../components/SEO';
 import { useScroll } from '../context/ScrollContext';
 import Hero from '../components/Hero';
 import LatestBlogsSlider from '../components/LatestBlogsSlider';
