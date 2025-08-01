@@ -2,12 +2,12 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, Link, Navigate } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
-import { FaClock, FaCalendar, FaTag, FaArrowLeft, FaShare } from 'react-icons/fa';
+import { FaClock, FaCalendar, FaTag, FaArrowLeft } from 'react-icons/fa';
 import { useTheme } from '../context/ThemeContext';
 import { getBlogBySlug } from '../data/blogPosts';
 import { getBlogContent } from '../data/blogContent';
 import SocialShareButtons from '../components/SocialShareButtons';
-import StructuredData from '../components/StructuredData';
+import { StructuredData } from '../components/StructuredData'; // Named import
 
 const BlogDetails: React.FC = () => {
   const { slug } = useParams<{ slug: string }>();
@@ -110,17 +110,10 @@ const BlogDetails: React.FC = () => {
         <meta name="twitter:description" content={blogPost.excerpt} />
         <meta name="twitter:image" content={ogImageUrl} />
         <meta name="twitter:creator" content="@souravsuvra" />
-
-        {/* Additional SEO Meta Tags */}
-        <meta name="robots" content="index, follow" />
-        <meta name="googlebot" content="index, follow" />
-        <meta name="bingbot" content="index, follow" />
-        
-        {/* JSON-LD Structured Data */}
-        <script type="application/ld+json">
-          {JSON.stringify(articleSchema)}
-        </script>
       </Helmet>
+
+      {/* Add Structured Data Component */}
+      <StructuredData type="BlogPosting" data={articleSchema} />
 
       <article className={`min-h-screen ${theme === 'dark' ? 'bg-gray-900 text-white' : 'bg-white text-gray-900'}`}>
         {/* Navigation */}
@@ -191,7 +184,7 @@ const BlogDetails: React.FC = () => {
             </div>
           </div>
 
-          {/* Social Share */}
+          {/* Social Share - Fixed props */}
           <div className="flex items-center justify-between">
             <div className="flex flex-wrap gap-2">
               {blogPost.tags.map(tag => (
@@ -207,7 +200,6 @@ const BlogDetails: React.FC = () => {
             <SocialShareButtons 
               url={canonicalUrl}
               title={blogPost.title}
-              description={blogPost.excerpt}
             />
           </div>
         </header>
