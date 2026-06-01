@@ -56,7 +56,7 @@ npm run test
 ```
 
 ## 🌐 Deployment
-Deployed on Vercel: [Live Site URL]
+Deployed on Vercel: [[Live Site URL](https://my-personal-blog-ivory.vercel.app/)]
 
 ### Deploying From Your Terminal
 
@@ -70,9 +70,9 @@ $ vercel
 MIT License
 
 ## 📬 Contact
-- Email: [your-email]
-- LinkedIn: [your-linkedin]
-- Portfolio: [your-portfolio-url]
+- Email: [souravsuvra007@gmail.com]
+- LinkedIn: [[your-linkedin](https://www.linkedin.com/in/souravsarkersuvra/)]
+- Portfolio: [[your-portfolio-ur](https://my-personal-blog-ivory.vercel.app/)l]
 
 ## Additional Resources
 
