@@ -71,8 +71,8 @@ MIT License
 
 ## 📬 Contact
 - Email: [souravsuvra007@gmail.com]
-- LinkedIn: [[your-linkedin](https://www.linkedin.com/in/souravsarkersuvra/)]
-- Portfolio: [[your-portfolio-ur](https://my-personal-blog-ivory.vercel.app/)l]
+- LinkedIn: [[my-linkedin](https://www.linkedin.com/in/souravsarkersuvra/)]
+- Portfolio: [[my-portfolio-ur](https://my-personal-blog-ivory.vercel.app/)l]
 
 ## Additional Resources
 
