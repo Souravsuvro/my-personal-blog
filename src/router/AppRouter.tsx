@@ -8,6 +8,7 @@ const Home = lazy(() => import('../pages/Home'));
 const Blog = lazy(() => import('../pages/Blog'));
 const BlogDetails = lazy(() => import('../pages/BlogDetails'));
 const NotFound = lazy(() => import('../pages/NotFound'));
+const BrainGames = lazy(() => import('../pages/BrainGames'));
 
 const AppRouter: React.FC = () => {
   return (
@@ -17,6 +18,7 @@ const AppRouter: React.FC = () => {
           <Route path="/" element={<Home />} />
           <Route path="/blog" element={<Blog />} />
           <Route path="/blog/:slug" element={<BlogDetails />} />
+          <Route path="/games" element={<BrainGames />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </Suspense>
