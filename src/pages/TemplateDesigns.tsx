@@ -1,10 +1,11 @@
 import React, { useState, useMemo } from 'react';
 import { Link } from 'react-router-dom';
-import { DndProvider, useDrag, useDrop } from 'react-dnd';
-import { HTML5Backend } from 'react-dnd-html5-backend';
-import Editor from '@monaco-editor/react';
+import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
+import { vscDarkPlus } from 'react-syntax-highlighter/dist/esm/styles/prism';
+import { TwitterShareButton, FacebookShareButton, LinkedinShareButton, WhatsappShareButton } from 'react-share';
+import { TwitterIcon, FacebookIcon, LinkedinIcon, WhatsappIcon } from 'react-share';
 
-const ItemTypes = { COMPONENT: 'component' };
+const categories = ['All', 'Portfolio', 'Blog', 'E-commerce', 'Dashboard', 'Landing'];
 
 const templates = [
   {
@@ -17,10 +18,13 @@ const templates = [
     <div className="max-w-4xl mx-auto px-6 text-center">
       <h1 className="text-7xl font-bold mb-6">Hi, I'm Sourav</h1>
       <p className="text-2xl text-gray-400 mb-12">Full Stack Developer</p>
+      <div className="flex gap-4 justify-center">
+        <a href="#projects" className="px-10 py-4 bg-white text-black rounded-2xl font-semibold">View Work</a>
+      </div>
     </div>
   </section>
 );`,
-    desc: 'Clean minimalist portfolio.'
+    desc: 'Clean minimalist portfolio with smooth animations.'
   },
   {
     id: 2,
@@ -28,98 +32,22 @@ const templates = [
     category: 'Blog',
     price: 39,
     codeSnippet: `const BlogPost = ({ post }) => (
-  <article className="prose dark:prose-invert">
+  <article className="prose dark:prose-invert max-w-none">
     <h1>{post.title}</h1>
+    <div dangerouslySetInnerHTML={{ __html: post.content }} />
   </article>
 );`,
-    desc: 'Elegant blog template.'
+    desc: 'Elegant blog with dark mode and syntax highlighting.'
   },
-  {
-    id: 3,
-    title: 'E-commerce Store',
-    category: 'E-commerce',
-    price: 79,
-    codeSnippet: `const ProductCard = ({ product }) => (
-  <div className="border rounded-2xl p-6">
-    <h3>{product.name}</h3>
-    <p>${product.price}</p>
-  </div>
-);`,
-    desc: 'Full-featured store.'
-  },
-  {
-    id: 4,
-    title: 'Admin Dashboard',
-    category: 'Dashboard',
-    price: 59,
-    codeSnippet: `const StatsCard = ({ title, value }) => (
-  <div className="bg-gray-900 p-6 rounded-2xl">
-    <div>{title}</div>
-    <div className="text-4xl">{value}</div>
-  </div>
-);`,
-    desc: 'Analytics dashboard.'
-  },
-  {
-    id: 5,
-    title: 'SaaS Landing',
-    category: 'Landing',
-    price: 69,
-    codeSnippet: `const Hero = () => (
-  <section className="py-24 text-center">
-    <h1>The Future of Productivity</h1>
-  </section>
-);`,
-    desc: 'High-converting landing.'
-  },
-  {
-    id: 6,
-    title: 'Agency Website',
-    category: 'Portfolio',
-    price: 55,
-    codeSnippet: `// Agency Template`,
-    desc: 'Creative agency site.'
-  },
-  // Add 4-5 more...
+  // Add 8-10 more for variety...
 ];
-
-export default TemplateDesigns;
-
-const DraggableComponent = ({ name, index, moveComponent }: any) => {
-  const [{ isDragging }, drag] = useDrag(() => ({
-    type: ItemTypes.COMPONENT,
-    item: { index },
-    collect: (monitor) => ({ isDragging: !!monitor.isDragging() }),
-  }));
-
-  return (
-    <div ref={drag} className={`bg-gray-800 p-4 rounded-xl cursor-grab mb-3 ${isDragging ? 'opacity-50' : ''}`}>
-      {name}
-    </div>
-  );
-};
-
-const DropZone = ({ children, onDrop, moveComponent }: any) => {
-  const [{ isOver }, drop] = useDrop(() => ({
-    accept: ItemTypes.COMPONENT,
-    drop: (item) => onDrop(item),
-    collect: (monitor) => ({ isOver: !!monitor.isOver() }),
-  }));
-
-  return (
-    <div ref={drop} className={`min-h-[400px] border-2 border-dashed border-gray-700 rounded-2xl p-8 transition ${isOver ? 'border-purple-500 bg-gray-900/50' : ''}`}>
-      {children}
-    </div>
-  );
-};
 
 const TemplateDesigns: React.FC = () => {
   const [selectedCategory, setSelectedCategory] = useState('All');
   const [search, setSearch] = useState('');
   const [priceRange, setPriceRange] = useState([0, 100]);
   const [selectedTemplate, setSelectedTemplate] = useState<any>(null);
-  const [builderComponents, setBuilderComponents] = useState<string[]>([]);
-  const [customCode, setCustomCode] = useState('');
+  const [copied, setCopied] = useState(false);
 
   const filteredTemplates = useMemo(() => 
     templates.filter(t => 
@@ -129,51 +57,75 @@ const TemplateDesigns: React.FC = () => {
     ), [selectedCategory, search, priceRange]
   );
 
-  const addComponent = (item: any) => setBuilderComponents(prev => [...prev, item.name]);
-
-  const moveComponent = (dragIndex: number, hoverIndex: number) => {
-    const newComponents = [...builderComponents];
-    const [dragged] = newComponents.splice(dragIndex, 1);
-    newComponents.splice(hoverIndex, 0, dragged);
-    setBuilderComponents(newComponents);
+  const copyToClipboard = (code: string) => {
+    navigator.clipboard.writeText(code);
+    setCopied(true);
+    setTimeout(() => setCopied(false), 2000);
   };
 
   return (
-    <DndProvider backend={HTML5Backend}>
-      <div className="min-h-screen bg-gray-950 text-white py-12 md:py-16 px-4 md:px-6">
-        <div className="max-w-7xl mx-auto">
-          {/* Filters & Grid with "Build" button on each card */}
+    <div className="min-h-screen bg-gray-950 text-white py-12 md:py-16 px-4 md:px-6">
+      <div className="max-w-7xl mx-auto">
+        <Link to="/" className="inline-flex items-center gap-2 text-blue-400 hover:text-blue-300 mb-8 text-lg">← Home</Link>
+        
+        <div className="text-center mb-12">
+          <h1 className="text-5xl md:text-7xl font-bold mb-6 bg-gradient-to-r from-purple-400 to-blue-500 bg-clip-text text-transparent">Template Designs</h1>
+          <p className="text-xl text-gray-400">Production-ready code. Copy, customize, deploy.</p>
+        </div>
 
-          {selectedTemplate && (
-            <div className="fixed inset-0 bg-black/95 z-50 flex items-center justify-center p-4">
-              <div className="bg-gray-900 rounded-3xl w-full max-w-7xl h-[95vh] flex flex-col">
-                <div className="p-6 border-b flex justify-between">
-                  <h2 className="text-3xl font-bold">Builder: {selectedTemplate.title}</h2>
-                  <button onClick={() => setSelectedTemplate(null)}>Close</button>
+        {/* Filters */}
+        <div className="flex flex-col lg:flex-row gap-6 mb-12 bg-gray-900 p-6 rounded-3xl">
+          <input type="text" placeholder="Search..." value={search} onChange={e => setSearch(e.target.value)} className="flex-1 bg-gray-800 border border-gray-700 rounded-2xl px-6 py-4 focus:outline-none focus:border-purple-500" />
+          <select value={selectedCategory} onChange={e => setSelectedCategory(e.target.value)} className="bg-gray-800 border border-gray-700 rounded-2xl px-6 py-4">
+            {categories.map(c => <option key={c} value={c}>{c}</option>)}
+          </select>
+          <div className="flex items-center gap-4">
+            <span className="text-sm whitespace-nowrap">Price: ${priceRange[0]}–${priceRange[1]}</span>
+            <input type="range" min="0" max="100" value={priceRange[1]} onChange={e => setPriceRange([priceRange[0], +e.target.value])} className="flex-1 accent-purple-500" />
+          </div>
+        </div>
+
+        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+          {filteredTemplates.map(t => (
+            <div key={t.id} className="bg-gray-900 border border-gray-700 rounded-3xl overflow-hidden group hover:border-purple-500 transition-all">
+              <div className="h-64 bg-gradient-to-br from-gray-800 to-gray-900 p-8 flex items-center justify-center text-7xl border-b border-gray-700">
+                {t.category.slice(0,1)}
+              </div>
+              <div className="p-6">
+                <div className="flex justify-between mb-4">
+                  <h3 className="text-2xl font-semibold">{t.title}</h3>
+                  <span className="text-sm bg-gray-800 px-3 py-1 rounded-full">${t.price}</span>
                 </div>
-                <div className="flex flex-1 overflow-hidden">
-                  <div className="w-72 border-r border-gray-700 p-6 overflow-auto bg-gray-950">
-                    <h3 className="font-semibold mb-4">Components</h3>
-                    <DraggableComponent name="Hero" index={-1} moveComponent={moveComponent} />
-                    <DraggableComponent name="Navbar" index={-1} moveComponent={moveComponent} />
-                  </div>
-                  <div className="flex-1 p-6 overflow-auto">
-                    <DropZone onDrop={addComponent} moveComponent={moveComponent}>
-                      {builderComponents.map((comp, i) => (
-                        <DraggableComponent key={i} name={comp} index={i} moveComponent={moveComponent} />
-                      ))}
-                    </DropZone>
-                  </div>
-                  <div className="w-1/3 border-l border-gray-700 flex flex-col">
-                    <Editor height="100%" defaultLanguage="tsx" value={customCode} onChange={setCustomCode} theme="vs-dark" />
-                  </div>
+                <p className="text-gray-400 mb-6 line-clamp-3">{t.desc}</p>
+                <div className="flex gap-3">
+                  <button onClick={() => setSelectedTemplate(t)} className="flex-1 py-3 border border-gray-600 rounded-2xl hover:bg-gray-800">Preview</button>
+                  <button onClick={() => copyToClipboard(t.codeSnippet)} className="flex-1 py-3 bg-gray-800 hover:bg-gray-700 rounded-2xl">Copy Code</button>
+                  <a href="/#contact" className="flex-1 py-3 bg-purple-600 hover:bg-purple-500 rounded-2xl text-center">Contact</a>
                 </div>
               </div>
             </div>
-          )}
+          ))}
         </div>
+
+        {/* Preview Modal with Syntax Highlighting */}
+        {selectedTemplate && (
+          <div className="fixed inset-0 bg-black/95 z-50 flex items-center justify-center p-4" onClick={() => setSelectedTemplate(null)}>
+            <div className="bg-gray-900 rounded-3xl max-w-4xl w-full max-h-[90vh] overflow-auto" onClick={e => e.stopPropagation()}>
+              <div className="p-8">
+                <h2 className="text-4xl font-bold mb-6">{selectedTemplate.title}</h2>
+                <SyntaxHighlighter language="tsx" style={vscDarkPlus} className="rounded-2xl p-6 text-sm mb-8 overflow-auto">
+                  {selectedTemplate.codeSnippet}
+                </SyntaxHighlighter>
+                <div className="flex gap-4">
+                  <button onClick={() => copyToClipboard(selectedTemplate.codeSnippet)} className="flex-1 py-4 bg-white text-black rounded-2xl font-semibold">Copy Code</button>
+                  <a href="/#contact" className="flex-1 py-4 bg-purple-600 text-center rounded-2xl font-semibold">Contact Sourav</a>
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
       </div>
-    </DndProvider>
+    </div>
   );
 };
 
