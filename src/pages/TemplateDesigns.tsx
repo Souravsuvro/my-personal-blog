@@ -1,40 +1,10 @@
-import React, { useState, useMemo, useCallback } from 'react';
+import React, { useState, useMemo } from 'react';
 import { Link } from 'react-router-dom';
 import { DndProvider, useDrag, useDrop } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
 import Editor from '@monaco-editor/react';
-import { TwitterShareButton, FacebookShareButton, LinkedinShareButton, WhatsappShareButton } from 'react-share';
-import { TwitterIcon, FacebookIcon, LinkedinIcon, WhatsappIcon } from 'react-share';
 
 const ItemTypes = { COMPONENT: 'component' };
-
-const DraggableComponent = ({ name, index, moveComponent }: { name: string; index: number; moveComponent: (dragIndex: number, hoverIndex: number) => void }) => {
-  const [{ isDragging }, drag] = useDrag(() => ({
-    type: ItemTypes.COMPONENT,
-    item: { index },
-    collect: (monitor) => ({ isDragging: !!monitor.isDragging() }),
-  }));
-
-  return (
-    <div ref={drag} className={`bg-gray-800 p-4 rounded-xl cursor-grab mb-3 ${isDragging ? 'opacity-50' : ''}`}>
-      {name}
-    </div>
-  );
-};
-
-const DropZone = ({ children, onDrop, moveComponent }: any) => {
-  const [{ isOver }, drop] = useDrop(() => ({
-    accept: ItemTypes.COMPONENT,
-    drop: (item: any, monitor) => onDrop(item),
-    collect: (monitor) => ({ isOver: !!monitor.isOver() }),
-  }));
-
-  return (
-    <div ref={drop} className={`min-h-[400px] border-2 border-dashed border-gray-700 rounded-2xl p-8 transition ${isOver ? 'border-purple-500 bg-gray-900/50' : ''}`}>
-      {children}
-    </div>
-  );
-};
 
 const templates = [
   {
@@ -115,6 +85,34 @@ const templates = [
 
 export default TemplateDesigns;
 
+const DraggableComponent = ({ name, index, moveComponent }: any) => {
+  const [{ isDragging }, drag] = useDrag(() => ({
+    type: ItemTypes.COMPONENT,
+    item: { index },
+    collect: (monitor) => ({ isDragging: !!monitor.isDragging() }),
+  }));
+
+  return (
+    <div ref={drag} className={`bg-gray-800 p-4 rounded-xl cursor-grab mb-3 ${isDragging ? 'opacity-50' : ''}`}>
+      {name}
+    </div>
+  );
+};
+
+const DropZone = ({ children, onDrop, moveComponent }: any) => {
+  const [{ isOver }, drop] = useDrop(() => ({
+    accept: ItemTypes.COMPONENT,
+    drop: (item) => onDrop(item),
+    collect: (monitor) => ({ isOver: !!monitor.isOver() }),
+  }));
+
+  return (
+    <div ref={drop} className={`min-h-[400px] border-2 border-dashed border-gray-700 rounded-2xl p-8 transition ${isOver ? 'border-purple-500 bg-gray-900/50' : ''}`}>
+      {children}
+    </div>
+  );
+};
+
 const TemplateDesigns: React.FC = () => {
   const [selectedCategory, setSelectedCategory] = useState('All');
   const [search, setSearch] = useState('');
@@ -122,8 +120,6 @@ const TemplateDesigns: React.FC = () => {
   const [selectedTemplate, setSelectedTemplate] = useState<any>(null);
   const [builderComponents, setBuilderComponents] = useState<string[]>([]);
   const [customCode, setCustomCode] = useState('');
-  const [history, setHistory] = useState<string[][]>([]);
-  const [historyIndex, setHistoryIndex] = useState(-1);
 
   const filteredTemplates = useMemo(() => 
     templates.filter(t => 
@@ -133,64 +129,34 @@ const TemplateDesigns: React.FC = () => {
     ), [selectedCategory, search, priceRange]
   );
 
-  const addComponent = (item: any) => {
-    const newComponents = [...builderComponents, item.name];
-    setBuilderComponents(newComponents);
-    updateHistory(newComponents);
-  };
+  const addComponent = (item: any) => setBuilderComponents(prev => [...prev, item.name]);
 
   const moveComponent = (dragIndex: number, hoverIndex: number) => {
     const newComponents = [...builderComponents];
     const [dragged] = newComponents.splice(dragIndex, 1);
     newComponents.splice(hoverIndex, 0, dragged);
     setBuilderComponents(newComponents);
-    updateHistory(newComponents);
-  };
-
-  const updateHistory = (components: string[]) => {
-    setHistory(prev => [...prev.slice(0, historyIndex + 1), components]);
-    setHistoryIndex(prev => prev + 1);
-  };
-
-  const undo = () => {
-    if (historyIndex > 0) {
-      setHistoryIndex(prev => prev - 1);
-      setBuilderComponents(history[historyIndex - 1]);
-    }
-  };
-
-  const redo = () => {
-    if (historyIndex < history.length - 1) {
-      setHistoryIndex(prev => prev + 1);
-      setBuilderComponents(history[historyIndex + 1]);
-    }
   };
 
   return (
     <DndProvider backend={HTML5Backend}>
       <div className="min-h-screen bg-gray-950 text-white py-12 md:py-16 px-4 md:px-6">
         <div className="max-w-7xl mx-auto">
-          {/* Filters & Grid */}
+          {/* Filters & Grid with "Build" button on each card */}
 
           {selectedTemplate && (
             <div className="fixed inset-0 bg-black/95 z-50 flex items-center justify-center p-4">
               <div className="bg-gray-900 rounded-3xl w-full max-w-7xl h-[95vh] flex flex-col">
-                <div className="p-6 border-b flex justify-between items-center">
+                <div className="p-6 border-b flex justify-between">
                   <h2 className="text-3xl font-bold">Builder: {selectedTemplate.title}</h2>
-                  <div className="flex gap-4">
-                    <button onClick={undo} className="px-6 py-3 border border-gray-600 rounded-2xl">Undo</button>
-                    <button onClick={redo} className="px-6 py-3 border border-gray-600 rounded-2xl">Redo</button>
-                    <button onClick={() => setSelectedTemplate(null)} className="px-8 py-3 border border-gray-600 rounded-2xl">Close</button>
-                  </div>
+                  <button onClick={() => setSelectedTemplate(null)}>Close</button>
                 </div>
                 <div className="flex flex-1 overflow-hidden">
                   <div className="w-72 border-r border-gray-700 p-6 overflow-auto bg-gray-950">
                     <h3 className="font-semibold mb-4">Components</h3>
-                    <DraggableComponent name="Hero Section" index={-1} moveComponent={moveComponent} />
+                    <DraggableComponent name="Hero" index={-1} moveComponent={moveComponent} />
                     <DraggableComponent name="Navbar" index={-1} moveComponent={moveComponent} />
-                    <DraggableComponent name="Footer" index={-1} moveComponent={moveComponent} />
                   </div>
-
                   <div className="flex-1 p-6 overflow-auto">
                     <DropZone onDrop={addComponent} moveComponent={moveComponent}>
                       {builderComponents.map((comp, i) => (
@@ -198,7 +164,6 @@ const TemplateDesigns: React.FC = () => {
                       ))}
                     </DropZone>
                   </div>
-
                   <div className="w-1/3 border-l border-gray-700 flex flex-col">
                     <Editor height="100%" defaultLanguage="tsx" value={customCode} onChange={setCustomCode} theme="vs-dark" />
                   </div>
