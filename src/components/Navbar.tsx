@@ -23,21 +23,9 @@ const currentTechStack: TechStack[] = [
 ];
 
 const latestWorks: Work[] = [
-  {
-    title: 'MarketFlick AI',
-    tech: 'Next.js + AI',
-    image: '/images/latestwork/marketflickai-landing-page-design.png'
-  },
-  {
-    title: 'Finance Dashboard',
-    tech: 'React + TypeScript',
-    image: '/images/latestwork/finance-app-dashboard.png'
-  },
-  {
-    title: 'E-commerce Platform',
-    tech: 'Next.js + TailwindCSS',
-    image: '/images/latestwork/ecommerce-design.png'
-  }
+  { title: 'MarketFlick AI', tech: 'Next.js + AI', image: '/images/latestwork/marketflickai-landing-page-design.png' },
+  { title: 'Finance Dashboard', tech: 'React + TypeScript', image: '/images/latestwork/finance-app-dashboard.png' },
+  { title: 'E-commerce Platform', tech: 'Next.js + TailwindCSS', image: '/images/latestwork/ecommerce-design.png' }
 ];
 
 const Navbar: React.FC = () => {
@@ -52,9 +40,7 @@ const Navbar: React.FC = () => {
 
   useEffect(() => {
     const handleMouseMove = (e: MouseEvent) => {
-      if (cursorRef.current) {
-        cursorRef.current.style.transform = `translate(${e.clientX - 10}px, ${e.clientY - 10}px)`;
-      }
+      if (cursorRef.current) cursorRef.current.style.transform = `translate(${e.clientX - 10}px, ${e.clientY - 10}px)`;
     };
     window.addEventListener('mousemove', handleMouseMove);
     return () => window.removeEventListener('mousemove', handleMouseMove);
@@ -67,9 +53,7 @@ const Navbar: React.FC = () => {
   }, []);
 
   useEffect(() => {
-    const interval = setInterval(() => {
-      setCurrentTech((prev) => (prev + 1) % currentTechStack.length);
-    }, 3000);
+    const interval = setInterval(() => setCurrentTech((prev) => (prev + 1) % currentTechStack.length), 3000);
     return () => clearInterval(interval);
   }, []);
 
@@ -79,7 +63,13 @@ const Navbar: React.FC = () => {
       const sectionId = path.split('#')[1];
       if (sectionId) {
         const section = document.getElementById(sectionId);
-        if (section) section.scrollIntoView({ behavior: 'smooth' });
+        if (section) {
+          const offset = 80; // navbar height
+          const bodyRect = document.body.getBoundingClientRect().top;
+          const elementPosition = section.getBoundingClientRect().top;
+          const offsetPosition = elementPosition - bodyRect - offset;
+          window.scrollTo({ top: offsetPosition, behavior: 'smooth' });
+        }
       }
     }
   }, [location.pathname]);
@@ -87,6 +77,11 @@ const Navbar: React.FC = () => {
   const toggleMatrix = () => {
     setShowMatrix(true);
     setTimeout(() => setShowMatrix(false), 2000);
+  };
+
+  const hamburgerVariants = {
+    closed: { rotate: 0 },
+    open: { rotate: 90 }
   };
 
   return (
@@ -128,29 +123,48 @@ const Navbar: React.FC = () => {
               <motion.button whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }} onClick={toggleTheme} className="p-2 rounded-lg" aria-label="Toggle theme">
                 {theme === 'dark' ? <FiSun className="w-5 h-5" /> : <FiMoon className="w-5 h-5" />}
               </motion.button>
-              <motion.button whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }} onClick={() => setIsOpen(!isOpen)} className="p-2 rounded-lg" aria-label="Toggle menu">
-                {isOpen ? <FiX className="w-6 h-6" /> : <FiMenu className="w-6 h-6" />}
+              <motion.button 
+                whileHover={{ scale: 1.05 }} 
+                whileTap={{ scale: 0.95 }} 
+                onClick={() => setIsOpen(!isOpen)} 
+                className="p-2 rounded-lg" 
+                aria-label="Toggle menu"
+              >
+                <motion.div animate={isOpen ? "open" : "closed"} variants={hamburgerVariants}>
+                  {isOpen ? <FiX className="w-6 h-6" /> : <FiMenu className="w-6 h-6" />}
+                </motion.div>
               </motion.button>
             </div>
           </div>
 
           <AnimatePresence>
             {isOpen && (
-              <motion.div initial={{ opacity: 0, height: 0 }} animate={{ opacity: 1, height: '100vh' }} exit={{ opacity: 0, height: 0 }} transition={{ duration: 0.2 }} className="desktop:hidden fixed inset-0 top-[64px] bg-white/80 dark:bg-gray-900/80 backdrop-blur-lg z-50 overflow-y-auto">
-                <motion.div className="flex flex-col items-center justify-start min-h-[calc(100vh-64px)] pt-8 pb-12 space-y-6" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 }}>
-                  <Link to="/" className="mobile-nav-link flex items-center space-x-3 px-6 py-3 w-full max-w-sm rounded-xl text-lg font-medium transition-all duration-200 hover:bg-primary-50 dark:hover:bg-gray-800" onClick={() => { handleNavigation('/'); setIsOpen(false); }}><span className="text-2xl">🏠</span><span>Home</span></Link>
-                  <Link to="/#about" className="mobile-nav-link flex items-center space-x-3 px-6 py-3 w-full max-w-sm rounded-xl text-lg font-medium transition-all duration-200 hover:bg-primary-50 dark:hover:bg-gray-800" onClick={() => { handleNavigation('/#about'); setIsOpen(false); }}><span className="text-2xl">👨‍💻</span><span>About</span></Link>
-                  <Link to="/#latest-works" className="mobile-nav-link flex items-center space-x-3 px-6 py-3 w-full max-w-sm rounded-xl text-lg font-medium transition-all duration-200 hover:bg-primary-50 dark:hover:bg-gray-800" onClick={() => { handleNavigation('/#latest-works'); setIsOpen(false); }}><span className="text-2xl">🚀</span><span>Latest Works</span></Link>
-                  <Link to="/#contact" className="mobile-nav-link flex items-center space-x-3 px-6 py-3 w-full max-w-sm rounded-xl text-lg font-medium transition-all duration-200 hover:bg-primary-50 dark:hover:bg-gray-800" onClick={() => { handleNavigation('/#contact'); setIsOpen(false); }}><span className="text-2xl">📬</span><span>Contact</span></Link>
-                  <Link to="/blog" className="mobile-nav-link flex items-center space-x-3 px-6 py-3 w-full max-w-sm rounded-xl text-lg font-medium transition-all duration-200 hover:bg-primary-50 dark:hover:bg-gray-800" onClick={() => { handleNavigation('/blog'); setIsOpen(false); }}><span className="text-2xl">✍️</span><span>Blog</span></Link>
-                  <Link to="/games" className="mobile-nav-link flex items-center space-x-3 px-6 py-3 w-full max-w-sm rounded-xl text-lg font-medium transition-all duration-200 hover:bg-primary-50 dark:hover:bg-gray-800" onClick={() => { setIsOpen(false); }}><span className="text-2xl">🧠</span><span>Brain Games</span></Link>
+              <motion.div 
+                initial={{ opacity: 0, height: 0 }} 
+                animate={{ opacity: 1, height: '100vh' }} 
+                exit={{ opacity: 0, height: 0 }} 
+                transition={{ duration: 0.3 }}
+                className="desktop:hidden fixed inset-0 top-[64px] bg-black/80 backdrop-blur-xl z-50 overflow-y-auto"
+              >
+                <motion.div 
+                  className="flex flex-col items-center justify-start min-h-[calc(100vh-64px)] pt-8 pb-12 space-y-6" 
+                  initial={{ opacity: 0, y: 20 }} 
+                  animate={{ opacity: 1, y: 0 }} 
+                  transition={{ delay: 0.1 }}
+                >
+                  <Link to="/" className="mobile-nav-link flex items-center space-x-3 px-6 py-3 w-full max-w-sm rounded-xl text-lg font-medium transition-all duration-200 hover:bg-white/10" onClick={() => { handleNavigation('/'); setIsOpen(false); }}><span className="text-2xl">🏠</span><span>Home</span></Link>
+                  <Link to="/#about" className="mobile-nav-link flex items-center space-x-3 px-6 py-3 w-full max-w-sm rounded-xl text-lg font-medium transition-all duration-200 hover:bg-white/10" onClick={() => { handleNavigation('/#about'); setIsOpen(false); }}><span className="text-2xl">👨‍💻</span><span>About</span></Link>
+                  <Link to="/#latest-works" className="mobile-nav-link flex items-center space-x-3 px-6 py-3 w-full max-w-sm rounded-xl text-lg font-medium transition-all duration-200 hover:bg-white/10" onClick={() => { handleNavigation('/#latest-works'); setIsOpen(false); }}><span className="text-2xl">🚀</span><span>Latest Works</span></Link>
+                  <Link to="/#contact" className="mobile-nav-link flex items-center space-x-3 px-6 py-3 w-full max-w-sm rounded-xl text-lg font-medium transition-all duration-200 hover:bg-white/10" onClick={() => { handleNavigation('/#contact'); setIsOpen(false); }}><span className="text-2xl">📬</span><span>Contact</span></Link>
+                  <Link to="/blog" className="mobile-nav-link flex items-center space-x-3 px-6 py-3 w-full max-w-sm rounded-xl text-lg font-medium transition-all duration-200 hover:bg-white/10" onClick={() => { handleNavigation('/blog'); setIsOpen(false); }}><span className="text-2xl">✍️</span><span>Blog</span></Link>
+                  <Link to="/games" className="mobile-nav-link flex items-center space-x-3 px-6 py-3 w-full max-w-sm rounded-xl text-lg font-medium transition-all duration-200 hover:bg-white/10" onClick={() => setIsOpen(false)}><span className="text-2xl">🧠</span><span>Brain Games</span></Link>
 
                   <div className="mt-8 px-6 w-full max-w-sm">
-                    <div className="p-4 rounded-xl bg-gradient-to-br from-primary-50/50 to-primary-100/50 dark:from-gray-800/50 dark:to-gray-700/50">
-                      <h3 className="text-sm font-semibold text-primary-600 dark:text-primary-400 mb-3">Currently Working With</h3>
+                    <div className="p-4 rounded-xl bg-white/10 backdrop-blur">
+                      <h3 className="text-sm font-semibold mb-3">Currently Working With</h3>
                       <div className="flex flex-wrap gap-2">
                         {currentTechStack.map((tech, index) => (
-                          <motion.span key={index} className="px-3 py-1 rounded-lg text-sm bg-white/80 dark:bg-gray-800/80 shadow-sm" initial={{ opacity: 0, scale: 0.9 }} animate={{ opacity: 1, scale: 1 }} transition={{ delay: index * 0.1 }}>{tech.icon} {tech.name}</motion.span>
+                          <motion.span key={index} className="px-3 py-1 rounded-lg text-sm bg-white/20" initial={{ opacity: 0, scale: 0.9 }} animate={{ opacity: 1, scale: 1 }} transition={{ delay: index * 0.1 }}>{tech.icon} {tech.name}</motion.span>
                         ))}
                       </div>
                     </div>
