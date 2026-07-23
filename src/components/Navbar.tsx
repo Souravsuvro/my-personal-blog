@@ -112,7 +112,7 @@ const Navbar: React.FC = () => {
               <Link to="/#latest-works" className="nav-link px-4 py-2 rounded-lg text-sm font-medium transition-colors duration-200 relative" onClick={() => handleNavigation('/#latest-works')} onMouseEnter={() => setShowWorkPreview(true)} onMouseLeave={() => setShowWorkPreview(false)}>🚀 Latest Works</Link>
               <Link to="/#contact" className="nav-link px-4 py-2 rounded-lg text-sm font-medium transition-colors duration-200" onClick={() => handleNavigation('/#contact')}>📬 Contact</Link>
               <Link to="/blog" className="nav-link-active px-4 py-2 rounded-lg text-sm font-medium transition-colors duration-200" onClick={() => handleNavigation('/blog')}>✍️ Blog</Link>
-              <Link to="/games" className="nav-link-active px-4 py-2 rounded-lg text-sm font-medium transition-colors duration-200">🧠 Games</Link>
+              <Link to="/templates" className="nav-link-active px-4 py-2 rounded-lg text-sm font-medium transition-colors duration-200">🎨 Templates</Link>
 
               <motion.button whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }} onClick={toggleTheme} className="p-2 rounded-lg transition-colors duration-200" aria-label="Toggle theme">
                 {theme === 'dark' ? <FiSun className="w-5 h-5" /> : <FiMoon className="w-5 h-5" />}
@@ -158,7 +158,7 @@ const Navbar: React.FC = () => {
                   <Link to="/#contact" className="mobile-nav-link flex items-center space-x-3 px-6 py-3 w-full max-w-sm rounded-xl text-lg font-medium transition-all duration-200 hover:bg-white/10" onClick={() => { handleNavigation('/#contact'); setIsOpen(false); }}><span className="text-2xl">📬</span><span>Contact</span></Link>
                   <Link to="/blog" className="mobile-nav-link flex items-center space-x-3 px-6 py-3 w-full max-w-sm rounded-xl text-lg font-medium transition-all duration-200 hover:bg-white/10" onClick={() => { handleNavigation('/blog'); setIsOpen(false); }}><span className="text-2xl">✍️</span><span>Blog</span></Link>
                   <Link to="/games" className="mobile-nav-link flex items-center space-x-3 px-6 py-3 w-full max-w-sm rounded-xl text-lg font-medium transition-all duration-200 hover:bg-white/10" onClick={() => setIsOpen(false)}><span className="text-2xl">🧠</span><span>Brain Games</span></Link>
-
+                  <Link to="/templates" className="mobile-nav-link flex items-center space-x-3 px-6 py-3 w-full max-w-sm rounded-xl text-lg font-medium transition-all duration-200 hover:bg-white/10" onClick={() => setIsOpen(false)}><span className="text-2xl">🧠</span><span>Brain Games</span></Link>
                   <div className="mt-8 px-6 w-full max-w-sm">
                     <div className="p-4 rounded-xl bg-white/10 backdrop-blur">
                       <h3 className="text-sm font-semibold mb-3">Currently Working With</h3>
