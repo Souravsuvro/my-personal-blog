@@ -9,6 +9,7 @@ const Blog = lazy(() => import('../pages/Blog'));
 const BlogDetails = lazy(() => import('../pages/BlogDetails'));
 const NotFound = lazy(() => import('../pages/NotFound'));
 const BrainGames = lazy(() => import('../pages/BrainGames'));
+const TemplateDesigns = lazy(() => import('../pages/TemplateDesigns'));
 
 const AppRouter: React.FC = () => {
   return (
@@ -19,6 +20,7 @@ const AppRouter: React.FC = () => {
           <Route path="/blog" element={<Blog />} />
           <Route path="/blog/:slug" element={<BlogDetails />} />
           <Route path="/games" element={<BrainGames />} />
+          <Route path="/templates" element={<TemplateDesigns />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </Suspense>
