@@ -1,91 +1,9 @@
 import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useTheme } from '../context/ThemeContext';
-import { FaArrowRight, FaGithub, FaExternalLinkAlt, FaTags } from 'react-icons/fa';
-
-interface Work {
-  id: number;
-  title: string;
-  description: string;
-  imageUrl: string;
-  link: string;
-  githubLink?: string;
-  category: string;
-  tags: string[];
-}
-
-const latestWorks: Work[] = [
-  {
-    id: 1,
-    title: "Finance App Dashboard",
-    description: "A modern finance dashboard with real-time analytics, transaction monitoring, and expense tracking capabilities.",
-    imageUrl: "/images/latestwork/finance-app-dashboard.png",
-    link: "https://personal-finance-app-navy.vercel.app/",
-    githubLink: "#",
-    category: "Dashboard",
-    tags: ["React", "TypeScript", "Tailwind CSS"]
-  },
-  {
-    id: 2,
-    title: "Doctor Appointment System",
-    description: "Admin dashboard for a healthcare platform, enabling efficient management of appointments, patient records, and schedules.",
-    imageUrl: "/images/latestwork/doctor-appointment-admin-dashboard-web-design.png",
-    link: "#",
-    githubLink: "#",
-    category: "Healthcare",
-    tags: ["React", "Material-UI", "Node.js"]
-  },
-  {
-    id: 3,
-    title: "E-commerce Platform",
-    description: "Feature-rich e-commerce platform with a modern design, focusing on user experience and conversion optimization.",
-    imageUrl: "/images/latestwork/ecommerce-design.png",
-    link: "#",
-    githubLink: "#",
-    category: "E-commerce",
-    tags: ["Next.js", "Tailwind CSS", "Stripe"]
-  },
-  {
-    id: 4,
-    title: "Finance App Landing",
-    description: "Engaging landing page for a financial technology application, highlighting key features and benefits.",
-    imageUrl: "/images/latestwork/finance-app-landing.png",
-    link: "#",
-    githubLink: "#",
-    category: "Landing Page",
-    tags: ["React", "GSAP", "Styled Components"]
-  },
-  {
-    id: 5,
-    title: "Money Transfer Platform",
-    description: "Secure and user-friendly money transfer platform with international payment capabilities and real-time exchange rates.",
-    imageUrl: "/images/latestwork/money-ransfer-web-design.png",
-    link: "https://www.hamadaninternational.co.uk/",
-    githubLink: "#",
-    category: "FinTech",
-    tags: ["Laravel", "Bootstrap", "PHP"]
-  },
-  {
-    id: 6,
-    title: "Quantum Leaps",
-    description: "Educational platform interface designed to make complex quantum computing concepts accessible and engaging.",
-    imageUrl: "/images/latestwork/quantam-leaps.png",
-    link: "https://quantum-leap-site.vercel.app/",
-    githubLink: "#",
-    category: "Education",
-    tags: ["React JS", "Tailwind CSS", "Node JS"]
-  },
-  {
-    id: 7,
-    title: "MarketFlick AI Landing Page",
-    description: "A modern, responsive landing page for MarketFlick AI platform, featuring a clean design with interactive elements and smooth animations.",
-    imageUrl: "/images/latestwork/marketflickai-landing-page-design.png",
-    link: "https://market-flick-landing.vercel.app/",
-    githubLink: "#",
-    category: "Web Design",
-    tags: ["React", "TailwindCSS", "TypeScript", "Framer Motion"]
-  }
-];
+import { FaGithub, FaExternalLinkAlt, FaTags } from 'react-icons/fa';
+import { isExternalUrl, latestWorks } from '../data/works';
 
 const LatestWorks: React.FC = () => {
   const { theme } = useTheme();
@@ -99,15 +17,6 @@ const LatestWorks: React.FC = () => {
   const filteredWorks = selectedCategory 
     ? latestWorks.filter(work => work.category === selectedCategory)
     : latestWorks;
-
-  const workRows = filteredWorks.reduce<Work[][]>((acc, work, index) => {
-    if (index % 2 === 0) {
-      acc.push([work]);
-    } else {
-      acc[acc.length - 1].push(work);
-    }
-    return acc;
-  }, []);
 
   return (
     <section id="latest-works" className={`relative py-16 ${
@@ -203,7 +112,7 @@ const LatestWorks: React.FC = () => {
                   onMouseLeave={() => setActiveId(null)}
                 >
                   {/* Project Image */}
-                  <div className="aspect-w-3 aspect-h-2">
+                  <div className="relative aspect-w-3 aspect-h-2">
                     <div className={`absolute inset-0 z-10 transition-all duration-500 ${
                       activeId === work.id 
                         ? 'opacity-100 bg-gradient-to-t from-black/90 via-black/50 to-transparent'
@@ -218,17 +127,15 @@ const LatestWorks: React.FC = () => {
                         target.src = `https://via.placeholder.com/600x400?text=${encodeURIComponent(work.title)}`;
                       }}
                     />
-                  </div>
-                  {/* Overlay Content */}
-                  <div className={`absolute inset-0 z-20 p-4 flex flex-col justify-end transform transition-all duration-500 ${
-                    activeId === work.id ? 'translate-y-0 opacity-100' : 'translate-y-4 opacity-0'
-                  }`}>
+                    <div className={`absolute inset-0 z-20 p-4 flex flex-col justify-end transform transition-all duration-500 ${
+                      activeId === work.id ? 'translate-y-0 opacity-100' : 'translate-y-4 opacity-0 pointer-events-none'
+                    }`}>
                     <div className="flex items-center gap-2 mb-2">
                       <span className={`px-2 py-0.5 rounded-full text-xs font-medium bg-white/10 text-white backdrop-blur-sm`}>
                         {work.category}
                       </span>
                       <div className="flex gap-1">
-                        {work.githubLink && (
+                        {isExternalUrl(work.githubLink) && (
                           <a
                             href={work.githubLink}
                             target="_blank"
@@ -238,14 +145,22 @@ const LatestWorks: React.FC = () => {
                             <FaGithub size={14} />
                           </a>
                         )}
-                        <a
-                          href={work.link}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="p-1.5 rounded-full bg-white/10 text-white backdrop-blur-sm hover:bg-white/20 transition-colors"
+                        {isExternalUrl(work.link) && (
+                          <a
+                            href={work.link}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="p-1.5 rounded-full bg-white/10 text-white backdrop-blur-sm hover:bg-white/20 transition-colors"
+                          >
+                            <FaExternalLinkAlt size={14} />
+                          </a>
+                        )}
+                        <Link
+                          to={`/work/${work.slug}`}
+                          className="px-2 py-1 rounded-full bg-[#FFB800] text-black text-[11px] font-semibold"
                         >
-                          <FaExternalLinkAlt size={14} />
-                        </a>
+                          Case study
+                        </Link>
                       </div>
                     </div>
                     
@@ -270,6 +185,16 @@ const LatestWorks: React.FC = () => {
                         ))}
                       </div>
                     </div>
+                  </div>
+                  </div>
+                  <div className={`flex items-center justify-between gap-3 px-4 py-3 ${theme === 'light' ? 'text-slate-900' : 'text-white'}`}>
+                    <h3 className="text-sm font-semibold leading-snug">{work.title}</h3>
+                    <Link
+                      to={`/work/${work.slug}`}
+                      className="shrink-0 text-xs font-semibold text-[#c48a00] dark:text-[#FFB800]"
+                    >
+                      Case study
+                    </Link>
                   </div>
                 </motion.article>
               ))}
