@@ -72,8 +72,15 @@ MIT License
 ## 📬 Contact
 - Email: [souravsuvra007@gmail.com]
 - LinkedIn: [[my-linkedin](https://www.linkedin.com/in/souravsarkersuvra/)]
-- Portfolio: [[my-portfolio-ur](https://my-personal-blog-ivory.vercel.app/)l]
+- Portfolio: [my-personal-blog](https://my-personal-blog-ivory.vercel.app/)
 
 ## Additional Resources
 
 This project is built with Vite, which supports many popular JS frameworks. [See all the supported frameworks](https://vitejs.dev/guide/#scaffolding-your-first-vite-project).
+
+## Planning
+
+- [docs/PLANNING.md](docs/PLANNING.md) — decisions, milestones, risks
+- [docs/WORK-TO-DO.md](docs/WORK-TO-DO.md) — ordered work list
+
+Contact messages are stored in the browser and, when `VITE_SUPABASE_URL` and `VITE_SUPABASE_ANON_KEY` are set, also in Supabase table `inquiries`. Schema: [AI-Powered-Portfolio-Website `backend/sql/001_schema.sql`](https://github.com/Souravsuvro/AI-Powered-Portfolio-Website/blob/main/backend/sql/001_schema.sql).
