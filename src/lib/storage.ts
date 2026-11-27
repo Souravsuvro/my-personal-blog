@@ -63,21 +63,13 @@ export function writeJson<T>(key: string, value: T): void {
 }
 
 function getSupabaseEnv() {
-  const url =
-    (typeof import.meta !== 'undefined' && (import.meta as any).env?.VITE_SUPABASE_URL) ||
-    (typeof process !== 'undefined' && process.env?.VITE_SUPABASE_URL) ||
-    (typeof process !== 'undefined' && process.env?.SUPABASE_URL) ||
-    '';
-  const anon =
-    (typeof import.meta !== 'undefined' && (import.meta as any).env?.VITE_SUPABASE_ANON_KEY) ||
-    (typeof process !== 'undefined' && process.env?.VITE_SUPABASE_ANON_KEY) ||
-    (typeof process !== 'undefined' && process.env?.SUPABASE_ANON_KEY) ||
-    '';
-  const service =
-    (typeof process !== 'undefined' &&
-      (process.env?.SUPABASE_SERVICE_ROLE_KEY || process.env?.SUPABASE_SERVICE_KEY)) ||
-    '';
-  return { url: String(url).trim(), anon: String(anon).trim(), service: String(service).trim() };
+  const env = import.meta.env as Record<string, string | undefined>;
+  // Service role stays off the client. Server routes can read SUPABASE_SERVICE_ROLE_KEY themselves.
+  return {
+    url: String(env.VITE_SUPABASE_URL || '').trim(),
+    anon: String(env.VITE_SUPABASE_ANON_KEY || '').trim(),
+    service: '',
+  };
 }
 
 export function isBackendEnabled(): boolean {
